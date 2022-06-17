@@ -3,11 +3,9 @@ using System.Collections;
 
 public class AmmoClip : MonoBehaviour
 {
+
     int _currentAmmo;
     bool _isReloading, _hasAmmo, _hasStarted;
-
-    public bool HasAmmo { get => _hasAmmo; }
-    public bool IsReloading { get => _isReloading; }
 
     [SerializeField] float reloadTime = 1f;
 
@@ -15,6 +13,9 @@ public class AmmoClip : MonoBehaviour
     [SerializeField] AmmoType ammoType;
     [SerializeField] int maxAmount = 30;
     [SerializeField] int initialAmount = 30;
+
+    public bool HasAmmo { get => _hasAmmo; }
+    public bool IsReloading { get => _isReloading; }
 
     void OnEnable()
     {
@@ -37,8 +38,8 @@ public class AmmoClip : MonoBehaviour
     void Start()
     {
         _hasStarted = true;
+        _currentAmmo = Mathf.Clamp(initialAmount, 0, maxAmount); // Clamps the initial ammo amount.
         _hasAmmo = _currentAmmo > 0 ? true : false;
-        _currentAmmo = Mathf.Clamp(initialAmount, 0, maxAmount);
 
         AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
         AmmoDisplay.Instance.UpdateAmmoInHolster(AmmoHolster.Instance.GetCurrentAmmo(ammoType));
@@ -57,10 +58,11 @@ public class AmmoClip : MonoBehaviour
 
     public void Reload()
     {
-        StartCoroutine(CoolDownToReload());
+        StartCoroutine(CooldownToReload());
     }
 
-    IEnumerator CoolDownToReload()
+    // Create an "waitForSeconds" variable when the final reload time be defined.
+    IEnumerator CooldownToReload()
     {
         _isReloading = true;
         yield return new WaitForSeconds(reloadTime);

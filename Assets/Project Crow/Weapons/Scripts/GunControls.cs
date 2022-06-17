@@ -21,7 +21,7 @@ public class GunControls : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Gun Controls script must contain a parent gameObject!");
+            Debug.LogError("Gun Controls script must contain a parent Game Object!");
         }
     }
 
