@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 6954083926976314359}
   - component: {fileID: 6954083926978547123}
   - component: {fileID: 6954083926403634709}
+  - component: {fileID: 6954083926403634708}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -260,6 +261,7 @@ MonoBehaviour:
     BackwardSpeed: 4
     StrafeSpeed: 4
     RunMultiplier: 1.75
+    staminaDecreaseRate: 0.4
     RunKey: 304
     JumpForce: 50
     SlopeCurveModifier:
@@ -325,17 +327,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots:
   - ammoType: 0
-    initialAmount: 90
     maxAmount: 120
-  - ammoType: 1
-    initialAmount: 64
-    maxAmount: 80
-  - ammoType: 2
-    initialAmount: 60
-    maxAmount: 90
-  - ammoType: 3
     initialAmount: 90
+  - ammoType: 1
+    maxAmount: 80
+    initialAmount: 64
+  - ammoType: 2
+    maxAmount: 90
+    initialAmount: 60
+  - ammoType: 3
     maxAmount: 135
+    initialAmount: 90
+--- !u!114 &6954083926403634708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e22f16a109db34ba8ddff9f8ed5f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
+  startHealth: 50
+  maxHealth: 100
+  staminaBar: {fileID: 0}
+  startStamina: 100
+  maxStamina: 100
+  minStaminaToRun: 20
+  staminaFilledPerFrame: 0.1
+  timeToRefillStamina: 2
 --- !u!1 &6954083926971463763
 GameObject:
   m_ObjectHideFlags: 0
