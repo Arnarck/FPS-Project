@@ -6423,11 +6423,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a559d6238c7cc4fac1b6ae880db790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   bar: {fileID: 1282495372}
   timeToDecay: 10
   startValue: 100
   maxValue: 100
   decayValue: 5
+  statusLimiter: 0.5
 --- !u!114 &736016150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6440,11 +6442,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b358181cfaf51694bb7692efcd39f738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   bar: {fileID: 489260660}
-  timeToDecay: 2
+  timeToDecay: 10
   startValue: 100
   maxValue: 100
   decayValue: 5
+  statusLimiter: 0.5
 --- !u!1 &782050353
 GameObject:
   m_ObjectHideFlags: 0
