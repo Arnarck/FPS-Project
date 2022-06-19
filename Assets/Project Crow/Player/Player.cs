@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    Coroutine _waitForStaminaRefill, _refillStamina;
+    Coroutine _refillStamina;
     bool _isAlive = true, _canRun = true;
     float _currentHealth, _currentStamina;
 
@@ -79,27 +78,22 @@ public class Player : MonoBehaviour
 
     public void InitializeStaminaRefill()
     {
-        if (_waitForStaminaRefill != null) StopCoroutine(_waitForStaminaRefill);
+        if (_refillStamina != null) StopCoroutine(_refillStamina);
 
-        _waitForStaminaRefill = StartCoroutine(WaitForStaminaRefill());
+        _refillStamina = StartCoroutine(RefillStamina());
     }
 
-    // Wait some time until starts filling the stamina bar.
-    IEnumerator WaitForStaminaRefill()
+    IEnumerator RefillStamina()
     {
+        // Cooldown until refill the stamina.
         float timeElapsed = 0f;
         while (timeElapsed < timeToRefillStamina)
         {
             timeElapsed += Time.deltaTime;
             yield return Utilities.Instance.waitForEndOfFrame;
         }
-        
-        _refillStamina = StartCoroutine(RefillStamina());
-    }
 
-    // Increases the stamina over time.
-    IEnumerator RefillStamina()
-    {
+        // Refill stamina over the time
         while (_currentStamina < maxStamina)
         {
             IncreaseStamina(staminaFilledPerFrame);

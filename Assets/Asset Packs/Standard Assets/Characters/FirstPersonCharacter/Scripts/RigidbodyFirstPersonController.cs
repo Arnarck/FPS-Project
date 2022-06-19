@@ -53,6 +53,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	            }
 	            else
 	            {
+                    // Refill stamina if player was previously running.
                     if (m_Running) GameInstances.Instance.player.InitializeStaminaRefill();
                     m_Running = false;
 	            }
