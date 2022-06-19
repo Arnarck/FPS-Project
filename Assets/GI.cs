@@ -7,6 +7,7 @@ public class GI : MonoBehaviour
     public Player player;
     public PlayerHunger hunger;
     public PlayerThirst thirst;
+    public Camera FPCamera;
 
     private void Awake()
     {
