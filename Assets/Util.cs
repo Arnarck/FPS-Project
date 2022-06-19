@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Utilities : MonoBehaviour
+public class Util : MonoBehaviour
 {
-    public static Utilities Instance { get; private set; }
+    public static Util Instance { get; private set; }
     public WaitForEndOfFrame waitForEndOfFrame;
 
     void Awake()

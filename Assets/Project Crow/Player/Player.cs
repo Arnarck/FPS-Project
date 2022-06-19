@@ -90,14 +90,14 @@ public class Player : MonoBehaviour
         while (timeElapsed < timeToRefillStamina)
         {
             timeElapsed += Time.deltaTime;
-            yield return Utilities.Instance.waitForEndOfFrame;
+            yield return Util.Instance.waitForEndOfFrame;
         }
 
-        // Refill stamina over the time
+        // Refill stamina over the time.
         while (_currentStamina < maxStamina)
         {
-            IncreaseStamina(staminaFilledPerFrame);
-            yield return Utilities.Instance.waitForEndOfFrame;
+            IncreaseStamina(staminaFilledPerFrame * GI.Instance.thirst.RecoverMultiplier);
+            yield return Util.Instance.waitForEndOfFrame;
         }
     }
 }

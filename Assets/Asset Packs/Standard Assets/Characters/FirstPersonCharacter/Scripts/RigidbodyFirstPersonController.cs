@@ -45,16 +45,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 #if !MOBILE_INPUT
-	            if (Input.GetKey(RunKey) && GameInstances.Instance.player.CanRun)
+	            if (Input.GetKey(RunKey) && GI.Instance.player.CanRun)
 	            {
 		            CurrentTargetSpeed *= RunMultiplier;
 		            m_Running = true;
-                    GameInstances.Instance.player.DecreaseStamina(staminaDecreaseRate);
+                    GI.Instance.player.DecreaseStamina(staminaDecreaseRate);
 	            }
 	            else
 	            {
                     // Refill stamina if player was previously running.
-                    if (m_Running) GameInstances.Instance.player.InitializeStaminaRefill();
+                    if (m_Running) GI.Instance.player.InitializeStaminaRefill();
                     m_Running = false;
 	            }
 #endif
