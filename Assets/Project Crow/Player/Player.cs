@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 100f)] float startStamina = 50f;
     [SerializeField] [Range(0f, 100f)] float maxStamina = 100f;
     [Tooltip("The stamina amount the player must recover to run again, if he runs out of stamina.")]
-    [SerializeField] [Range(0f, 100f)] float minStaminaToRun = 10f;
+    [SerializeField] [Range(0f, 1f)] float minStaminaToRun = 10f;
     [SerializeField] [Range(0f, 1f)] float staminaFilledPerFrame = .5f;
     [SerializeField] float timeToRefillStamina = 1f;
 
@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
         {
             _currentStamina = value;
             staminaBar.value = value;
+            _canRun = true;
         }
     }
 
@@ -103,7 +104,7 @@ public class Player : MonoBehaviour
         _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
         staminaBar.value = _currentStamina;
 
-        if (!_canRun && _currentStamina >= minStaminaToRun) _canRun = true;
+        if (!_canRun && _currentStamina >= _currentMaxStamina * minStaminaToRun) _canRun = true;
     }
 
     public void InitializeStaminaRefill()

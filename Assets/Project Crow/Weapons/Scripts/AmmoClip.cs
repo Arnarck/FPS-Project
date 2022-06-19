@@ -22,15 +22,15 @@ public class AmmoClip : MonoBehaviour
         if (_hasStarted)
         {
             AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
-            AmmoDisplay.Instance.UpdateAmmoInHolster(AmmoHolster.Instance.GetCurrentAmmo(ammoType));
+            AmmoDisplay.Instance.UpdateAmmoInHolster(GI.Instance.ammoHolster.GetCurrentAmmo(ammoType));
         }
     }
 
     void OnDisable()
     {
+        // Cancel reload process so the gun won't reenable in reloading state.
         if (_isReloading)
         {
-            // Cancel reload process so the gun won't reenable in reloading state.
             _isReloading = false;
         }
     }
@@ -42,7 +42,7 @@ public class AmmoClip : MonoBehaviour
         _hasAmmo = _currentAmmo > 0 ? true : false;
 
         AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
-        AmmoDisplay.Instance.UpdateAmmoInHolster(AmmoHolster.Instance.GetCurrentAmmo(ammoType));
+        AmmoDisplay.Instance.UpdateAmmoInHolster(GI.Instance.ammoHolster.GetCurrentAmmo(ammoType));
     }
 
     public void ReduceAmmo()
@@ -74,17 +74,17 @@ public class AmmoClip : MonoBehaviour
     void ReloadClip()
     {
         int spentAmmo = maxAmount - _currentAmmo;
-        int ammoInHolster = AmmoHolster.Instance.GetCurrentAmmo(ammoType);
+        int ammoInHolster = GI.Instance.ammoHolster.GetCurrentAmmo(ammoType);
 
         if (ammoInHolster >= spentAmmo)
         {
             _currentAmmo = maxAmount;
-            AmmoHolster.Instance.ReduceAmmo(ammoType, spentAmmo);
+            GI.Instance.ammoHolster.ReduceAmmo(ammoType, spentAmmo);
         }
         else
         {
             _currentAmmo += ammoInHolster;
-            AmmoHolster.Instance.ReduceAmmo(ammoType, ammoInHolster);
+            GI.Instance.ammoHolster.ReduceAmmo(ammoType, ammoInHolster);
         }
 
         AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);

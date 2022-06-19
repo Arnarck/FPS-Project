@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
+public enum ConsumableType
 {
-    Medkit,
     Food,
     Water,
-    Ammo
+    Medkit,
+    FlashlightBattery
 }
 
 public class ResourceGathering : MonoBehaviour
@@ -34,15 +34,15 @@ public class ResourceGathering : MonoBehaviour
 
         hasHitColliders = Physics.Raycast(GI.Instance.FPCamera.transform.position, GI.Instance.FPCamera.transform.forward, out hit, rayLength);
 
-        if (hasHitColliders && hit.collider.CompareTag("Collectable"))
+        if (hasHitColliders && (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo")) )
         {
-            _itemFound = hit.collider.gameObject;
             collectUI.SetActive(true);
+            _itemFound = hit.collider.gameObject;
         }
         else
         {
-            _itemFound = null;
             collectUI.SetActive(false);
+            _itemFound = null;
         }
     }
 
@@ -50,7 +50,25 @@ public class ResourceGathering : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && collectUI.activeInHierarchy)
         {
-            Destroy(_itemFound);
+            CollectItem();
         }
+    }
+
+    void CollectItem()
+    {
+        switch (_itemFound.tag)
+        {
+            case "Consumable":
+                // Add consumable to inventory.
+                break;
+
+            case "CollectableAmmo":
+                {
+                    Ammo collectableAmmo = _itemFound.GetComponent<Ammo>();
+                    GI.Instance.ammoHolster.IncreaseAmmo(collectableAmmo.type, collectableAmmo.amount);
+                }
+                break;
+        }
+        Destroy(_itemFound);
     }
 }

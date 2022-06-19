@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
+public enum AmmoType
+{
+    Pistol,
+    Shotgun,
+    AssaultRifle,
+    SubmachineGun
+}
 
 public class AmmoHolster : MonoBehaviour
 {
-    public static AmmoHolster Instance { get; private set; }
-
     [SerializeField] AmmoSlot[] slots;
 
     // Shows the content of the class, in the inspector
@@ -16,11 +21,6 @@ public class AmmoHolster : MonoBehaviour
         public AmmoType ammoType;
         [Range(0, 9999)] public int maxAmount;
         [Range(0, 9999)] public int initialAmount;
-    }
-
-    void Awake()
-    {
-        Instance = this;
     }
 
     void Start()
