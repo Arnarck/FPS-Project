@@ -3,25 +3,23 @@ using TMPro;
 
 public class AmmoDisplay : MonoBehaviour
 {
-    public static AmmoDisplay Instance { get; private set; }
-
-    [SerializeField] TextMeshProUGUI ammoInClip;
-    [SerializeField] TextMeshProUGUI ammoInHolster;
+    [SerializeField] TextMeshProUGUI ammo_in_clip_text;
+    [SerializeField] TextMeshProUGUI ammo_in_holster_text;
 
     void Awake()
     {
-        Instance = this;
+        GI.ammo_display = this;
     }
 
-    public void UpdateAmmoInClip(int ammoAmount)
+    public void display_ammo_in_clip(int ammoAmount)
     {
-        if (ammoInClip == null) return;
-        ammoInClip.text = ammoAmount.ToString();
+        if (ammo_in_clip_text == null) return;
+        ammo_in_clip_text.text = ammoAmount.ToString();
     }
 
-    public void UpdateAmmoInHolster(int ammoAmount)
+    public void display_ammo_in_holster(int ammoAmount)
     {
-        if (ammoInHolster == null) return;
-        ammoInHolster.text = ammoAmount.ToString();
+        if (ammo_in_holster_text == null) return;
+        ammo_in_holster_text.text = ammoAmount.ToString();
     }
 }

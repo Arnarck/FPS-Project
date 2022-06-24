@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     Coroutine _refillStamina;
-    bool _isAlive = true, _canRun = true;
+    bool _isAlive = true, _canRun = true, m_can_restore_stamina;
     float _currentHealth, _currentStamina;
     float _currentMaxHealth, _currentMaxStamina;
+    float m_time_elapsed_from_stamina_restoration;
+    
 
     [Header("Health")]
     [SerializeField] Slider healthBar;
@@ -19,13 +21,20 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 100f)] float maxStamina = 100f;
     [Tooltip("The stamina amount the player must recover to run again, if he runs out of stamina.")]
     [SerializeField] [Range(0f, 1f)] float minStaminaToRun = 10f;
-    [SerializeField] [Range(0f, 1f)] float staminaFilledPerFrame = .5f;
-    [SerializeField] float timeToRefillStamina = 1f;
+    [SerializeField] float stamina_filled_per_frame = .5f;
+    [SerializeField] float stamina_consumed_per_frame = .5f;
+    [SerializeField] float time_to_start_stamina_restoration = 1f;
 
     public bool CanRun { get => _canRun; }
     public bool IsAlive { get => _isAlive; }
     public float MaxHealth { get => maxHealth; }
     public float MaxStamina { get => maxStamina; }
+
+    void Awake()
+    {
+        GI.player = this;
+        GI.fp_camera = Camera.main;
+    }
 
     void Start()
     {
@@ -39,6 +48,36 @@ public class Player : MonoBehaviour
         _currentStamina = startStamina;
         staminaBar.value = _currentStamina;
         staminaBar.maxValue = maxStamina;
+    }
+
+    private void FixedUpdate()
+    {
+        if (GI.fp_controller.Running)
+        {
+            m_time_elapsed_from_stamina_restoration = 0f; // Resets the counter
+            m_can_restore_stamina = false;
+            _currentStamina -= stamina_consumed_per_frame;
+            _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
+            staminaBar.value = _currentStamina;
+
+            if (_currentStamina < Mathf.Epsilon) _canRun = false;
+        }
+        else if (!m_can_restore_stamina)
+        {
+            m_time_elapsed_from_stamina_restoration += Time.fixedDeltaTime;
+
+            if (m_time_elapsed_from_stamina_restoration >= time_to_start_stamina_restoration) m_can_restore_stamina = true;
+        }
+        
+        
+        if (m_can_restore_stamina)
+        {
+            _currentStamina += stamina_filled_per_frame * GI.thirst.RecoverMultiplier;
+            _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
+            staminaBar.value = _currentStamina;
+
+            if (!_canRun && _currentStamina >= _currentMaxStamina * minStaminaToRun) _canRun = true;
+        }
     }
 
     public void ClampMaxHealth(float value)
@@ -107,29 +146,29 @@ public class Player : MonoBehaviour
         if (!_canRun && _currentStamina >= _currentMaxStamina * minStaminaToRun) _canRun = true;
     }
 
-    public void InitializeStaminaRefill()
-    {
-        if (_refillStamina != null) StopCoroutine(_refillStamina);
+    //public void InitializeStaminaRefill()
+    //{
+    //    if (_refillStamina != null) StopCoroutine(_refillStamina);
 
-        _refillStamina = StartCoroutine(RefillStamina());
-    }
+    //    _refillStamina = StartCoroutine(RefillStamina());
+    //}
 
-    IEnumerator RefillStamina()
-    {
-        // Cooldown until refill the stamina.
-        float timeElapsed = 0f;
-        while (timeElapsed < timeToRefillStamina)
-        {
-            timeElapsed += Time.deltaTime;
-            yield return Util.Instance.waitForEndOfFrame;
-        }
+    //IEnumerator RefillStamina()
+    //{
+    //    // Cooldown until refill the stamina.
+    //    float timeElapsed = 0f;
+    //    while (timeElapsed < timeToRefillStamina)
+    //    {
+    //        timeElapsed += Time.deltaTime;
+    //        yield return Util.Instance.waitForEndOfFrame;
+    //    }
 
-        // Refill stamina over the time.
-        while (_currentStamina < maxStamina)
-        {
-            Debug.Log(staminaFilledPerFrame * GI.Instance.thirst.RecoverMultiplier);
-            IncreaseStamina(staminaFilledPerFrame * GI.Instance.thirst.RecoverMultiplier);
-            yield return Util.Instance.waitForEndOfFrame;
-        }
-    }
+    //    // Refill stamina over the time.
+    //    while (_currentStamina < maxStamina)
+    //    {
+    //        Debug.Log(staminaFilledPerFrame * GI.thirst.RecoverMultiplier);
+    //        IncreaseStamina(staminaFilledPerFrame * GI.thirst.RecoverMultiplier);
+    //        yield return Util.Instance.waitForEndOfFrame;
+    //    }
+    //}
 }

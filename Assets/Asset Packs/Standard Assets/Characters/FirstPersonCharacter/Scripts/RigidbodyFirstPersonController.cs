@@ -15,7 +15,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float BackwardSpeed = 4.0f;  // Speed when walking backwards
             public float StrafeSpeed = 4.0f;    // Speed when walking sideways
             public float RunMultiplier = 2.0f;   // Speed when sprinting
-            [Range(0f, 10f)] public float staminaDecreaseRate = .5f; // Stamina decreased per frame
 	        public KeyCode RunKey = KeyCode.LeftShift;
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
@@ -27,7 +26,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
-	            if (input == Vector2.zero) return;
+                // Exit the method if player is not moving
+                // If player is not moving, then he's not running as well
+                if (input == Vector2.zero)
+                {
+                    m_Running = false;
+                    return;
+                }
+
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
@@ -45,16 +51,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 #if !MOBILE_INPUT
-	            if (Input.GetKey(RunKey) && GI.Instance.player.CanRun)
+	            if (Input.GetKey(RunKey) && GI.player.CanRun)
 	            {
 		            CurrentTargetSpeed *= RunMultiplier;
 		            m_Running = true;
-                    GI.Instance.player.DecreaseStamina(staminaDecreaseRate);
 	            }
 	            else
 	            {
-                    // Refill stamina if player was previously running.
-                    if (m_Running) GI.Instance.player.InitializeStaminaRefill();
                     m_Running = false;
 	            }
 #endif
@@ -127,6 +130,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 	            return false;
 #endif
             }
+        }
+
+        private void Awake()
+        {
+            GI.fp_controller = this;
         }
 
 

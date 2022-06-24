@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 // Game Instances
-public class GI : MonoBehaviour
+public static class GI
 {
-    public static GI Instance { get; private set; }
-    public Player player;
-    public PlayerHunger hunger;
-    public PlayerThirst thirst;
-    public Camera FPCamera;
-    public AmmoHolster ammoHolster;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
+    public static Player player;
+    public static Camera fp_camera;
+    public static BasicNecessity hunger;
+    public static BasicNecessity thirst;
+    public static AmmoHolster ammo_holster;
+    public static AmmoDisplay ammo_display;
+    public static GunSwitcher gun_switcher;
+    public static RigidbodyFirstPersonController fp_controller;
 }

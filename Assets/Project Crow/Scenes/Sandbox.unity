@@ -5962,8 +5962,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68810d632a30fe448f221712e7dcf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoInClip: {fileID: 787610860}
-  ammoInHolster: {fileID: 625018919}
+  ammo_in_clip_text: {fileID: 787610860}
+  ammo_in_holster_text: {fileID: 625018919}
 --- !u!1 &451129055
 GameObject:
   m_ObjectHideFlags: 0
@@ -6128,7 +6128,7 @@ GameObject:
   - component: {fileID: 489260659}
   - component: {fileID: 489260660}
   m_Layer: 5
-  m_Name: Fill Area
+  m_Name: Hunger Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7209,76 +7209,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1896547304}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &736016148 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6954083926403634706}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &736016149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736016148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a559d6238c7cc4fac1b6ae880db790, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
-  bar: {fileID: 1282495372}
-  timeToDecay: 1
-  startValue: 100
-  maxValue: 100
-  decayValue: 5
-  statusLimiter: 0.5
---- !u!114 &736016150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736016148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b358181cfaf51694bb7692efcd39f738, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  bar: {fileID: 489260660}
-  timeToDecay: 10
-  startValue: 100
-  maxValue: 100
-  decayValue: 5
-  statusLimiter: 0.5
---- !u!114 &736016151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736016148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f907dee5de1ca04f875e5e1b66a803a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rayLength: 2
-  collectUI: {fileID: 632383368}
---- !u!114 &736016154 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6954083926403634706}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736016148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a93766cc7bbeb64a8de4985bcf1e72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &782050353
 GameObject:
   m_ObjectHideFlags: 0
@@ -7979,7 +7909,7 @@ GameObject:
   - component: {fileID: 981568397}
   - component: {fileID: 981568398}
   m_Layer: 5
-  m_Name: Fill Area
+  m_Name: Health Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8708,7 +8638,7 @@ GameObject:
   - component: {fileID: 1282495371}
   - component: {fileID: 1282495372}
   m_Layer: 5
-  m_Name: Fill Area
+  m_Name: Thirst Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9016,7 +8946,7 @@ GameObject:
   - component: {fileID: 1503658715}
   - component: {fileID: 1503658714}
   m_Layer: 5
-  m_Name: Fill Area
+  m_Name: Stamina Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9764,7 +9694,7 @@ MonoBehaviour:
   amount: 3
   itemName: 
   itemImage: {fileID: 0}
-  type: 0
+  type: 2
 --- !u!65 &1766008196
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10218,7 +10148,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1982486635}
   - component: {fileID: 1982486634}
-  - component: {fileID: 1982486636}
   - component: {fileID: 1982486637}
   m_Layer: 0
   m_Name: Game Systems
@@ -10253,23 +10182,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1982486636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1982486633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bdf1cfa1a3172241b8a2b23f4a7d079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 6954083926403634708}
-  hunger: {fileID: 736016150}
-  thirst: {fileID: 736016149}
-  FPCamera: {fileID: 6954083926403634707}
-  ammoHolster: {fileID: 736016154}
 --- !u!114 &1982486637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11013,6 +10925,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: bar
+      value: 
+      objectReference: {fileID: 1282495372}
+    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: bar
+      value: 
+      objectReference: {fileID: 489260660}
+    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: collectUI
+      value: 
+      objectReference: {fileID: 632383368}
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: bloodSplash
@@ -11045,42 +10969,47 @@ PrefabInstance:
       objectReference: {fileID: 1503658714}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: startHealth
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
       propertyPath: minStaminaToRun
       value: 0.8
       objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: slots.Array.data[0].initialAmount
-      value: 0
+      propertyPath: stamina_filled_per_frame
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: stamina_consumed_per_frame
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: time_to_start_stamina_restoration
+      value: 5.15
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: slots.Array.data[1].initialAmount
-      value: 0
+      propertyPath: slots.Array.data[0].max_ammo
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: slots.Array.data[2].initialAmount
-      value: 0
+      propertyPath: slots.Array.data[1].max_ammo
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: slots.Array.data[3].initialAmount
-      value: 0
+      propertyPath: slots.Array.data[2].max_ammo
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: slots.Array.data[3].max_ammo
+      value: 135
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926971556981, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
@@ -11140,21 +11069,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
---- !u!20 &6954083926403634707 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6954083926973102711, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6954083926403634706}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6954083926403634708 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-    type: 3}
-  m_PrefabInstance: {fileID: 6954083926403634706}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 736016148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e22f16a109db34ba8ddff9f8ed5f31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -16,19 +16,24 @@ public class AmmoHolster : MonoBehaviour
     private class AmmoSlot
     {
         int currentAmount;
-        public int CurrentAmount { get => currentAmount; set => currentAmount = value; }
+        public int ammo { get => currentAmount; set => currentAmount = value; }
 
         public AmmoType ammoType;
-        [Range(0, 9999)] public int maxAmount;
+        [Range(0, 9999)] public int max_ammo;
         [Range(0, 9999)] public int initialAmount;
+    }
+
+    void Awake()
+    {
+        GI.ammo_holster = this;
     }
 
     void Start()
     {
         foreach (AmmoSlot slot in slots)
         {
-            slot.initialAmount = Mathf.Clamp(slot.initialAmount, 0, slot.maxAmount);
-            slot.CurrentAmount = slot.initialAmount;
+            slot.initialAmount = Mathf.Clamp(slot.initialAmount, 0, slot.max_ammo);
+            slot.ammo = slot.initialAmount;
         }
     }
 
@@ -38,7 +43,7 @@ public class AmmoHolster : MonoBehaviour
 
         if (slot != default)
         {
-            return slot.CurrentAmount;
+            return slot.ammo;
         }
 
         return 0;
@@ -49,10 +54,10 @@ public class AmmoHolster : MonoBehaviour
         AmmoSlot slot = FindAmmoSlot(type);
         if (slot != default)
         {
-            slot.CurrentAmount = Mathf.Clamp(slot.CurrentAmount + amount, 0, slot.maxAmount);
+            slot.ammo = Mathf.Clamp(slot.ammo + amount, 0, slot.max_ammo);
         }
 
-        AmmoDisplay.Instance.UpdateAmmoInHolster(slot.CurrentAmount);
+        if (GI.gun_switcher.get_current_ammo_type() == type) GI.ammo_display.display_ammo_in_holster(slot.ammo);
     }
 
     public void ReduceAmmo(AmmoType type, int amount)
@@ -60,10 +65,10 @@ public class AmmoHolster : MonoBehaviour
         AmmoSlot slot = FindAmmoSlot(type);
         if (slot != default)
         {
-            slot.CurrentAmount = Mathf.Clamp(slot.CurrentAmount - amount, 0, slot.maxAmount);
+            slot.ammo = Mathf.Clamp(slot.ammo - amount, 0, slot.max_ammo);
         }
 
-        AmmoDisplay.Instance.UpdateAmmoInHolster(slot.CurrentAmount);
+        GI.ammo_display.display_ammo_in_holster(slot.ammo);
     }
 
     public bool IsAmmoInHolsterEmpty(AmmoType type)
@@ -72,7 +77,7 @@ public class AmmoHolster : MonoBehaviour
 
         if (slot == default) { return true; }
 
-        if (slot.CurrentAmount < 1)
+        if (slot.ammo < 1)
         {
             return true;
         }

@@ -7,7 +7,7 @@ enum NecessityType
     Thirst
 }
 
-public abstract class BasicNecessity : MonoBehaviour
+public class BasicNecessity : MonoBehaviour
 {
     float _currentValue, _recoverMultiplier, _timeElapsed;
     bool _hasValue = true;
@@ -17,12 +17,18 @@ public abstract class BasicNecessity : MonoBehaviour
     [SerializeField] float timeToDecay = 10f;
     [SerializeField] [Range(0f, 100f)] float startValue = 100f;
     [SerializeField] [Range(0f, 100f)] float maxValue = 100f;
-    [SerializeField] [Range(0f, 10f)] float decayValue = 5f;
+    [SerializeField] [Range(0f, 10f)] float time_to_reduce = 5f;
     [Tooltip("Limit the max health / stamina")]
     [SerializeField] [Range(0f, 1f)] float statusLimiter;
 
     public float CurrentValue { get => _currentValue; }
     public float RecoverMultiplier { get => _recoverMultiplier; }
+
+    void Awake()
+    {
+        if (type.Equals(NecessityType.Hunger)) GI.hunger = this;
+        else GI.thirst = this;
+    }
 
     void Start()
     {
@@ -37,7 +43,7 @@ public abstract class BasicNecessity : MonoBehaviour
         if (_hasValue && _timeElapsed >= timeToDecay)
         {
             _timeElapsed = 0f;
-            DecayValue();
+            reduce_necessity_amount();
         }
         else
         {
@@ -55,19 +61,19 @@ public abstract class BasicNecessity : MonoBehaviour
         // Limits the max health / stamina if _currentValue is 0. If not, sets the base value.
         if (_currentValue < Mathf.Epsilon)
         {
-            if (type.Equals(NecessityType.Hunger)) GI.Instance.player.ClampMaxHealth(GI.Instance.player.MaxHealth * statusLimiter);
-            else GI.Instance.player.ClampMaxStamina(GI.Instance.player.MaxStamina * statusLimiter);
+            if (type.Equals(NecessityType.Hunger)) GI.player.ClampMaxHealth(GI.player.MaxHealth * statusLimiter);
+            else GI.player.ClampMaxStamina(GI.player.MaxStamina * statusLimiter);
         }
         else
         {
-            if (type.Equals(NecessityType.Hunger)) GI.Instance.player.ClampMaxHealth(GI.Instance.player.MaxHealth);
-            else GI.Instance.player.ClampMaxStamina(GI.Instance.player.MaxStamina);
+            if (type.Equals(NecessityType.Hunger)) GI.player.ClampMaxHealth(GI.player.MaxHealth);
+            else GI.player.ClampMaxStamina(GI.player.MaxStamina);
         }
     }
 
-    void DecayValue()
+    void reduce_necessity_amount()
     {
-        _currentValue -= decayValue;
+        _currentValue -= time_to_reduce;
         _currentValue = Mathf.Clamp(_currentValue, 0f, maxValue);
         bar.value = _currentValue;
 

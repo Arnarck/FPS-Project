@@ -191,9 +191,13 @@ GameObject:
   - component: {fileID: 6954083926978547123}
   - component: {fileID: 6954083926403634709}
   - component: {fileID: 6954083926403634708}
+  - component: {fileID: 736016149}
+  - component: {fileID: 736016150}
+  - component: {fileID: 736016151}
+  - component: {fileID: 736016152}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -327,17 +331,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slots:
   - ammoType: 0
-    maxAmount: 120
-    initialAmount: 90
+    max_ammo: 0
+    initialAmount: 0
   - ammoType: 1
-    maxAmount: 80
-    initialAmount: 64
+    max_ammo: 0
+    initialAmount: 0
   - ammoType: 2
-    maxAmount: 90
-    initialAmount: 60
+    max_ammo: 0
+    initialAmount: 0
   - ammoType: 3
-    maxAmount: 135
-    initialAmount: 90
+    max_ammo: 0
+    initialAmount: 0
 --- !u!114 &6954083926403634708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,14 +355,78 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
-  startHealth: 50
+  startHealth: 25
   maxHealth: 100
   staminaBar: {fileID: 0}
   startStamina: 100
   maxStamina: 100
-  minStaminaToRun: 20
+  minStaminaToRun: 0.8
   staminaFilledPerFrame: 0.1
   timeToRefillStamina: 2
+--- !u!114 &736016149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1423358981503747be0d20420b792e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  bar: {fileID: 0}
+  timeToDecay: 1
+  startValue: 100
+  maxValue: 100
+  time_to_reduce: 5
+  statusLimiter: 0.5
+--- !u!114 &736016150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1423358981503747be0d20420b792e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  bar: {fileID: 0}
+  timeToDecay: 2
+  startValue: 100
+  maxValue: 100
+  time_to_reduce: 5
+  statusLimiter: 0.5
+--- !u!114 &736016151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f907dee5de1ca04f875e5e1b66a803a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 2
+  collectUI: {fileID: 0}
+--- !u!114 &736016152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce541724a7776e4ab49e944d4e9ef4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6954083926971463763
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +657,11 @@ PrefabInstance:
       propertyPath: aimingPosition.z
       value: -0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1774017810988602147, guid: 3cd8fa94930bbdf46a5147950c338112,
+        type: 3}
+      propertyPath: ammo_type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2006930674368749025, guid: 3cd8fa94930bbdf46a5147950c338112,
         type: 3}
       propertyPath: m_Enabled
@@ -774,6 +847,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199724703475664954, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: ammo_type
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4440543453409808904, guid: 5c9844bbcab47644f945e0465c030ee1,
         type: 3}
@@ -1081,6 +1159,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2991087202987124519, guid: 4f26330bc589f40438fbcb432058cfea,
+        type: 3}
+      propertyPath: ammo_type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5004535171942788303, guid: 4f26330bc589f40438fbcb432058cfea,
         type: 3}

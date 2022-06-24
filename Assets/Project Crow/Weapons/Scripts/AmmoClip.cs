@@ -10,7 +10,7 @@ public class AmmoClip : MonoBehaviour
     [SerializeField] float reloadTime = 1f;
 
     [Header("Ammo Settings")]
-    [SerializeField] AmmoType ammoType;
+    public AmmoType ammo_type;
     [SerializeField] int maxAmount = 30;
     [SerializeField] int initialAmount = 30;
 
@@ -21,8 +21,8 @@ public class AmmoClip : MonoBehaviour
     {
         if (_hasStarted)
         {
-            AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
-            AmmoDisplay.Instance.UpdateAmmoInHolster(GI.Instance.ammoHolster.GetCurrentAmmo(ammoType));
+            GI.ammo_display.display_ammo_in_clip(_currentAmmo);
+            GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.GetCurrentAmmo(ammo_type));
         }
     }
 
@@ -41,8 +41,8 @@ public class AmmoClip : MonoBehaviour
         _currentAmmo = Mathf.Clamp(initialAmount, 0, maxAmount); // Clamps the initial ammo amount.
         _hasAmmo = _currentAmmo > 0 ? true : false;
 
-        AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
-        AmmoDisplay.Instance.UpdateAmmoInHolster(GI.Instance.ammoHolster.GetCurrentAmmo(ammoType));
+        GI.ammo_display.display_ammo_in_clip(_currentAmmo);
+        GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.GetCurrentAmmo(ammo_type));
     }
 
     public void ReduceAmmo()
@@ -53,7 +53,7 @@ public class AmmoClip : MonoBehaviour
             _currentAmmo = 0;
             _hasAmmo = false;
         }
-        AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
+        GI.ammo_display.display_ammo_in_clip(_currentAmmo);
     }
 
     public void Reload()
@@ -74,19 +74,19 @@ public class AmmoClip : MonoBehaviour
     void ReloadClip()
     {
         int spentAmmo = maxAmount - _currentAmmo;
-        int ammoInHolster = GI.Instance.ammoHolster.GetCurrentAmmo(ammoType);
+        int ammoInHolster = GI.ammo_holster.GetCurrentAmmo(ammo_type);
 
         if (ammoInHolster >= spentAmmo)
         {
             _currentAmmo = maxAmount;
-            GI.Instance.ammoHolster.ReduceAmmo(ammoType, spentAmmo);
+            GI.ammo_holster.ReduceAmmo(ammo_type, spentAmmo);
         }
         else
         {
             _currentAmmo += ammoInHolster;
-            GI.Instance.ammoHolster.ReduceAmmo(ammoType, ammoInHolster);
+            GI.ammo_holster.ReduceAmmo(ammo_type, ammoInHolster);
         }
 
-        AmmoDisplay.Instance.UpdateAmmoInClip(_currentAmmo);
+        GI.ammo_display.display_ammo_in_clip(_currentAmmo);
     }
 }

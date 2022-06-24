@@ -7,12 +7,12 @@ public class DebugInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            GI.Instance.thirst.IncreaseValue(50f);
-            GI.Instance.hunger.IncreaseValue(50f);
+            GI.thirst.IncreaseValue(50f);
+            GI.hunger.IncreaseValue(50f);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            GI.Instance.player.ModifyHealthAmount(50f * GI.Instance.hunger.RecoverMultiplier);
+            GI.player.ModifyHealthAmount(50f * GI.hunger.RecoverMultiplier);
         }
     }
 }
