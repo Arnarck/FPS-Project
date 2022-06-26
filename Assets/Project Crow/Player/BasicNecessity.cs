@@ -17,7 +17,7 @@ public class BasicNecessity : MonoBehaviour
     [SerializeField] float timeToDecay = 10f;
     [SerializeField] [Range(0f, 100f)] float startValue = 100f;
     [SerializeField] [Range(0f, 100f)] float maxValue = 100f;
-    [SerializeField] [Range(0f, 10f)] float time_to_reduce = 5f;
+    [SerializeField] [Range(0f, 10f)] float value_reduced = 5f;
     [Tooltip("Limit the max health / stamina")]
     [SerializeField] [Range(0f, 1f)] float statusLimiter;
 
@@ -73,7 +73,7 @@ public class BasicNecessity : MonoBehaviour
 
     void reduce_necessity_amount()
     {
-        _currentValue -= time_to_reduce;
+        _currentValue -= value_reduced;
         _currentValue = Mathf.Clamp(_currentValue, 0f, maxValue);
         bar.value = _currentValue;
 

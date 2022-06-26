@@ -1,13 +1,24 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class PlayerInventory : MonoBehaviour
 {
     int[] items_stored = { 0, 0, 0, 0 };
     int[] max_items_storable = { 10, 10, 10, 10 };
 
+    [SerializeField] TextMeshProUGUI[] item_amount_text;
+
     void Awake()
     {
         GI.player_inventory = this;
+    }
+
+    void Start()
+    {
+        for (int i = 0; i < items_stored.Length; i++)
+        {
+            item_amount_text[i].text = items_stored[i].ToString();
+        }
     }
 
     void Update()
@@ -46,6 +57,7 @@ public class PlayerInventory : MonoBehaviour
 
         items_stored[item] += amount;
         items_stored[item] = Mathf.Clamp(items_stored[item], 0, max_items_storable[item]);
+        item_amount_text[item].text = items_stored[item].ToString();
 
         return true;
     }
