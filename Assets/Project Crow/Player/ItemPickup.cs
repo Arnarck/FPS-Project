@@ -73,7 +73,9 @@ public class ItemPickup : MonoBehaviour
                     case "CollectableAmmo":
                         {
                             Ammo ammo = item_found.GetComponent<Ammo>();
-                            GI.ammo_holster.IncreaseAmmo(ammo.type, ammo.amount);
+                            bool has_added_ammo = GI.ammo_holster.IncreaseAmmo(ammo.type, ammo.amount);
+                            if (has_added_ammo) Destroy(item_found);
+                            // ELSE give the player an feedbacck error
                         }
                         break;
 
