@@ -12,4 +12,5 @@ public static class GI
     public static AmmoDisplay ammo_display;
     public static GunSwitcher gun_switcher;
     public static RigidbodyFirstPersonController fp_controller;
+    public static PlayerInventory player_inventory;
 }

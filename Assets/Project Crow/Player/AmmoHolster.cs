@@ -49,15 +49,22 @@ public class AmmoHolster : MonoBehaviour
         return 0;
     }
 
-    public void IncreaseAmmo(AmmoType type, int amount)
+    public bool IncreaseAmmo(AmmoType type, int amount)
     {
         AmmoSlot slot = FindAmmoSlot(type);
-        if (slot != default)
+        if (slot == default)
         {
-            slot.ammo = Mathf.Clamp(slot.ammo + amount, 0, slot.max_ammo);
+            Debug.LogError(type + " ammo not found!");
+            return false;
         }
 
+        if (slot.ammo >= slot.max_ammo) return false;
+        
+        slot.ammo = Mathf.Clamp(slot.ammo + amount, 0, slot.max_ammo);
+
         if (GI.gun_switcher.get_current_ammo_type() == type) GI.ammo_display.display_ammo_in_holster(slot.ammo);
+
+        return true;
     }
 
     public void ReduceAmmo(AmmoType type, int amount)

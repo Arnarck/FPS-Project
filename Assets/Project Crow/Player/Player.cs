@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    Coroutine _refillStamina;
+    //Coroutine _refillStamina;
     bool _isAlive = true, _canRun = true, m_can_restore_stamina;
     float _currentHealth, _currentStamina;
     float _currentMaxHealth, _currentMaxStamina;
@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
         {
             m_time_elapsed_from_stamina_restoration = 0f; // Resets the counter
             m_can_restore_stamina = false;
+
             _currentStamina -= stamina_consumed_per_frame;
             _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
             staminaBar.value = _currentStamina;
@@ -129,7 +130,7 @@ public class Player : MonoBehaviour
         _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
         staminaBar.value = _currentStamina;
 
-        if (_refillStamina != null) StopCoroutine(_refillStamina);
+        //if (_refillStamina != null) StopCoroutine(_refillStamina);
         
         if (_currentStamina < Mathf.Epsilon) _canRun = false;
     }

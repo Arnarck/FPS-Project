@@ -1,39 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public enum ConsumableType
 {
     Food,
     Water,
     Medkit,
-    FlashlightBattery
+    FlashlightBattery,
+
+    COUNT
 }
 
 public class ItemPickup : MonoBehaviour
 {
-    GameObject m_item_found;
+    GameObject item_found;
 
     [SerializeField] float rayLength;
-    [SerializeField] GameObject collectUI;
+    [SerializeField] GameObject pickup_display;
+    [SerializeField] Image pickup_image;
+    [SerializeField] TextMeshProUGUI pickup_text;
 
     void FixedUpdate()
     {
         { // Process Raycast
-            bool hasHitColliders = false;
+            bool has_hit_colliders = false;
             RaycastHit hit;
 
-            hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
+            has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
 
-            if (hasHitColliders && (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo")))
+            if (has_hit_colliders && (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo")))
             {
-                collectUI.SetActive(true);
-                m_item_found = hit.collider.gameObject;
+                CollectableItem item = hit.collider.GetComponent<CollectableItem>();
+
+                // Sets the pickup ui position on the screen.
+                Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
+                pickup_display.GetComponent<RectTransform>().position = item_screen_position;
+
+                // Sets the pickup ui values.
+                pickup_image = item.itemImage;
+                pickup_text.text = item.itemName;
+
+                pickup_display.SetActive(true);
+                item_found = hit.collider.gameObject;
             }
             else
             {
-                collectUI.SetActive(false);
-                m_item_found = null;
+                pickup_display.SetActive(false);
+                item_found = null;
             }
         }
     }
@@ -41,22 +57,30 @@ public class ItemPickup : MonoBehaviour
     void Update()
     {
         {// Process Pickup Input
-            if (Input.GetKeyDown(KeyCode.E) && collectUI.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.E) && pickup_display.activeInHierarchy)
             {
-                switch (m_item_found.tag)
+                switch (item_found.tag)
                 {
                     case "Consumable":
-                        Consumable item = m_item_found.GetComponent<Consumable>();
+                        {
+                            Consumable item = item_found.GetComponent<Consumable>();
+                            bool has_stored_item = GI.player_inventory.store_or_remove(item.type, item.amount);
+                            if (has_stored_item) Destroy(item_found);
+                            // ELSE give the player an feedback error
+                        }
                         break;
 
                     case "CollectableAmmo":
                         {
-                            Ammo ammo = m_item_found.GetComponent<Ammo>();
+                            Ammo ammo = item_found.GetComponent<Ammo>();
                             GI.ammo_holster.IncreaseAmmo(ammo.type, ammo.amount);
                         }
                         break;
+
+                    default:
+                        Debug.LogError("Consumable not found!");
+                        break;
                 }
-                Destroy(m_item_found);
             }
         }
     }
