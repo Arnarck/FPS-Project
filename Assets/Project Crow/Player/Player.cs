@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    //Coroutine _refillStamina;
-    bool _isAlive = true, _canRun = true, m_can_restore_stamina;
-    float _currentHealth, _currentStamina;
-    float _currentMaxHealth, _currentMaxStamina;
-    float m_time_elapsed_from_stamina_restoration;
+    bool is_alive = true, can_run = true, can_restore_stamina;
+    float current_health, current_stamina;
+    float current_max_health, current_max_stamina;
+    float time_elapsed_from_stamina_restoration;
     
 
     [Header("Health")]
@@ -20,13 +19,13 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 100f)] float startStamina = 50f;
     [SerializeField] [Range(0f, 100f)] float maxStamina = 100f;
     [Tooltip("The stamina amount the player must recover to run again, if he runs out of stamina.")]
-    [SerializeField] [Range(0f, 1f)] float minStaminaToRun = 10f;
+    [SerializeField] [Range(0f, 1f)] float min_stamina_to_run = 10f;
     [SerializeField] float stamina_filled_per_frame = .5f;
     [SerializeField] float stamina_consumed_per_frame = .5f;
     [SerializeField] float time_to_start_stamina_restoration = 1f;
 
-    public bool CanRun { get => _canRun; }
-    public bool IsAlive { get => _isAlive; }
+    public bool CanRun { get => can_run; }
+    public bool IsAlive { get => is_alive; }
     public float MaxHealth { get => maxHealth; }
     public float MaxStamina { get => maxStamina; }
 
@@ -38,15 +37,15 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        _currentMaxHealth = maxHealth;
-        _currentMaxStamina = maxStamina;
+        current_max_health = maxHealth;
+        current_max_stamina = maxStamina;
 
-        _currentHealth = startHealth;
+        current_health = startHealth;
         healthBar.value = startHealth;
         healthBar.maxValue = maxHealth;
 
-        _currentStamina = startStamina;
-        staminaBar.value = _currentStamina;
+        current_stamina = startStamina;
+        staminaBar.value = current_stamina;
         staminaBar.maxValue = maxStamina;
     }
 
@@ -54,41 +53,41 @@ public class Player : MonoBehaviour
     {
         if (GI.fp_controller.Running)
         {
-            m_time_elapsed_from_stamina_restoration = 0f; // Resets the counter
-            m_can_restore_stamina = false;
+            time_elapsed_from_stamina_restoration = 0f; // Resets the counter
+            can_restore_stamina = false;
 
-            _currentStamina -= stamina_consumed_per_frame;
-            _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
-            staminaBar.value = _currentStamina;
+            current_stamina -= stamina_consumed_per_frame;
+            current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
+            staminaBar.value = current_stamina;
 
-            if (_currentStamina < Mathf.Epsilon) _canRun = false;
+            if (current_stamina < Mathf.Epsilon) can_run = false;
         }
-        else if (!m_can_restore_stamina)
+        else if (!can_restore_stamina)
         {
-            m_time_elapsed_from_stamina_restoration += Time.fixedDeltaTime;
+            time_elapsed_from_stamina_restoration += Time.fixedDeltaTime;
 
-            if (m_time_elapsed_from_stamina_restoration >= time_to_start_stamina_restoration) m_can_restore_stamina = true;
+            if (time_elapsed_from_stamina_restoration >= time_to_start_stamina_restoration) can_restore_stamina = true;
         }
         
         
-        if (m_can_restore_stamina)
+        if (can_restore_stamina)
         {
-            _currentStamina += stamina_filled_per_frame * GI.thirst.RecoverMultiplier;
-            _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
-            staminaBar.value = _currentStamina;
+            current_stamina += stamina_filled_per_frame * GI.thirst.RecoverMultiplier;
+            current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
+            staminaBar.value = current_stamina;
 
-            if (!_canRun && _currentStamina >= _currentMaxStamina * minStaminaToRun) _canRun = true;
+            if (!can_run && current_stamina >= current_max_stamina * min_stamina_to_run) can_run = true;
         }
     }
 
     public void ClampMaxHealth(float value)
     {
         value = Mathf.Clamp(value, 0f, maxHealth);
-        _currentMaxHealth = value;
+        current_max_health = value;
 
-        if (_currentHealth > value)
+        if (current_health > value)
         {
-            _currentHealth = value;
+            current_health = value;
             healthBar.value = value;
         }
     }
@@ -96,80 +95,29 @@ public class Player : MonoBehaviour
     public void ClampMaxStamina(float value)
     {
         value = Mathf.Clamp(value, 0f, maxStamina);
-        _currentMaxStamina = value;
+        current_max_stamina = value;
 
-        if (_currentStamina > value)
+        if (current_stamina > value)
         {
-            _currentStamina = value;
+            current_stamina = value;
             staminaBar.value = value;
-            _canRun = true;
+            can_run = true;
         }
     }
 
     public void ModifyHealthAmount(float value)
     {
-        if (!_isAlive || _currentHealth >= _currentMaxHealth) return;
+        if (!is_alive || current_health >= current_max_health) return;
 
-        _currentHealth += value;
-        _currentHealth = Mathf.Clamp(_currentHealth, 0f, _currentMaxHealth);
-        healthBar.value = _currentHealth;
+        current_health += value;
+        current_health = Mathf.Clamp(current_health, 0f, current_max_health);
+        healthBar.value = current_health;
 
-        if (_currentHealth < Mathf.Epsilon)
+        if (current_health < Mathf.Epsilon)
         {
             // Game Over;
-            _isAlive = false;
+            is_alive = false;
             Time.timeScale = 0f;
         }
     }
-
-    public void DecreaseStamina(float value)
-    {
-        if (!_canRun) return;
-
-        _currentStamina -= value;
-        _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
-        staminaBar.value = _currentStamina;
-
-        //if (_refillStamina != null) StopCoroutine(_refillStamina);
-        
-        if (_currentStamina < Mathf.Epsilon) _canRun = false;
-    }
-
-    public void IncreaseStamina(float value)
-    {
-        if (_currentStamina >= _currentMaxStamina) return;
-
-        value = Mathf.Abs(value);
-        _currentStamina += value;
-        _currentStamina = Mathf.Clamp(_currentStamina, 0, _currentMaxStamina);
-        staminaBar.value = _currentStamina;
-
-        if (!_canRun && _currentStamina >= _currentMaxStamina * minStaminaToRun) _canRun = true;
-    }
-
-    //public void InitializeStaminaRefill()
-    //{
-    //    if (_refillStamina != null) StopCoroutine(_refillStamina);
-
-    //    _refillStamina = StartCoroutine(RefillStamina());
-    //}
-
-    //IEnumerator RefillStamina()
-    //{
-    //    // Cooldown until refill the stamina.
-    //    float timeElapsed = 0f;
-    //    while (timeElapsed < timeToRefillStamina)
-    //    {
-    //        timeElapsed += Time.deltaTime;
-    //        yield return Util.Instance.waitForEndOfFrame;
-    //    }
-
-    //    // Refill stamina over the time.
-    //    while (_currentStamina < maxStamina)
-    //    {
-    //        Debug.Log(staminaFilledPerFrame * GI.thirst.RecoverMultiplier);
-    //        IncreaseStamina(staminaFilledPerFrame * GI.thirst.RecoverMultiplier);
-    //        yield return Util.Instance.waitForEndOfFrame;
-    //    }
-    //}
 }

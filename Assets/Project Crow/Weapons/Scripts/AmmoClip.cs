@@ -4,14 +4,14 @@ using System.Collections;
 public class AmmoClip : MonoBehaviour
 {
 
-    int _currentAmmo;
+    int current_amount;
     bool _isReloading, _hasAmmo, _hasStarted;
 
     [SerializeField] float reloadTime = 1f;
 
     [Header("Ammo Settings")]
     public AmmoType ammo_type;
-    [SerializeField] int maxAmount = 30;
+    [SerializeField] int max_amount = 30;
     [SerializeField] int initialAmount = 30;
 
     public bool HasAmmo { get => _hasAmmo; }
@@ -21,7 +21,7 @@ public class AmmoClip : MonoBehaviour
     {
         if (_hasStarted)
         {
-            GI.ammo_display.display_ammo_in_clip(_currentAmmo);
+            GI.ammo_display.display_ammo_in_clip(current_amount);
             GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.GetCurrentAmmo(ammo_type));
         }
     }
@@ -38,22 +38,22 @@ public class AmmoClip : MonoBehaviour
     void Start()
     {
         _hasStarted = true;
-        _currentAmmo = Mathf.Clamp(initialAmount, 0, maxAmount); // Clamps the initial ammo amount.
-        _hasAmmo = _currentAmmo > 0 ? true : false;
+        current_amount = Mathf.Clamp(initialAmount, 0, max_amount); // Clamps the initial ammo amount.
+        _hasAmmo = current_amount > 0 ? true : false;
 
-        GI.ammo_display.display_ammo_in_clip(_currentAmmo);
+        GI.ammo_display.display_ammo_in_clip(current_amount);
         GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.GetCurrentAmmo(ammo_type));
     }
 
     public void ReduceAmmo()
     {
-        _currentAmmo--;
-        if (_currentAmmo < 1)
+        current_amount--;
+        if (current_amount < 1)
         {
-            _currentAmmo = 0;
+            current_amount = 0;
             _hasAmmo = false;
         }
-        GI.ammo_display.display_ammo_in_clip(_currentAmmo);
+        GI.ammo_display.display_ammo_in_clip(current_amount);
     }
 
     public void Reload()
@@ -73,20 +73,20 @@ public class AmmoClip : MonoBehaviour
 
     void ReloadClip()
     {
-        int spentAmmo = maxAmount - _currentAmmo;
-        int ammoInHolster = GI.ammo_holster.GetCurrentAmmo(ammo_type);
+        int spent_ammo = max_amount - current_amount;
+        int ammo_in_holster = GI.ammo_holster.GetCurrentAmmo(ammo_type);
 
-        if (ammoInHolster >= spentAmmo)
+        if (ammo_in_holster >= spent_ammo)
         {
-            _currentAmmo = maxAmount;
-            GI.ammo_holster.ReduceAmmo(ammo_type, spentAmmo);
+            current_amount = max_amount;
+            GI.ammo_holster.increase_or_reduce(ammo_type, -spent_ammo);
         }
         else
         {
-            _currentAmmo += ammoInHolster;
-            GI.ammo_holster.ReduceAmmo(ammo_type, ammoInHolster);
+            current_amount += ammo_in_holster;
+            GI.ammo_holster.increase_or_reduce(ammo_type, -ammo_in_holster);
         }
 
-        GI.ammo_display.display_ammo_in_clip(_currentAmmo);
+        GI.ammo_display.display_ammo_in_clip(current_amount);
     }
 }

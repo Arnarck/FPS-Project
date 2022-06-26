@@ -19,7 +19,7 @@ public class ItemPickup : MonoBehaviour
     GameObject item_found;
 
     [SerializeField] float rayLength;
-    [SerializeField] GameObject pickup_display;
+    [SerializeField] RectTransform pickup_interface;
     [SerializeField] Image pickup_image;
     [SerializeField] TextMeshProUGUI pickup_text;
 
@@ -37,18 +37,18 @@ public class ItemPickup : MonoBehaviour
 
                 // Sets the pickup ui position on the screen.
                 Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
-                pickup_display.GetComponent<RectTransform>().position = item_screen_position;
+                pickup_interface.position = item_screen_position;
 
                 // Sets the pickup ui values.
                 pickup_image = item.itemImage;
                 pickup_text.text = item.itemName;
 
-                pickup_display.SetActive(true);
+                pickup_interface.gameObject.SetActive(true);
                 item_found = hit.collider.gameObject;
             }
             else
             {
-                pickup_display.SetActive(false);
+                pickup_interface.gameObject.SetActive(false);
                 item_found = null;
             }
         }
@@ -57,7 +57,7 @@ public class ItemPickup : MonoBehaviour
     void Update()
     {
         {// Process Pickup Input
-            if (Input.GetKeyDown(KeyCode.E) && pickup_display.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.E) && pickup_interface.gameObject.activeInHierarchy)
             {
                 switch (item_found.tag)
                 {
@@ -73,7 +73,7 @@ public class ItemPickup : MonoBehaviour
                     case "CollectableAmmo":
                         {
                             Ammo ammo = item_found.GetComponent<Ammo>();
-                            bool has_added_ammo = GI.ammo_holster.IncreaseAmmo(ammo.type, ammo.amount);
+                            bool has_added_ammo = GI.ammo_holster.increase_or_reduce(ammo.type, ammo.amount);
                             if (has_added_ammo) Destroy(item_found);
                             // ELSE give the player an feedbacck error
                         }
