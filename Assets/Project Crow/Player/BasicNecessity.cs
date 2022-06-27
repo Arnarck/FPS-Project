@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-enum NecessityType
-{
-    Hunger,
-    Thirst
-}
+//enum NecessityType
+//{
+//    Hunger,
+//    Thirst
+//}
 
 public class BasicNecessity : MonoBehaviour
 {
@@ -61,13 +61,13 @@ public class BasicNecessity : MonoBehaviour
         // Limits the max health / stamina if _currentValue is 0. If not, sets the base value.
         if (_currentValue < Mathf.Epsilon)
         {
-            if (type.Equals(NecessityType.Hunger)) GI.player.ClampMaxHealth(GI.player.MaxHealth * statusLimiter);
-            else GI.player.ClampMaxStamina(GI.player.MaxStamina * statusLimiter);
+            if (type.Equals(NecessityType.Hunger)) GI.player.clamp_max_health(GI.player.MaxHealth * statusLimiter);
+            else GI.player.clamp_max_stamina(GI.player.MaxStamina * statusLimiter);
         }
         else
         {
-            if (type.Equals(NecessityType.Hunger)) GI.player.ClampMaxHealth(GI.player.MaxHealth);
-            else GI.player.ClampMaxStamina(GI.player.MaxStamina);
+            if (type.Equals(NecessityType.Hunger)) GI.player.clamp_max_health(GI.player.MaxHealth);
+            else GI.player.clamp_max_stamina(GI.player.MaxStamina);
         }
     }
 

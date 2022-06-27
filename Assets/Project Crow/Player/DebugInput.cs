@@ -12,7 +12,7 @@ public class DebugInput : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            GI.player.ModifyHealthAmount(50f * GI.hunger.RecoverMultiplier);
+            GI.player.change_health_amount(50f * GI.hunger.RecoverMultiplier);
         }
     }
 }

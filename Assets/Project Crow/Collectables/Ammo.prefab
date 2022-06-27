@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 3211086679680450136}
   - component: {fileID: 3211086679680450143}
   m_Layer: 0
-  m_Name: Collectable Ammo
+  m_Name: Ammo
   m_TagString: CollectableAmmo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
