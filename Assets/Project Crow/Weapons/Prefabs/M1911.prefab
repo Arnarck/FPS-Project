@@ -90,8 +90,6 @@ GameObject:
   - component: {fileID: 2296573992731204287}
   - component: {fileID: 4152440408349030950}
   - component: {fileID: 8560809461046519961}
-  - component: {fileID: 5204236079229551360}
-  - component: {fileID: 837960612725446321}
   m_Layer: 0
   m_Name: M1911
   m_TagString: Untagged
@@ -224,41 +222,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2f13b0f5dea4644adc321b04e11e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodSplash: {fileID: 0}
-  muzzleFlash: {fileID: 7075960315893431313}
-  muzzleSmoke: {fileID: 3598347395320698161}
+  blood_splash_vfx: {fileID: 0}
+  muzzle_flash_vfx: {fileID: 7075960315893431313}
+  muzzle_smoke_vfx: {fileID: 3598347395320698161}
   damage: 12
   range: 100
-  timeToShoot: 0.1
-  isAuto: 0
---- !u!114 &5204236079229551360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5975479645288810254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4582fda5b88e1240894e5773137c652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 1
-  ammoType: 0
-  maxAmount: 15
-  initialAmount: 15
---- !u!114 &837960612725446321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5975479645288810254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ee5bf360eb9d0b408f474295fad17ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  time_to_shoot: 0.1
+  is_automatic: 0
+  ammo_type: 0
+  max_ammo_amount: 15
+  reload_time: 1
+  initial_ammo_amount: 30
 --- !u!1 &6105292476713039294
 GameObject:
   m_ObjectHideFlags: 0

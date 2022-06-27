@@ -250,8 +250,6 @@ GameObject:
   - component: {fileID: 2296573992731204287}
   - component: {fileID: 4152440408349030950}
   - component: {fileID: 8567599322457960087}
-  - component: {fileID: 2991087202987124519}
-  - component: {fileID: 8481189479564176274}
   m_Layer: 0
   m_Name: Bennelli_M4
   m_TagString: Untagged
@@ -384,41 +382,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2f13b0f5dea4644adc321b04e11e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodSplash: {fileID: 0}
-  muzzleFlash: {fileID: 7075960315893431313}
-  muzzleSmoke: {fileID: 3598347395320698161}
+  blood_splash_vfx: {fileID: 0}
+  muzzle_flash_vfx: {fileID: 7075960315893431313}
+  muzzle_smoke_vfx: {fileID: 3598347395320698161}
   damage: 200
-  range: 100
-  timeToShoot: 1
-  isAuto: 0
---- !u!114 &2991087202987124519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5975479645288810254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4582fda5b88e1240894e5773137c652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 1
-  ammoType: 1
-  maxAmount: 8
-  initialAmount: 6
---- !u!114 &8481189479564176274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5975479645288810254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ee5bf360eb9d0b408f474295fad17ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  range: 10
+  time_to_shoot: 1.2
+  is_automatic: 0
+  ammo_type: 1
+  max_ammo_amount: 8
+  reload_time: 6
+  initial_ammo_amount: 6
 --- !u!1 &6105292476713039294
 GameObject:
   m_ObjectHideFlags: 0

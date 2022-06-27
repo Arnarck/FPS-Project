@@ -8000,7 +8000,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -11274,14 +11274,29 @@ PrefabInstance:
       propertyPath: bloodSplash
       value: 
       objectReference: {fileID: 364544295}
+    - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: blood_splash_vfx
+      value: 
+      objectReference: {fileID: 364544295}
     - target: {fileID: 1614510007265423386, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: bloodSplash
+      value: 
+      objectReference: {fileID: 364544295}
+    - target: {fileID: 1614510007265423386, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: blood_splash_vfx
+      value: 
+      objectReference: {fileID: 364544295}
+    - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: bloodSplash
       value: 
       objectReference: {fileID: 364544295}
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: bloodSplash
+      propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
     - target: {fileID: 2934367118724232105, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
@@ -11292,6 +11307,11 @@ PrefabInstance:
     - target: {fileID: 3297466980413822248, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: bloodSplash
+      value: 
+      objectReference: {fileID: 364544295}
+    - target: {fileID: 3297466980413822248, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
     - target: {fileID: 5261233002186684842, guid: 6564b44ac1ffbb54fa15b0af51cb438c,

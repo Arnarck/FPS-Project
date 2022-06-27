@@ -11,6 +11,7 @@ public class AmmoHolster : MonoBehaviour
 {
     [SerializeField] AmmoSlot[] slots;
 
+    // CHANGE THIS SHIT. OPTIMIZE THIS.
     // Shows the content of the class, in the inspector
     [System.Serializable]
     private class AmmoSlot
@@ -37,6 +38,8 @@ public class AmmoHolster : MonoBehaviour
         }
     }
 
+    // OPTIMIZE THIS
+    // Maybe AmmoSlot class should be public so other scripts can access the current ammo
     public int GetCurrentAmmo(AmmoType type)
     {
         AmmoSlot slot = FindAmmoSlot(type);
@@ -49,8 +52,10 @@ public class AmmoHolster : MonoBehaviour
         return 0;
     }
 
+    // OPTIMIZE THIS
     public bool increase_or_reduce(AmmoType type, int amount)
     {
+        //AmmoSlot slot = slots[(int)type];
         AmmoSlot slot = FindAmmoSlot(type);
 
         if (slot == default) return false;
@@ -59,26 +64,12 @@ public class AmmoHolster : MonoBehaviour
         
         slot.ammo = Mathf.Clamp(slot.ammo + amount, 0, slot.max_ammo);
 
-        if (GI.gun_switcher.get_current_ammo_type() == type) GI.ammo_display.display_ammo_in_holster(slot.ammo);
-        //if (amount < 0) GI.ammo_display.display_ammo_in_holster(slot.ammo);
+        if (GI.gun_switcher.get_current_gun().ammo_type == type) GI.ammo_display.display_ammo_in_holster(slot.ammo);
 
         return true;
     }
 
-    public bool IsAmmoInHolsterEmpty(AmmoType type)
-    {
-        AmmoSlot slot = FindAmmoSlot(type);
-
-        if (slot == default) { return true; }
-
-        if (slot.ammo < 1)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
+    // DELETE THIS.
     AmmoSlot FindAmmoSlot(AmmoType type)
     {
         foreach (AmmoSlot slot in slots)
