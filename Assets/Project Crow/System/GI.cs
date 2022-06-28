@@ -6,8 +6,7 @@ public static class GI
 {
     public static Player player;
     public static Camera fp_camera;
-    public static BasicNecessity hunger;
-    public static BasicNecessity thirst;
+    public static BasicNecessity thirst, hunger;
     public static AmmoHolster ammo_holster;
     public static AmmoDisplay ammo_display;
     public static GunSwitcher gun_switcher;

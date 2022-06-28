@@ -11274,10 +11274,38 @@ PrefabInstance:
       propertyPath: bar
       value: 
       objectReference: {fileID: 1282495372}
+    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: necessity_bar
+      value: 
+      objectReference: {fileID: 1282495372}
+    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: time_to_decay
+      value: 6.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: max_health_or_stamina_when_bar_is_empty
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: restoration_effectiveness_when_bar_is_empty
+      value: 0.464
+      objectReference: {fileID: 0}
     - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: bar
       value: 
       objectReference: {fileID: 489260660}
+    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: necessity_bar
+      value: 
+      objectReference: {fileID: 489260660}
+    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: time_to_decay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: max_health_or_stamina_when_bar_is_empty
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: collectUI
       value: 

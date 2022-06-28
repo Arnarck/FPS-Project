@@ -7,12 +7,12 @@ public class DebugInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            GI.thirst.IncreaseValue(50f);
-            GI.hunger.IncreaseValue(50f);
+            GI.thirst.increase_value(50f);
+            GI.hunger.increase_value(50f);
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            GI.player.change_health_amount(50f * GI.hunger.RecoverMultiplier);
+            GI.player.change_health_amount(GC.HEALTH_RESTORED_BY_MEDKIT_ITEMS * GI.hunger.restoration_effectiveness);
         }
     }
 }
