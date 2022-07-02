@@ -113,7 +113,8 @@ public class Player : MonoBehaviour
 
     public void change_health_amount(float value)
     {
-        if (!is_alive || current_health >= current_max_health) return;
+        if (!is_alive) return;
+        if (value >= Mathf.Epsilon && current_health >= current_max_health) return;
 
         current_health += value;
         current_health = Mathf.Clamp(current_health, 0f, current_max_health);

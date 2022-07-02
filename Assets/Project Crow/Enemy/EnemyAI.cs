@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
@@ -10,14 +8,17 @@ public class EnemyAI : MonoBehaviour
 
     Transform target;
     NavMeshAgent nav_mesh_agent;
+    Animator animator;
 
     [SerializeField] float detection_range = 4f;
     [SerializeField] float look_speed = 10f;
     [SerializeField] float starting_health = 100f;
     [SerializeField] float max_health = 100f;
+    [SerializeField] float damage = 25f;
 
     void Awake()
     {
+        animator = GetComponent<Animator>();
         nav_mesh_agent = GetComponent<NavMeshAgent>();
         current_health = starting_health;
     }
@@ -29,23 +30,22 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        Vector3 relative_position = target.position - transform.position;
         float distance_from_target = Util.distance(transform.position, target.position);
 
-        if (is_provoked && distance_from_target <= nav_mesh_agent.stoppingDistance) // Process enemy attack
+        if (is_provoked && distance_from_target <= nav_mesh_agent.stoppingDistance) // Makes the enemy attack
         {
-            Vector3 relative_position = target.position - transform.position;
             Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
             Quaternion look_rotation = Quaternion.LookRotation(look_position);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
 
-            // TODO Make the enemy attack
+            animator.SetTrigger("Attack");
 
             Debug.Log("Attack!");
         }
-        else if (is_provoked) // Process enemy chasing
+        else if (is_provoked) // Makes the enemy chase the player
         {
-            Vector3 relative_position = target.position - transform.position;
             Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
             Quaternion look_rotation = Quaternion.LookRotation(look_position);
 
@@ -54,9 +54,18 @@ public class EnemyAI : MonoBehaviour
         }
         else if (distance_from_target <= detection_range) // Checks if the target is close enough
         {
-            // TODO Process Raycast
-            is_provoked = true;
+            // Checks if there is an wall between player and enemy
+            RaycastHit hit;
+            bool has_hit_colliders = Physics.Raycast(transform.position, relative_position.normalized, out hit, distance_from_target);
+            Debug.DrawRay(transform.position, relative_position, Color.green);
+
+            if (has_hit_colliders && hit.collider.CompareTag("Player")) is_provoked = true;
         }
+    }
+
+    public void attack_player()
+    {
+        GI.player.change_health_amount(-damage);
     }
 
     // TODO Make the enemy chase the player when it takes damage
@@ -71,7 +80,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detection_range);
