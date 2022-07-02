@@ -40,9 +40,10 @@ public class EnemyAI : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
 
+            animator.SetBool("isWalking", false);
             animator.SetTrigger("Attack");
 
-            Debug.Log("Attack!");
+            //Physics.Over
         }
         else if (is_provoked) // Makes the enemy chase the player
         {
@@ -51,6 +52,7 @@ public class EnemyAI : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
             nav_mesh_agent.SetDestination(target.position);
+            animator.SetBool("isWalking", true);
         }
         else if (distance_from_target <= detection_range) // Checks if the target is close enough
         {
