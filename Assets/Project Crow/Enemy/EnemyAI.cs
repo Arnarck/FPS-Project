@@ -70,15 +70,23 @@ public class EnemyAI : MonoBehaviour
         GI.player.change_health_amount(-damage);
     }
 
-    // TODO Make the enemy chase the player when it takes damage
-    public void TakeDamage(float value)
+    public void take_damage(float value)
     {
         if (value < Mathf.Epsilon) value *= -1;
 
         current_health -= value;
         if (current_health < Mathf.Epsilon)
         {
-            // Die
+            Destroy(gameObject);
+        }
+        else
+        {
+            RaycastHit hit;
+            Vector3 relative_position = target.position - transform.position;
+            bool has_hit_colliders = Physics.Raycast(transform.position, relative_position.normalized.normalized, out hit, Mathf.Infinity);
+            Debug.DrawRay(transform.position, relative_position, Color.green);
+
+            if (has_hit_colliders && hit.collider.CompareTag("Player")) is_provoked = true;
         }
     }
 

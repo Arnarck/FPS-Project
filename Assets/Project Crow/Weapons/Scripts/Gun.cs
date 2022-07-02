@@ -104,8 +104,11 @@ public class Gun : MonoBehaviour
                     bool hasHitColliders;
                     hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range);
 
-                    if (hasHitColliders)
+                    // TODO change the VFX played based on what the player hits
+                    if (hasHitColliders && hit.collider.CompareTag("Enemy"))
                     {
+                        hit.collider.GetComponent<EnemyAI>().take_damage(damage);
+
                         // Plays hit VFX
                         // The rotation needed to make the object look at normalDirection.
                         Quaternion lookAtNormalDirection = Quaternion.LookRotation(hit.normal);

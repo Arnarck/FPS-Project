@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Consumable
   - CollectableAmmo
+  - Enemy
   layers:
   - Default
   - TransparentFX
