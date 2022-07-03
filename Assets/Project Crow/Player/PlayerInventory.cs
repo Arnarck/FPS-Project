@@ -4,7 +4,8 @@ using TMPro;
 public class PlayerInventory : MonoBehaviour
 {
     int[] items_stored = { 0, 0, 0, 0 };
-    int[] max_items_storable = { 10, 10, 10, 10 };
+    int[] max_items_storable = { 5, 5, 3, 5 };
+    int[] expanded_amount = { 5, 5, 3, 5 };
 
     [SerializeField] TextMeshProUGUI[] item_amount_text;
 
@@ -60,5 +61,13 @@ public class PlayerInventory : MonoBehaviour
         item_amount_text[item].text = items_stored[item].ToString();
 
         return true;
+    }
+
+    public void expanded_inventory_capacity()
+    {
+        for(int i = 0; i < max_items_storable.Length; i++)
+        {
+            max_items_storable[i] += expanded_amount[i];
+        }
     }
 }

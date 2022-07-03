@@ -43,6 +43,7 @@ public class EnemyAI : MonoBehaviour
 
             if (is_provoked && distance_from_target <= nav_mesh_agent.stoppingDistance) // Makes the enemy attack
             {
+                // Makes the enemy play Idle animation if it's not attacking
                 animator.SetBool("isWalking", false);
 
                 // Makes the enemy look at the player if it's not attacking
@@ -112,7 +113,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // Tries to find the player. Start chasing him if it found him
+            // Tries to find the player. Start chasing him if it finds him
             RaycastHit hit;
             Vector3 relative_position = target.position - transform.position;
             bool has_hit_colliders = Physics.Raycast(transform.position, relative_position.normalized.normalized, out hit, Mathf.Infinity);

@@ -44,7 +44,7 @@ public class Gun : MonoBehaviour
         if (has_started)
         {
             GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
-            GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.GetCurrentAmmo(ammo_type));
+            GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
         }
     }
 
@@ -55,7 +55,7 @@ public class Gun : MonoBehaviour
         has_ammo = current_ammo_amount > 0 ? true : false;
 
         GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
-        GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.GetCurrentAmmo(ammo_type));
+        GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
     }
 
     void OnDisable()
@@ -151,7 +151,7 @@ public class Gun : MonoBehaviour
 
         // Remove ammo from clip and refill it from holster
         int spent_ammo = max_ammo_amount - current_ammo_amount;
-        int ammo_in_holster = GI.ammo_holster.GetCurrentAmmo(ammo_type);
+        int ammo_in_holster = GI.ammo_holster.current_ammo[(int)ammo_type];
 
         if (ammo_in_holster >= spent_ammo)
         {

@@ -9,78 +9,35 @@ public enum AmmoType
 
 public class AmmoHolster : MonoBehaviour
 {
-    [SerializeField] AmmoSlot[] slots;
-
-    // CHANGE THIS SHIT. OPTIMIZE THIS.
-    // Shows the content of the class, in the inspector
-    [System.Serializable]
-    private class AmmoSlot
-    {
-        int currentAmount;
-        public int ammo { get => currentAmount; set => currentAmount = value; }
-
-        public AmmoType ammoType;
-        [Range(0, 9999)] public int max_ammo;
-        [Range(0, 9999)] public int initialAmount;
-    }
+    // 0- Pistol; 1- Shotgun; 2- Assalt Rifle; 3- Submachine Gun;
+    int[] expanded_ammo = { 15, 8, 30, 45 };
+    int[] max_ammo = { 15, 8, 30, 45 };
+    public int[] current_ammo = { 0, 0, 0, 0 };
 
     void Awake()
     {
         GI.ammo_holster = this;
     }
 
-    void Start()
-    {
-        foreach (AmmoSlot slot in slots)
-        {
-            slot.initialAmount = Mathf.Clamp(slot.initialAmount, 0, slot.max_ammo);
-            slot.ammo = slot.initialAmount;
-        }
-    }
-
-    // OPTIMIZE THIS
-    // Maybe AmmoSlot class should be public so other scripts can access the current ammo
-    public int GetCurrentAmmo(AmmoType type)
-    {
-        AmmoSlot slot = FindAmmoSlot(type);
-
-        if (slot != default)
-        {
-            return slot.ammo;
-        }
-
-        return 0;
-    }
-
-    // OPTIMIZE THIS
     public bool increase_or_reduce(AmmoType type, int amount)
     {
-        //AmmoSlot slot = slots[(int)type];
-        AmmoSlot slot = FindAmmoSlot(type);
+        int slot = (int)type;
 
-        if (slot == default) return false;
-        if (slot.ammo >= slot.max_ammo) return false;
-        if (slot.ammo < 0 && amount < 0) return false;
+        if (amount > 0 && current_ammo[slot] >= max_ammo[slot]) return false;
+        if (amount < 0 && current_ammo[slot] < 0) return false;
         
-        slot.ammo = Mathf.Clamp(slot.ammo + amount, 0, slot.max_ammo);
+        current_ammo[slot] = Mathf.Clamp(current_ammo[slot] + amount, 0, max_ammo[slot]);
 
-        if (GI.gun_switcher.get_current_gun().ammo_type == type) GI.ammo_display.display_ammo_in_holster(slot.ammo);
+        if (GI.gun_switcher.get_current_gun().ammo_type == type) GI.ammo_display.display_ammo_in_holster(current_ammo[slot]);
 
         return true;
     }
 
-    // DELETE THIS.
-    AmmoSlot FindAmmoSlot(AmmoType type)
+    public void expand_max_ammo()
     {
-        foreach (AmmoSlot slot in slots)
+        for (int i = 0; i < max_ammo.Length; i++)
         {
-            if (slot.ammoType.Equals(type))
-            {
-                return slot;
-            }
+            max_ammo[i] += expanded_ammo[i];
         }
-
-        Debug.LogError(type + " ammo not found!");
-        return default;
     }
 }
