@@ -8147,7 +8147,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attack_range: 1
-  time_to_attack: 10
+  time_to_attack: 1
 --- !u!95 &1073523196
 Animator:
   serializedVersion: 3

@@ -35,24 +35,33 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        { // Process Basic behaviour
+        bool is_attacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+
+        { // Process AI Behaviour
             Vector3 relative_position = target.position - transform.position;
             float distance_from_target = Util.distance(transform.position, target.position);
 
-            // TODO Make the enemy back to Idle state when he can't attack and is close the player
-            if (is_provoked && can_attack && distance_from_target <= nav_mesh_agent.stoppingDistance) // Makes the enemy attack
+            if (is_provoked && distance_from_target <= nav_mesh_agent.stoppingDistance) // Makes the enemy attack
             {
-                Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
-                Quaternion look_rotation = Quaternion.LookRotation(look_position);
-
-                transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
-                time_elapsed_since_last_attack = 0f;
-                can_attack = false;
-
                 animator.SetBool("isWalking", false);
-                animator.SetTrigger("Attack");
+
+                // Makes the enemy look at the player if it's not attacking
+                if (!is_attacking)
+                {
+                    Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
+                    Quaternion look_rotation = Quaternion.LookRotation(look_position);
+
+                    transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
+                }
+
+                if (can_attack)
+                {
+                    can_attack = false;
+                    animator.SetTrigger("Attack");
+                    time_elapsed_since_last_attack = 0f;
+                }
             }
-            else if (is_provoked && !animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")) // Makes the enemy chase the player
+            else if (is_provoked && !is_attacking) // Makes the enemy chase the player
             {
                 Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
                 Quaternion look_rotation = Quaternion.LookRotation(look_position);
@@ -73,8 +82,8 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        {
-            if (!can_attack)
+        { // Process Attack Cooldown
+            if (!can_attack && !is_attacking)
             {
                 time_elapsed_since_last_attack += Time.deltaTime;
                 if (time_elapsed_since_last_attack >= time_to_attack) can_attack = true;
