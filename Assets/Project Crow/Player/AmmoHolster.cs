@@ -38,6 +38,7 @@ public class AmmoHolster : MonoBehaviour
         for (int i = 0; i < max_ammo.Length; i++)
         {
             max_ammo[i] += expanded_ammo[i];
+            Debug.Log((AmmoType)i + " expanded to " + max_ammo[i]);
         }
     }
 }

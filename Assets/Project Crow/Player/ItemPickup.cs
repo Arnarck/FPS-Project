@@ -31,20 +31,35 @@ public class ItemPickup : MonoBehaviour
 
             has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
 
-            if (has_hit_colliders && (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo")))
+            if (has_hit_colliders)
             {
-                CollectableItem item = hit.collider.GetComponent<CollectableItem>();
+                if (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo") || hit.collider.CompareTag("InventoryExpansion") || hit.collider.CompareTag("AmmoHolsterExpansion"))
+                {
+                    CollectableItem item = hit.collider.GetComponent<CollectableItem>();
 
-                // Sets the pickup ui position on the screen.
-                Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
-                pickup_interface.position = item_screen_position;
+                    // Sets the pickup ui position on the screen.
+                    Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
+                    pickup_interface.position = item_screen_position;
 
-                // Sets the pickup ui values.
-                pickup_image = item.itemImage;
-                pickup_text.text = item.itemName;
+                    // Sets the pickup ui values.
+                    pickup_image = item.itemImage;
+                    pickup_text.text = item.itemName;
 
-                pickup_interface.gameObject.SetActive(true);
-                item_found = hit.collider.gameObject;
+                    pickup_interface.gameObject.SetActive(true);
+                    item_found = hit.collider.gameObject;
+                }
+                //else if (hit.collider.CompareTag("InventoryExpansion") || hit.collider.CompareTag("AmmoHolsterExpansion"))
+                //{
+                //    GameObject item = hit.collider.gameObject;
+
+                //    // Sets the pickup ui position on the screen.
+                //    Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
+                //    pickup_interface.position = item_screen_position;
+
+                //    // Sets the pickup ui values.
+                //    pickup_interface.gameObject.SetActive(true);
+                //    item_found = hit.collider.gameObject;
+                //}
             }
             else
             {
@@ -56,7 +71,7 @@ public class ItemPickup : MonoBehaviour
 
     void Update()
     {
-        {// Process Pickup Input
+        { // Process Pickup Input
             if (Input.GetKeyDown(KeyCode.E) && pickup_interface.gameObject.activeInHierarchy)
             {
                 switch (item_found.tag)
@@ -76,6 +91,20 @@ public class ItemPickup : MonoBehaviour
                             bool has_added_ammo = GI.ammo_holster.increase_or_reduce(ammo.type, ammo.amount);
                             if (has_added_ammo) Destroy(item_found);
                             // ELSE give the player an feedbacck error
+                        }
+                        break;
+
+                    case "AmmoHolsterExpansion":
+                        {
+                            GI.ammo_holster.expand_max_ammo();
+                            Destroy(item_found);
+                        }
+                        break;
+
+                    case "InventoryExpansion":
+                        {
+                            GI.player_inventory.expand_inventory_capacity();
+                            Destroy(item_found);
                         }
                         break;
 

@@ -125,7 +125,7 @@ public class Gun : MonoBehaviour
         { // Process Reload Input
             if (Input.GetKeyDown(KeyCode.R))
             {
-                if (!is_reloading && current_ammo_amount < max_ammo_amount) // Checks if is able to reload
+                if (!is_reloading && current_ammo_amount < max_ammo_amount && GI.ammo_holster.current_ammo[(int)ammo_type] > 0) // Checks if is able to reload
                 {
                     // Starts the cooldown to reload
                     reload_routine = StartCoroutine(cooldown_to_reload());

@@ -53,8 +53,8 @@ public class PlayerInventory : MonoBehaviour
     {
         int item = (int)consumable;
 
-        if (items_stored[item] >= max_items_storable[item]) return false; // Clamps max amount
-        if (items_stored[item] < 1 && amount < 0) return false; // Clamps min amount
+        if (amount > 0 && items_stored[item] >= max_items_storable[item]) return false; // Clamps max amount
+        if (amount < 0 && items_stored[item] < 1) return false; // Clamps min amount
 
         items_stored[item] += amount;
         items_stored[item] = Mathf.Clamp(items_stored[item], 0, max_items_storable[item]);
@@ -63,11 +63,12 @@ public class PlayerInventory : MonoBehaviour
         return true;
     }
 
-    public void expanded_inventory_capacity()
+    public void expand_inventory_capacity()
     {
         for(int i = 0; i < max_items_storable.Length; i++)
         {
             max_items_storable[i] += expanded_amount[i];
+            Debug.Log((ConsumableType)i + " expanded to " + max_items_storable[i]);
         }
     }
 }
