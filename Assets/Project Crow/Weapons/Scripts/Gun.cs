@@ -20,6 +20,7 @@ public class Gun : MonoBehaviour
     public bool is_collected;
     [Tooltip("The damage the gun will do to the enemy for each shot it hits.")]
     [SerializeField] int damage = 30;
+    [SerializeField] float headshot_multiplier = 1.5f;
     [Tooltip("The range of the gun shot.")]
     [SerializeField] float range = 100f;
     [Tooltip("The cooldown time to shoot again, after a shot.")]
@@ -103,11 +104,11 @@ public class Gun : MonoBehaviour
                     // Process Raycast. Checks if the gun hits anything
                     RaycastHit hit;
                     bool hasHitColliders;
-                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range);
+                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range); 
 
                     // TODO change the VFX played based on what the player hits
                     // Hits the enemy
-                    if (hasHitColliders && hit.collider.CompareTag("Enemy"))
+                    if (hasHitColliders && hit.collider.gameObject.layer == 10)
                     {
                         // Process Damage Drop over distance
                         float distance_from_enemy = Util.distance(GI.fp_camera.transform.position, hit.collider.transform.position);
@@ -150,7 +151,15 @@ public class Gun : MonoBehaviour
                                 break;
                         }
                         Debug.Log("Distance from enemy: " + distance_from_enemy + "  Damage: " + damage);
-                        hit.collider.GetComponent<EnemyAI>().take_damage(damage);
+                        
+                        // OPTIMIZE THIS.
+                        // When add Enemy Attack Manager, keep in it references from all enemies in scene.
+                        if (hit.collider.CompareTag("Headshot"))
+                        {
+                            hit.collider.transform.parent.GetComponent<EnemyAI>().take_damage(damage * headshot_multiplier);
+                            Debug.Log("DAMAGE: " + damage + " | HEADSHOT MULTIPLIER: " + headshot_multiplier);
+                        }
+                        else hit.collider.GetComponent<EnemyAI>().take_damage(damage);
 
                         // Plays hit VFX
                         // The rotation needed to make the object look at normalDirection.

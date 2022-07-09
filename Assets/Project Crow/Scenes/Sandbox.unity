@@ -5612,6 +5612,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7889942bb81a754bacf08074488aa06, type: 3}
+--- !u!1 &428043163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 428043164}
+  - component: {fileID: 428043165}
+  m_Layer: 10
+  m_Name: Headshot Area
+  m_TagString: Headshot
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &428043164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428043163}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1073523194}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &428043165
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428043163}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.55
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &430378997
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8035,7 +8080,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1030251435}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Attack Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8149,7 +8194,7 @@ GameObject:
   - component: {fileID: 1073523192}
   - component: {fileID: 1073523196}
   - component: {fileID: 1073523195}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -8206,6 +8251,7 @@ Transform:
   - {fileID: 2093233269}
   - {fileID: 1905683857}
   - {fileID: 1601900997}
+  - {fileID: 428043164}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9518,7 +9564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1514357936}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Detection Range Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10034,7 +10080,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1601900997}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Coordinates
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10640,7 +10686,7 @@ GameObject:
   - component: {fileID: 1905683860}
   - component: {fileID: 1905683859}
   - component: {fileID: 1905683858}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11281,7 +11327,7 @@ GameObject:
   - component: {fileID: 2093233269}
   - component: {fileID: 2093233272}
   - component: {fileID: 2093233271}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11794,6 +11840,11 @@ PrefabInstance:
       propertyPath: stamina_restored_per_frame
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: switch_sound
+      value: 
+      objectReference: {fileID: 8300000, guid: ca541888c2f925443a7804af7e546b86, type: 3}
     - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_Name

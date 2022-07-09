@@ -105,6 +105,7 @@ public class EnemyAI : MonoBehaviour
     public void take_damage(float value)
     {
         if (value < Mathf.Epsilon) value *= -1;
+        Debug.Log("Damage received: " + value);
 
         current_health -= value;
         if (current_health < Mathf.Epsilon)

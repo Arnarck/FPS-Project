@@ -9,8 +9,8 @@ TagManager:
   - Enemy
   - InventoryExpansion
   - AmmoHolsterExpansion
-  - Fire
   - CollectableGun
+  - Headshot
   layers:
   - Default
   - TransparentFX
@@ -22,7 +22,7 @@ TagManager:
   - 
   - Player
   - Collectable
-  - 
+  - Enemy
   - 
   - 
   - 
