@@ -11625,6 +11625,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f31de8a404a39d4a9d916071f0f6912, type: 3}
+--- !u!1001 &5664755588564507001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5664755588390980467, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_Name
+      value: Collectable Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.221
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.162
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9238798
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.38268274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664755588390980468, guid: f7834b681d5667b48b80771a3dc4948b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 45.000004
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7834b681d5667b48b80771a3dc4948b, type: 3}
 --- !u!1001 &6954083926403634706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11632,46 +11701,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: bar
+    - target: {fileID: 93211382, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 1282495372}
+      objectReference: {fileID: 8300000, guid: ca541888c2f925443a7804af7e546b86, type: 3}
     - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: necessity_bar
       value: 
       objectReference: {fileID: 1282495372}
-    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: time_to_decay
-      value: 6.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: max_health_or_stamina_when_bar_is_empty
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 736016149, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: restoration_effectiveness_when_bar_is_empty
-      value: 0.464
-      objectReference: {fileID: 0}
-    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: bar
-      value: 
-      objectReference: {fileID: 489260660}
     - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: necessity_bar
       value: 
       objectReference: {fileID: 489260660}
-    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: time_to_decay
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 736016150, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: max_health_or_stamina_when_bar_is_empty
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: collectUI
-      value: 
-      objectReference: {fileID: 632383368}
+      propertyPath: mask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: pickup_text
       value: 
@@ -11681,20 +11726,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1402758625}
     - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: pickup_display
-      value: 
-      objectReference: {fileID: 22685799}
-    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: pickup_interface
       value: 
       objectReference: {fileID: 22685800}
-    - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: item_amount_text.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: item_amount_display.Array.size
-      value: 4
+    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
+      propertyPath: collectable_layer_mask.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
       propertyPath: item_amount_text.Array.data[0]
@@ -11712,35 +11749,9 @@ PrefabInstance:
       propertyPath: item_amount_text.Array.data[3]
       value: 
       objectReference: {fileID: 1025805360}
-    - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: item_amount_display.Array.data[0]
-      value: 
-      objectReference: {fileID: 1572627991}
-    - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: item_amount_display.Array.data[1]
-      value: 
-      objectReference: {fileID: 430378999}
-    - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: item_amount_display.Array.data[2]
-      value: 
-      objectReference: {fileID: 1658149205}
-    - target: {fileID: 736016152, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: item_amount_display.Array.data[3]
-      value: 
-      objectReference: {fileID: 1025805360}
-    - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: bloodSplash
-      value: 
-      objectReference: {fileID: 364544295}
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: blood_splash_vfx
-      value: 
-      objectReference: {fileID: 364544295}
-    - target: {fileID: 1614510007265423386, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: bloodSplash
       value: 
       objectReference: {fileID: 364544295}
     - target: {fileID: 1614510007265423386, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
@@ -11750,39 +11761,19 @@ PrefabInstance:
       objectReference: {fileID: 364544295}
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: bloodSplash
-      value: 
-      objectReference: {fileID: 364544295}
+      propertyPath: is_collected
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
-    - target: {fileID: 2934367118724232105, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: max_amount
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3297466980413822248, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: bloodSplash
-      value: 
-      objectReference: {fileID: 364544295}
     - target: {fileID: 3297466980413822248, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
-    - target: {fileID: 5261233002186684842, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: max_amount
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541959087923356490, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: max_amount
-      value: 45
-      objectReference: {fileID: 0}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: healthBar
@@ -11795,63 +11786,18 @@ PrefabInstance:
       objectReference: {fileID: 1503658714}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: startHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: minStaminaToRun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: min_stamina_to_run
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: stamina_filled_per_frame
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
       propertyPath: stamina_consumed_per_frame
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
-      propertyPath: time_to_start_stamina_restoration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: slots.Array.data[0].max_ammo
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: slots.Array.data[1].max_ammo
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: slots.Array.data[2].max_ammo
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926403634709, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: slots.Array.data[3].max_ammo
-      value: 135
+      propertyPath: stamina_restored_per_frame
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926971556981, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}

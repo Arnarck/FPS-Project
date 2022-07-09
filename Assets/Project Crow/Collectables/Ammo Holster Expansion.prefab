@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 4815060122870976033}
   - component: {fileID: 4815060122870976032}
   - component: {fileID: 7945077592517074787}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ammo Holster Expansion
   m_TagString: AmmoHolsterExpansion
   m_Icon: {fileID: 0}
@@ -138,6 +138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amount: 1
-  itemName: Ammo Holster
+  itemName: Ammo Holster Expansion
   itemImage: {fileID: 0}
   type: 0

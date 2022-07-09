@@ -17,6 +17,7 @@ public class Gun : MonoBehaviour
     [SerializeField] ParticleSystem muzzle_smoke_vfx = default;
 
     [Header("Basic Atributes")]
+    public bool is_collected;
     [Tooltip("The damage the gun will do to the enemy for each shot it hits.")]
     [SerializeField] int damage = 30;
     [Tooltip("The range of the gun shot.")]

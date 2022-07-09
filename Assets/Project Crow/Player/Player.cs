@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] [Range(0f, 100f)] float maxStamina = 100f;
     [Tooltip("The stamina amount the player must recover to run again, if he runs out of stamina.")]
     [SerializeField] [Range(0f, 1f)] float min_stamina_to_run = 10f;
-    [SerializeField] float stamina_filled_per_frame = .5f;
+    [SerializeField] float stamina_restored_per_frame = .5f;
     [SerializeField] float stamina_consumed_per_frame = .5f;
     [SerializeField] float time_to_start_stamina_restoration = 1f;
 
@@ -78,7 +78,10 @@ public class Player : MonoBehaviour
 
         if (can_restore_stamina) // Restore Stamina
         {
-            current_stamina += stamina_filled_per_frame * GI.thirst.restoration_effectiveness;
+            float stamina_restored_this_frame = stamina_restored_per_frame * GI.thirst.restoration_effectiveness;
+            if (!GI.thirst.has_value) stamina_restored_this_frame *= .5f; // Reduce stamina restored if is out of water
+
+            current_stamina += stamina_restored_this_frame;
             current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
             staminaBar.value = current_stamina;
 

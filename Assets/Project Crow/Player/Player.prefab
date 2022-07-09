@@ -61,9 +61,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9178001359964727830}
-  - {fileID: 9178001360605557199}
-  - {fileID: 9178001360915867299}
   - {fileID: 9178001359826404402}
+  - {fileID: 9178001360915867299}
+  - {fileID: 9178001360605557199}
   m_Father: {fileID: 6954083926971556983}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -2.7630002, y: 0, z: 0}
@@ -175,8 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef3f8733a13db4458a8fe5f9db827b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchSound: {fileID: 8300000, guid: ca541888c2f925443a7804af7e546b86, type: 3}
-  initialGun: 0
+  switc_sound: {fileID: 0}
 --- !u!1 &6954083926971463761
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +194,7 @@ GameObject:
   - component: {fileID: 736016150}
   - component: {fileID: 736016151}
   - component: {fileID: 736016152}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -265,7 +264,6 @@ MonoBehaviour:
     BackwardSpeed: 4
     StrafeSpeed: 4
     RunMultiplier: 1.75
-    staminaDecreaseRate: 0.4
     RunKey: 304
     JumpForce: 50
     SlopeCurveModifier:
@@ -329,19 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a93766cc7bbeb64a8de4985bcf1e72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slots:
-  - ammoType: 0
-    max_ammo: 0
-    initialAmount: 0
-  - ammoType: 1
-    max_ammo: 0
-    initialAmount: 0
-  - ammoType: 2
-    max_ammo: 0
-    initialAmount: 0
-  - ammoType: 3
-    max_ammo: 0
-    initialAmount: 0
+  current_ammo: 00000000000000000000000000000000
 --- !u!114 &6954083926403634708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,14 +341,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
-  startHealth: 25
+  startHealth: 100
   maxHealth: 100
   staminaBar: {fileID: 0}
   startStamina: 100
   maxStamina: 100
-  minStaminaToRun: 0.8
-  staminaFilledPerFrame: 0.1
-  timeToRefillStamina: 2
+  min_stamina_to_run: 1
+  stamina_filled_per_frame: 0.1
+  stamina_consumed_per_frame: 0.25
+  time_to_start_stamina_restoration: 2
 --- !u!114 &736016149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,13 +362,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1423358981503747be0d20420b792e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restoration_effectiveness: 0
   type: 1
-  bar: {fileID: 0}
-  timeToDecay: 1
-  startValue: 100
-  maxValue: 100
-  time_to_reduce: 5
-  statusLimiter: 0.5
+  necessity_bar: {fileID: 0}
+  time_to_decay: 6.07
+  start_value: 100
+  max_value: 100
+  value_reduced_for_each_decay: 5
+  max_health_or_stamina_when_bar_is_empty: 0.5
 --- !u!114 &736016150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,13 +382,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1423358981503747be0d20420b792e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restoration_effectiveness: 0
   type: 0
-  bar: {fileID: 0}
-  timeToDecay: 2
-  startValue: 100
-  maxValue: 100
-  time_to_reduce: 5
-  statusLimiter: 0.5
+  necessity_bar: {fileID: 0}
+  time_to_decay: 2
+  start_value: 100
+  max_value: 100
+  value_reduced_for_each_decay: 5
+  max_health_or_stamina_when_bar_is_empty: 0.5
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayLength: 2
-  collectUI: {fileID: 0}
+  pickup_interface: {fileID: 0}
+  pickup_image: {fileID: 0}
+  pickup_text: {fileID: 0}
 --- !u!114 &736016152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +418,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce541724a7776e4ab49e944d4e9ef4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item_amount_text:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &6954083926971463763
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +718,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4718119321247085825, guid: 3cd8fa94930bbdf46a5147950c338112,
+        type: 3}
+      propertyPath: is_collected
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5004535171942788303, guid: 3cd8fa94930bbdf46a5147950c338112,
         type: 3}
       propertyPath: FPCamera
@@ -796,7 +797,7 @@ PrefabInstance:
     - target: {fileID: 2296573992731204287, guid: 5c9844bbcab47644f945e0465c030ee1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2296573992731204287, guid: 5c9844bbcab47644f945e0465c030ee1,
         type: 3}
@@ -888,6 +889,11 @@ PrefabInstance:
       propertyPath: FPCamera
       value: 
       objectReference: {fileID: 6954083926971556983}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: is_collected
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5975479645288810254, guid: 5c9844bbcab47644f945e0465c030ee1,
         type: 3}
       propertyPath: m_Name
@@ -1044,6 +1050,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: M1911
       objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: is_collected
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8689571006423154243, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
         type: 3}
       propertyPath: ammoHolser
@@ -1108,7 +1119,7 @@ PrefabInstance:
     - target: {fileID: 2296573992731204287, guid: 4f26330bc589f40438fbcb432058cfea,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2296573992731204287, guid: 4f26330bc589f40438fbcb432058cfea,
         type: 3}
@@ -1214,6 +1225,11 @@ PrefabInstance:
         type: 3}
       propertyPath: adsDirectionalRecoil.z
       value: -0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8567599322457960087, guid: 4f26330bc589f40438fbcb432058cfea,
+        type: 3}
+      propertyPath: is_collected
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8689571006423154243, guid: 4f26330bc589f40438fbcb432058cfea,
         type: 3}

@@ -3,17 +3,16 @@ using UnityEngine;
 
 public class GunSwitcher : MonoBehaviour
 {
-    AudioSource _audioSource;
+    AudioSource audio_source;
     Gun[] avaliable_guns = new Gun[4];
     int current_gun;
 
-    [SerializeField] AudioClip switchSound;
-    [Range(0, 9)] [SerializeField] int initialGun = 0;
+    [SerializeField] AudioClip switch_sound;
 
     void Awake()
     {
         GI.gun_switcher = this;
-        _audioSource = GetComponent<AudioSource>();
+        audio_source = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -21,27 +20,46 @@ public class GunSwitcher : MonoBehaviour
         // Add avaliable guns to list.
         for (int i = 0; i < avaliable_guns.Length; i++)
         {
+            // TODO Add a validation for knife
             avaliable_guns[i] = transform.GetChild(i).GetComponent<Gun>();
         }
-
-        initialGun = Mathf.Clamp(initialGun, 0, avaliable_guns.Length - 1);
-        switch_gun(initialGun);
+        audio_source.PlayOneShot(switch_sound);
+        avaliable_guns[current_gun].gameObject.SetActive(true);
     }
 
-    public void switch_gun(int desiredWeapon)
+    // TODO Think about better code for this part
+    public void switch_gun(int direction)
     {
-        if (desiredWeapon < 0 || desiredWeapon >= avaliable_guns.Length) return;
+        if (current_gun + direction >= avaliable_guns.Length || current_gun + direction < 0) return;
 
-        for (int i = 0; i < avaliable_guns.Length; i++)
+        if (direction > 0)
         {
-            bool isDesiredGun = (i == desiredWeapon ? true : false);
-            avaliable_guns[i].gameObject.SetActive(isDesiredGun);
-
-            // Updates active gun.
-            if (isDesiredGun)
+            for (int i = current_gun + 1; i < avaliable_guns.Length; i++)
             {
-                current_gun = i;
-                _audioSource.PlayOneShot(switchSound);
+                // Updates active gun.
+                if (avaliable_guns[i].is_collected)
+                {
+                    avaliable_guns[current_gun].gameObject.SetActive(false); // Disables the current gun
+                    current_gun = i;
+                    audio_source.PlayOneShot(switch_sound);
+                    avaliable_guns[i].gameObject.SetActive(true); // Enables the new gun
+                    return;
+                }
+            }
+        }
+        else
+        {
+            for (int i = current_gun - 1; i >= 0; i--)
+            {
+                // Updates active gun.
+                if (avaliable_guns[i].is_collected)
+                {
+                    avaliable_guns[current_gun].gameObject.SetActive(false);
+                    current_gun = i;
+                    audio_source.PlayOneShot(switch_sound);
+                    avaliable_guns[i].gameObject.SetActive(true);
+                    return;
+                }
             }
         }
     }
@@ -51,13 +69,18 @@ public class GunSwitcher : MonoBehaviour
         { // Switch Input
             if (Input.GetAxisRaw("Mouse ScrollWheel") > 0)
             {
-                switch_gun(current_gun + 1);
+                switch_gun(-1);
             }
             else if (Input.GetAxisRaw("Mouse ScrollWheel") < 0)
             {
-                switch_gun(current_gun - 1);
+                switch_gun(1);
             }
         }
+    }
+
+    public void collect_gun(int i)
+    {
+        avaliable_guns[i].is_collected = true;
     }
 
     public Gun get_current_gun()

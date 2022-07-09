@@ -12,7 +12,7 @@ public class BasicNecessity : MonoBehaviour
     [HideInInspector]
     public float restoration_effectiveness;
     float current_value, time_elapsed_since_last_decay;
-    bool has_value = true;
+    public bool has_value = true;
 
     [SerializeField] NecessityType type;
     [SerializeField] Slider necessity_bar;
@@ -71,12 +71,12 @@ public class BasicNecessity : MonoBehaviour
         if (current_value < Mathf.Epsilon)
         {
             if (type.Equals(NecessityType.Hunger)) GI.player.clamp_max_health(GI.player.MaxHealth * max_health_or_stamina_when_bar_is_empty);
-            else GI.player.clamp_max_stamina(GI.player.MaxStamina * max_health_or_stamina_when_bar_is_empty);
+            //else GI.player.clamp_max_stamina(GI.player.MaxStamina * max_health_or_stamina_when_bar_is_empty);
         }
         else
         {
             if (type.Equals(NecessityType.Hunger)) GI.player.clamp_max_health(GI.player.MaxHealth);
-            else GI.player.clamp_max_stamina(GI.player.MaxStamina);
+            //else GI.player.clamp_max_stamina(GI.player.MaxStamina);
         }
     }
 

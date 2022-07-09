@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6060502088319799017}
   - component: {fileID: 6060502088319799016}
   - component: {fileID: 6060502088319799023}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Inventory Expansion
   m_TagString: InventoryExpansion
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amount: 1
-  itemName: Food
+  itemName: Inventory Expansion
   itemImage: {fileID: 0}
   type: 0
 --- !u!1 &6060502088456026746

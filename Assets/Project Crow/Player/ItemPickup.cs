@@ -31,24 +31,21 @@ public class ItemPickup : MonoBehaviour
 
             has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
 
-            if (has_hit_colliders)
+            if (has_hit_colliders && hit.collider.gameObject.layer == 9)
             {
                 // Display item's details on screen
-                if (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo") || hit.collider.CompareTag("InventoryExpansion") || hit.collider.CompareTag("AmmoHolsterExpansion"))
-                {
-                    CollectableItem item = hit.collider.GetComponent<CollectableItem>();
+                CollectableItem item = hit.collider.GetComponent<CollectableItem>();
 
-                    // Sets the pickup ui position on the screen.
-                    Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
-                    pickup_interface.position = item_screen_position;
+                // Sets the pickup ui position on the screen.
+                Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
+                pickup_interface.position = item_screen_position;
 
-                    // Sets the pickup ui values.
-                    pickup_image = item.itemImage;
-                    pickup_text.text = item.itemName;
+                // Sets the pickup ui values.
+                pickup_image = item.itemImage;
+                pickup_text.text = item.itemName;
 
-                    pickup_interface.gameObject.SetActive(true);
-                    item_found = hit.collider.gameObject;
-                }
+                pickup_interface.gameObject.SetActive(true);
+                item_found = hit.collider.gameObject;
             }
             else
             {
@@ -95,6 +92,12 @@ public class ItemPickup : MonoBehaviour
                             GI.player_inventory.expand_inventory_capacity();
                             Destroy(item_found);
                         }
+                        break;
+
+                    case "CollectableGun":
+                        Ammo gun = item_found.GetComponent<Ammo>();
+                        GI.gun_switcher.collect_gun((int)gun.type);
+                        Destroy(item_found);
                         break;
 
                     default:
