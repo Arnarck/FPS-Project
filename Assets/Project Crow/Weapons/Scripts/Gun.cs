@@ -105,8 +105,50 @@ public class Gun : MonoBehaviour
                     hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range);
 
                     // TODO change the VFX played based on what the player hits
+                    // Hits the enemy
                     if (hasHitColliders && hit.collider.CompareTag("Enemy"))
                     {
+                        // Process Damage Drop over distance
+                        float distance_from_enemy = Util.distance(GI.fp_camera.transform.position, hit.collider.transform.position);
+                        switch (ammo_type)
+                        {
+                            case AmmoType.Pistol:
+                                {
+                                    if (distance_from_enemy <= 5f) damage = 12;
+                                    else if (distance_from_enemy <= 15f) damage = 10;
+                                    else damage = 8;
+                                }
+                                break;
+
+                            case AmmoType.Shotgun:
+                                {
+                                    if (distance_from_enemy <= 5f) damage = 100;
+                                    else if (distance_from_enemy <= 10f) damage = 75;
+                                    else damage = 30;
+                                }
+                                break;
+
+                            case AmmoType.AssaultRifle:
+                                {
+                                    if (distance_from_enemy <= 15f) damage = 30;
+                                    else if (distance_from_enemy <= 25f) damage = 23;
+                                    else damage = 18;
+                                }
+                                break;
+
+                            case AmmoType.SubmachineGun:
+                                {
+                                    if (distance_from_enemy <= 7f) damage = 18;
+                                    else if (distance_from_enemy <= 15f) damage = 15;
+                                    else damage = 12;
+                                }
+                                break;
+
+                            default:
+                                Debug.LogError("Ammo Type not found!");
+                                break;
+                        }
+                        Debug.Log("Distance from enemy: " + distance_from_enemy + "  Damage: " + damage);
                         hit.collider.GetComponent<EnemyAI>().take_damage(damage);
 
                         // Plays hit VFX

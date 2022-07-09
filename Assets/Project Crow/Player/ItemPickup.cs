@@ -33,6 +33,7 @@ public class ItemPickup : MonoBehaviour
 
             if (has_hit_colliders)
             {
+                // Display item's details on screen
                 if (hit.collider.CompareTag("Consumable") || hit.collider.CompareTag("CollectableAmmo") || hit.collider.CompareTag("InventoryExpansion") || hit.collider.CompareTag("AmmoHolsterExpansion"))
                 {
                     CollectableItem item = hit.collider.GetComponent<CollectableItem>();
@@ -48,18 +49,6 @@ public class ItemPickup : MonoBehaviour
                     pickup_interface.gameObject.SetActive(true);
                     item_found = hit.collider.gameObject;
                 }
-                //else if (hit.collider.CompareTag("InventoryExpansion") || hit.collider.CompareTag("AmmoHolsterExpansion"))
-                //{
-                //    GameObject item = hit.collider.gameObject;
-
-                //    // Sets the pickup ui position on the screen.
-                //    Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
-                //    pickup_interface.position = item_screen_position;
-
-                //    // Sets the pickup ui values.
-                //    pickup_interface.gameObject.SetActive(true);
-                //    item_found = hit.collider.gameObject;
-                //}
             }
             else
             {
