@@ -4,7 +4,9 @@ public enum AmmoType
     Pistol,
     Shotgun,
     AssaultRifle,
-    SubmachineGun
+    SubmachineGun,
+
+    COUNT
 }
 
 public class AmmoHolster : MonoBehaviour
@@ -19,7 +21,7 @@ public class AmmoHolster : MonoBehaviour
         GI.ammo_holster = this;
     }
 
-    public bool increase_or_reduce(AmmoType type, int amount)
+    public bool store_or_remove(AmmoType type, int amount)
     {
         int slot = (int)type;
 

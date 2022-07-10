@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     float current_health, time_elapsed_since_last_attack;
-    bool is_provoked, can_attack = true;
+    bool is_alive = true, is_provoked, can_attack = true;
 
     Transform target;
     NavMeshAgent nav_mesh_agent;
@@ -35,6 +35,8 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (!is_alive) return;
+
         bool is_attacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
 
         { // Process AI Behaviour
@@ -94,6 +96,8 @@ public class EnemyAI : MonoBehaviour
 
     public void attack_player()
     {
+        if (!is_alive) return;
+
         // Creates an overlap sphere to be the attack hit area
         Collider[] hit_colliders = new Collider[1];
         int colliders_found = Physics.OverlapSphereNonAlloc(attack_point.position, attack_range, hit_colliders, player_layer_mask);
@@ -104,13 +108,19 @@ public class EnemyAI : MonoBehaviour
 
     public void take_damage(float value)
     {
+        if (!is_alive) return;
+
         if (value < Mathf.Epsilon) value *= -1;
         Debug.Log("Damage received: " + value);
 
         current_health -= value;
         if (current_health < Mathf.Epsilon)
         {
-            Destroy(gameObject);
+            nav_mesh_agent.speed = 0f;
+            GetComponent<CapsuleCollider>().isTrigger = true;
+            transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+            transform.position = new Vector3(transform.position.x, .5f, transform.position.z);
+            is_alive = false;
         }
         else
         {

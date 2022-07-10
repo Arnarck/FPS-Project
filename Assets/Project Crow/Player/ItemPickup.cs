@@ -21,6 +21,7 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] float rayLength;
     [SerializeField] RectTransform pickup_interface;
     [SerializeField] Image pickup_image;
+    [SerializeField] RectTransform loot_interface;
     [SerializeField] TextMeshProUGUI pickup_text;
 
     void FixedUpdate()
@@ -46,6 +47,11 @@ public class ItemPickup : MonoBehaviour
 
                 pickup_interface.gameObject.SetActive(true);
                 item_found = hit.collider.gameObject;
+            }
+            else if (has_hit_colliders && hit.collider.gameObject.layer == 10 && hit.collider.isTrigger) // TODO Improve this condition
+            {
+                item_found = hit.collider.gameObject;
+                loot_interface.gameObject.SetActive(true);
             }
             else
             {
@@ -74,7 +80,7 @@ public class ItemPickup : MonoBehaviour
                     case "CollectableAmmo":
                         {
                             Ammo ammo = item_found.GetComponent<Ammo>();
-                            bool has_added_ammo = GI.ammo_holster.increase_or_reduce(ammo.type, ammo.amount);
+                            bool has_added_ammo = GI.ammo_holster.store_or_remove(ammo.type, ammo.amount);
                             if (has_added_ammo) Destroy(item_found);
                             // ELSE give the player an feedbacck error
                         }
@@ -95,9 +101,32 @@ public class ItemPickup : MonoBehaviour
                         break;
 
                     case "CollectableGun":
-                        Ammo gun = item_found.GetComponent<Ammo>();
-                        GI.gun_switcher.collect_gun((int)gun.type);
-                        Destroy(item_found);
+                        {
+                            Ammo gun = item_found.GetComponent<Ammo>();
+                            GI.gun_switcher.collect_gun((int)gun.type);
+                            Destroy(item_found);
+                        }
+                        break;
+                        
+                    case "Enemy":
+                        {
+                            // loot
+                            Destroy(item_found);
+                            int random_item = Random.Range(0, 2);
+
+                            if (random_item == 0)
+                            {
+                                int random_consumable = Random.Range(0, (int)ConsumableType.COUNT);
+                                int random_amount = Random.Range(1, 4);
+                                GI.player_inventory.store_or_remove((ConsumableType)random_consumable, random_amount);
+                            }
+                            else
+                            {
+                                int random_ammo_type = Random.Range(0, (int)AmmoType.COUNT);
+                                int random_amount = Random.Range(1, 6);
+                                GI.ammo_holster.store_or_remove((AmmoType)random_ammo_type, random_amount);
+                            }
+                        }
                         break;
 
                     default:

@@ -208,12 +208,12 @@ public class Gun : MonoBehaviour
         if (ammo_in_holster >= spent_ammo)
         {
             current_ammo_amount = max_ammo_amount;
-            GI.ammo_holster.increase_or_reduce(ammo_type, -spent_ammo);
+            GI.ammo_holster.store_or_remove(ammo_type, -spent_ammo);
         }
         else
         {
             current_ammo_amount += ammo_in_holster;
-            GI.ammo_holster.increase_or_reduce(ammo_type, -ammo_in_holster);
+            GI.ammo_holster.store_or_remove(ammo_type, -ammo_in_holster);
         }
 
         GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
