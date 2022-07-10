@@ -8,8 +8,6 @@ public class Gun : MonoBehaviour
     float last_shot_t, last_reload_t;
 
     AudioSource _audioSource;
-    Coroutine shoot_routine, reload_routine;
-    WaitForSeconds wait_for_time_to_shoot, wait_for_time_to_reload;
 
     [SerializeField] ParticleSystem blood_splash_vfx = default;
 
@@ -38,8 +36,6 @@ public class Gun : MonoBehaviour
     void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
-        wait_for_time_to_shoot = new WaitForSeconds(time_to_shoot);
-        wait_for_time_to_reload = new WaitForSeconds(reload_time);
     }
 
     void OnEnable()
@@ -66,16 +62,15 @@ public class Gun : MonoBehaviour
         // Cancel reload process so the gun won't reenable in reloading state.
         if (is_reloading)
         {
-            StopCoroutine(reload_routine);
+            last_reload_t = 0f;
             is_reloading = false;
         }
 
         // Cancel shoot cooldown if gun is switched.
-        if (!can_shoot)
-        {
-            StopCoroutine(shoot_routine);
-            can_shoot = true;
-        }
+        //if (!can_shoot)
+        //{
+        //    can_shoot = true;
+        //}
     }
 
     void Update()

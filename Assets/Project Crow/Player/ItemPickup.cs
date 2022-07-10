@@ -32,7 +32,7 @@ public class ItemPickup : MonoBehaviour
 
             has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
 
-            if (has_hit_colliders && hit.collider.gameObject.layer == 9)
+            if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Collectable layer
             {
                 // Display item's details on screen
                 CollectableItem item = hit.collider.GetComponent<CollectableItem>();

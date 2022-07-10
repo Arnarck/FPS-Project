@@ -26,14 +26,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
-                // Exit the method if player is not moving
-                // If player is not moving, then he's not running as well
-                if (input == Vector2.zero)
-                {
-                    m_Running = false;
-                    return;
-                }
-
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
@@ -51,15 +43,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 #if !MOBILE_INPUT
-	            if (Input.GetKey(RunKey) && GI.player.CanRun)
-	            {
-		            CurrentTargetSpeed *= RunMultiplier;
-		            m_Running = true;
-	            }
-	            else
-	            {
-                    m_Running = false;
-	            }
+
+                if (input.y > 0 && Input.GetKey(RunKey) && GI.player.CanRun)
+                {
+                    CurrentTargetSpeed *= RunMultiplier;
+                    m_Running = true;
+                }
+                else m_Running = false;
 #endif
             }
 
@@ -166,6 +156,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
+
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
 
                 desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
@@ -231,7 +222,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private Vector2 GetInput()
         {
-            
+            if (FindObjectOfType<Knife>().is_evading)
+            {
+                Vector2 evade_direction = FindObjectOfType<Knife>().evade_direction;
+                movementSettings.CurrentTargetSpeed = FindObjectOfType<Knife>().evade_force;
+                return evade_direction;
+            }
+
             Vector2 input = new Vector2
                 {
                     x = CrossPlatformInputManager.GetAxisRaw("Horizontal"),

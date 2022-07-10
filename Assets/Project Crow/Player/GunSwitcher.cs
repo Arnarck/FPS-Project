@@ -23,6 +23,7 @@ public class GunSwitcher : MonoBehaviour
             // TODO Add a validation for knife
             avaliable_guns[i] = transform.GetChild(i).GetComponent<Gun>();
         }
+
         audio_source.PlayOneShot(switch_sound);
         avaliable_guns[current_gun].gameObject.SetActive(true);
     }
@@ -30,7 +31,7 @@ public class GunSwitcher : MonoBehaviour
     // TODO Think about better code for this part
     public void switch_gun(int direction)
     {
-        if (current_gun + direction >= avaliable_guns.Length || current_gun + direction < 0) return;
+        if (current_gun + direction > avaliable_guns.Length || current_gun + direction < 0) return;
 
         if (direction > 0)
         {
