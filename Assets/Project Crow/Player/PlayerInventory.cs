@@ -31,10 +31,10 @@ public class PlayerInventory : MonoBehaviour
             // ELSE give the player an error feedback
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             bool has_removed_item = store_or_remove(ConsumableType.Water, -1);
-            if (has_removed_item) GI.hunger.increase_value(GC.THIRST_RESTORED_BY_WATER_ITEMS);
+            if (has_removed_item) GI.thirst.increase_value(GC.THIRST_RESTORED_BY_WATER_ITEMS);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))

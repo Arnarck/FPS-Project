@@ -38,7 +38,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (!is_alive) return;
 
-        bool is_attacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+        bool is_attacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"); // Gets the name of the current playing animation
 
         { // Process AI Behaviour
             Vector3 relative_position = target.position - transform.position;
@@ -58,7 +58,8 @@ public class EnemyAI : MonoBehaviour
                     transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
                 }
 
-                if (can_attack)
+                // Attack
+                if (can_attack && GI.enemy_manager.can_attack())
                 {
                     can_attack = false;
                     animator.SetTrigger("Attack");

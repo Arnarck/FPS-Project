@@ -11,7 +11,7 @@ public class BasicNecessity : MonoBehaviour
 {
     [HideInInspector]
     public float restoration_effectiveness;
-    float current_value, time_elapsed_since_last_decay;
+    float current_value, last_decay_t;
     public bool has_value = true;
 
     [SerializeField] NecessityType type;
@@ -46,14 +46,14 @@ public class BasicNecessity : MonoBehaviour
     {
         if (!has_value) return;
 
-        if (time_elapsed_since_last_decay >= time_to_decay)
+        if (last_decay_t >= time_to_decay)
         {
-            time_elapsed_since_last_decay = 0f;
+            last_decay_t = 0f;
             reduce_necessity_amount();
         }
         else
         {
-            time_elapsed_since_last_decay += Time.deltaTime;
+            last_decay_t += Time.deltaTime;
         }
     }
 
@@ -95,6 +95,7 @@ public class BasicNecessity : MonoBehaviour
     public void increase_value(float value)
     {
         has_value = true;
+        last_decay_t = 0f;
         current_value += value;
         current_value = Mathf.Clamp(current_value, 0f, max_value);
         necessity_bar.value = current_value;
