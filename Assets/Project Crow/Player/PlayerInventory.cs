@@ -45,7 +45,8 @@ public class PlayerInventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            // Consume battery
+            bool has_removed_item = store_or_remove(ConsumableType.FlashlightBattery, -1);
+            if (has_removed_item) GI.player_flashlight.add_battery(100);
         }
     }
 
