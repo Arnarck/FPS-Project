@@ -48,13 +48,14 @@ public class ItemPickup : MonoBehaviour
                 pickup_interface.gameObject.SetActive(true);
                 item_found = hit.collider.gameObject;
             }
-            else if (has_hit_colliders && hit.collider.gameObject.layer == 10 && hit.collider.isTrigger) // TODO Improve this condition
+            else if (has_hit_colliders && hit.collider.CompareTag("Loot"))
             {
                 item_found = hit.collider.gameObject;
                 loot_interface.gameObject.SetActive(true);
             }
             else
             {
+                loot_interface.gameObject.SetActive(false);
                 pickup_interface.gameObject.SetActive(false);
                 item_found = null;
             }
@@ -64,7 +65,7 @@ public class ItemPickup : MonoBehaviour
     void Update()
     {
         { // Process Pickup Input
-            if (Input.GetKeyDown(KeyCode.E) && pickup_interface.gameObject.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.E) && (pickup_interface.gameObject.activeInHierarchy || loot_interface.gameObject.activeInHierarchy) )
             {
                 switch (item_found.tag)
                 {
@@ -108,10 +109,9 @@ public class ItemPickup : MonoBehaviour
                         }
                         break;
                         
-                    case "Enemy":
+                    case "Loot":
                         {
-                            // loot
-                            Destroy(item_found);
+                            item_found.SetActive(false);
                             int random_item = Random.Range(0, 2);
 
                             if (random_item == 0)
@@ -119,18 +119,20 @@ public class ItemPickup : MonoBehaviour
                                 int random_consumable = Random.Range(0, (int)ConsumableType.COUNT);
                                 int random_amount = Random.Range(1, 4);
                                 GI.player_inventory.store_or_remove((ConsumableType)random_consumable, random_amount);
+                                Debug.Log("Collected " + random_amount + " of " + (ConsumableType)random_consumable);
                             }
                             else
                             {
                                 int random_ammo_type = Random.Range(0, (int)AmmoType.COUNT);
                                 int random_amount = Random.Range(1, 6);
                                 GI.ammo_holster.store_or_remove((AmmoType)random_ammo_type, random_amount);
+                                Debug.Log("Collected " + random_amount + " of " + (AmmoType)random_ammo_type);
                             }
                         }
                         break;
 
                     default:
-                        Debug.LogError("Consumable not found!");
+                        Debug.LogError("Tag not found!");
                         break;
                 }
             }

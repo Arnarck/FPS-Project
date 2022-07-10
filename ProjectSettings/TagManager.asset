@@ -10,7 +10,8 @@ TagManager:
   - InventoryExpansion
   - AmmoHolsterExpansion
   - CollectableGun
-  - Headshot
+  - Loot
+  - EnemyHead
   layers:
   - Default
   - TransparentFX

@@ -5,6 +5,7 @@ public class Gun : MonoBehaviour
 {
     bool can_shoot = true, is_reloading, has_ammo, has_started;
     int current_ammo_amount;
+    float last_shot_t, last_reload_t;
 
     AudioSource _audioSource;
     Coroutine shoot_routine, reload_routine;
@@ -80,12 +81,13 @@ public class Gun : MonoBehaviour
     void Update()
     {
         { // Process Shoot Input
-            if (Input.GetKey(KeyCode.Mouse0) && is_automatic || Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic) // Checks if is able to shoot
+            if ( (Input.GetKey(KeyCode.Mouse0) && is_automatic) || (Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic) ) // Checks if is able to shoot
             {
                 if (can_shoot && !is_reloading && has_ammo)
                 {
                     // Starts the cooldown to shoot
-                    shoot_routine = StartCoroutine(cooldown_to_shoot());
+                    last_shot_t = 0f;
+                    can_shoot = false;
 
                     // Reduce ammo
                     current_ammo_amount--;
@@ -154,7 +156,7 @@ public class Gun : MonoBehaviour
                         
                         // OPTIMIZE THIS.
                         // When add Enemy Attack Manager, keep in it references from all enemies in scene.
-                        if (hit.collider.CompareTag("Headshot"))
+                        if (hit.collider.CompareTag("EnemyHead"))
                         {
                             hit.collider.transform.parent.GetComponent<EnemyAI>().take_damage(damage * headshot_multiplier);
                             Debug.Log("DAMAGE: " + damage + " | HEADSHOT MULTIPLIER: " + headshot_multiplier);
@@ -174,48 +176,49 @@ public class Gun : MonoBehaviour
             }
         }
 
-        { // Process Reload Input
-            if (Input.GetKeyDown(KeyCode.R))
+        { // Process fire rate
+            if (!can_shoot)
             {
-                if (!is_reloading && current_ammo_amount < max_ammo_amount && GI.ammo_holster.current_ammo[(int)ammo_type] > 0) // Checks if is able to reload
-                {
-                    // Starts the cooldown to reload
-                    reload_routine = StartCoroutine(cooldown_to_reload());
-                }
+                if (last_shot_t >= time_to_shoot) can_shoot = true;
+                else last_shot_t += Time.deltaTime;
             }
         }
-    }
 
-    // Disables the gun from firing for a period of time.
-    IEnumerator cooldown_to_shoot()
-    {
-        can_shoot = false;
-        yield return wait_for_time_to_shoot;
-        can_shoot = true;
-    }
-
-    IEnumerator cooldown_to_reload()
-    {
-        is_reloading = true;
-        yield return wait_for_time_to_reload;
-        is_reloading = false;
-        has_ammo = true;
-
-        // Remove ammo from clip and refill it from holster
-        int spent_ammo = max_ammo_amount - current_ammo_amount;
-        int ammo_in_holster = GI.ammo_holster.current_ammo[(int)ammo_type];
-
-        if (ammo_in_holster >= spent_ammo)
-        {
-            current_ammo_amount = max_ammo_amount;
-            GI.ammo_holster.store_or_remove(ammo_type, -spent_ammo);
-        }
-        else
-        {
-            current_ammo_amount += ammo_in_holster;
-            GI.ammo_holster.store_or_remove(ammo_type, -ammo_in_holster);
+        { // Process Reload Input
+            if (Input.GetKeyDown(KeyCode.R) && !is_reloading && current_ammo_amount < max_ammo_amount && GI.ammo_holster.current_ammo[(int)ammo_type] > 0)
+            {
+                is_reloading = true;
+                last_reload_t = 0f;
+            }
         }
 
-        GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
+        { // Process reload time
+            if (is_reloading)
+            {
+                if (last_reload_t >= reload_time)
+                {
+                    is_reloading = false;
+                    has_ammo = true;
+
+                    // Remove ammo from holster and reload clip
+                    int spent_ammo = max_ammo_amount - current_ammo_amount;
+                    int ammo_in_holster = GI.ammo_holster.current_ammo[(int)ammo_type];
+
+                    if (ammo_in_holster >= spent_ammo)
+                    {
+                        current_ammo_amount = max_ammo_amount;
+                        GI.ammo_holster.store_or_remove(ammo_type, -spent_ammo);
+                    }
+                    else
+                    {
+                        current_ammo_amount += ammo_in_holster;
+                        GI.ammo_holster.store_or_remove(ammo_type, -ammo_in_holster);
+                    }
+
+                    GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
+                }
+                else last_reload_t += Time.deltaTime;
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
     NavMeshAgent nav_mesh_agent;
     Animator animator;
 
+    [SerializeField] GameObject loot_area;
     [SerializeField] float detection_range = 4f;
     [SerializeField] float look_speed = 10f;
     [SerializeField] float starting_health = 100f;
@@ -117,9 +118,8 @@ public class EnemyAI : MonoBehaviour
         if (current_health < Mathf.Epsilon)
         {
             nav_mesh_agent.speed = 0f;
+            loot_area.SetActive(true);
             GetComponent<CapsuleCollider>().isTrigger = true;
-            transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-            transform.position = new Vector3(transform.position.x, .5f, transform.position.z);
             is_alive = false;
         }
         else
