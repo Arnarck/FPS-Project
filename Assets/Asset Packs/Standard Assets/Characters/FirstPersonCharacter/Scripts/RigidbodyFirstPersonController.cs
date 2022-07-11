@@ -44,7 +44,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				}
 #if !MOBILE_INPUT
 
-                if (input.y > 0 && Input.GetKey(RunKey) && GI.player.CanRun)
+                if (input.y > 0 && input.x == 0f && Input.GetKey(RunKey) && GI.player.CanRun)
                 {
                     CurrentTargetSpeed *= RunMultiplier;
                     m_Running = true;
@@ -222,7 +222,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private Vector2 GetInput()
         {
-            if (FindObjectOfType<Knife>().is_evading)
+            // Prevents player from moving if he's evading
+            if (GI.player_inventory.is_knife_equiped && FindObjectOfType<Knife>().is_evading)
             {
                 Vector2 evade_direction = FindObjectOfType<Knife>().evade_direction;
                 movementSettings.CurrentTargetSpeed = FindObjectOfType<Knife>().evade_force;

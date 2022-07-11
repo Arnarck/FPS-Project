@@ -3,11 +3,15 @@ using TMPro;
 
 public class PlayerInventory : MonoBehaviour
 {
+    GameObject[] avaliable_weapons;
+
+    // Items (Collectables)
     int[] items_stored = { 0, 0, 0, 0 };
     int[] max_items_storable = { 5, 5, 3, 5 };
     int[] expanded_amount = { 5, 5, 3, 5 };
 
     [SerializeField] TextMeshProUGUI[] item_amount_text;
+    public bool is_knife_equiped;
 
     void Awake()
     {

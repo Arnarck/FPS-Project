@@ -7,22 +7,40 @@ public class Knife : MonoBehaviour
     float evading_t;
     float last_evade_t;
 
-    public Vector3 desired_move;
+    public Transform attack_area;
     public Vector2 evade_direction;
-    public float time_to_evade;
+    public float time_to_evade = .5f;
+    public float attack_radius = .5f;
     public float evade_time = 1f;
+    public float damage = 20f;
     public float evade_force = 50f;
     public bool is_evading, can_evade;
 
     // Update is called once per frame
     void Update()
     {
+        { // Process attack input
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Collider[] hits = new Collider[3];
+                int colliders_found = Physics.OverlapSphereNonAlloc(attack_area.position, attack_radius, hits);
+
+                if (colliders_found > 0)
+                {
+                    for (int i = 0; i < hits.Length; i++)
+                    {
+                        if (hits[i] != null && hits[i].gameObject.CompareTag("Enemy")) hits[i].GetComponent<EnemyAI>().take_damage(damage);
+
+                    }
+                }
+            }
+        }
+
         if (Input.GetAxisRaw("Vertical") < 0f || Input.GetAxisRaw("Horizontal") != 0f)
         {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && !is_evading && can_evade)
+            if (Input.GetAxisRaw("Vertical") <= 0 && Input.GetKeyDown(KeyCode.LeftShift) && !is_evading && can_evade)
             {
                 evade_direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-                desired_move = GI.fp_camera.transform.forward * evade_direction.y + GI.fp_camera.transform.right * evade_direction.x;
                 is_evading = true;
                 can_evade = false;
                 evading_t = 0f;
@@ -45,5 +63,11 @@ public class Knife : MonoBehaviour
                 else last_evade_t += Time.deltaTime;
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attack_area.position, attack_radius);
     }
 }

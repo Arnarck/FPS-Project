@@ -5,6 +5,7 @@ public class GunSwitcher : MonoBehaviour
 {
     AudioSource audio_source;
     Gun[] avaliable_guns = new Gun[4];
+    Knife knife;
     int current_gun;
 
     [SerializeField] AudioClip switch_sound;
@@ -23,6 +24,7 @@ public class GunSwitcher : MonoBehaviour
             // TODO Add a validation for knife
             avaliable_guns[i] = transform.GetChild(i).GetComponent<Gun>();
         }
+        knife = transform.GetChild(avaliable_guns.Length).GetComponent<Knife>();
 
         audio_source.PlayOneShot(switch_sound);
         avaliable_guns[current_gun].gameObject.SetActive(true);
@@ -31,7 +33,8 @@ public class GunSwitcher : MonoBehaviour
     // TODO Think about better code for this part
     public void switch_gun(int direction)
     {
-        if (current_gun + direction > avaliable_guns.Length || current_gun + direction < 0) return;
+        //if (current_gun + direction >= avaliable_guns.Length || current_gun + direction < 0) return;
+        if (current_gun + direction > avaliable_guns.Length || current_gun + direction < 0) return; // Knife condition
 
         if (direction > 0)
         {
@@ -47,15 +50,27 @@ public class GunSwitcher : MonoBehaviour
                     return;
                 }
             }
+
+            // Knife condition
+            avaliable_guns[current_gun].gameObject.SetActive(false);
+            current_gun = avaliable_guns.Length;
+            knife.gameObject.SetActive(true);
+            audio_source.PlayOneShot(switch_sound);
+            GI.player_inventory.is_knife_equiped = true;
         }
         else
         {
+            if (current_gun == 4) GI.player_inventory.is_knife_equiped = false; // Knife Condition
+
             for (int i = current_gun - 1; i >= 0; i--)
             {
                 // Updates active gun.
                 if (avaliable_guns[i].is_collected)
                 {
-                    avaliable_guns[current_gun].gameObject.SetActive(false);
+                    // Knife condition
+                    if (current_gun != 4) avaliable_guns[current_gun].gameObject.SetActive(false);
+                    else knife.gameObject.SetActive(false);
+
                     current_gun = i;
                     audio_source.PlayOneShot(switch_sound);
                     avaliable_guns[i].gameObject.SetActive(true);
