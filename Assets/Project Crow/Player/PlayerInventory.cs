@@ -31,20 +31,16 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             bool has_removed_item = store_or_remove(ConsumableType.Food, -1);
-            if (has_removed_item) GI.hunger.increase_value(GC.HUNGER_RESTORED_BY_FOOD_ITEMS);
-            // ELSE give the player an error feedback
         }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             bool has_removed_item = store_or_remove(ConsumableType.Water, -1);
-            if (has_removed_item) GI.thirst.increase_value(GC.THIRST_RESTORED_BY_WATER_ITEMS);
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
             bool has_removed_item = store_or_remove(ConsumableType.Medkit, -1);
-            if (has_removed_item) GI.player.change_health_amount(GC.HEALTH_RESTORED_BY_MEDKIT_ITEMS * GI.hunger.restoration_effectiveness);
         }
 
         if (Input.GetKeyDown(KeyCode.C))

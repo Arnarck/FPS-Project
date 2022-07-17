@@ -52,65 +52,36 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        handle_stamina_process();
-    }
-
-    void handle_stamina_process()
-    {
-        if (GI.fp_controller.Running) // Consume stamina
         {
-            time_elapsed_from_stamina_restoration = 0f; // Resets the counter
-            can_restore_stamina = false;
+            if (GI.fp_controller.Running) // Consume stamina
+            {
+                time_elapsed_from_stamina_restoration = 0f; // Resets the counter
+                can_restore_stamina = false;
 
-            current_stamina -= stamina_consumed_per_frame;
-            current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
-            staminaBar.value = current_stamina;
+                current_stamina -= stamina_consumed_per_frame;
+                current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
+                staminaBar.value = current_stamina;
 
-            if (current_stamina < Mathf.Epsilon) can_run = false;
-        }
-        else if (!can_restore_stamina) // Increases the counter
-        {
-            time_elapsed_from_stamina_restoration += Time.fixedDeltaTime;
+                if (current_stamina < Mathf.Epsilon) can_run = false;
+            }
+            else if (!can_restore_stamina) // Increases the counter
+            {
+                time_elapsed_from_stamina_restoration += Time.fixedDeltaTime;
 
-            if (time_elapsed_from_stamina_restoration >= time_to_start_stamina_restoration) can_restore_stamina = true;
-        }
+                if (time_elapsed_from_stamina_restoration >= time_to_start_stamina_restoration) can_restore_stamina = true;
+            }
 
 
-        if (can_restore_stamina) // Restore Stamina
-        {
-            float stamina_restored_this_frame = stamina_restored_per_frame * GI.thirst.restoration_effectiveness;
-            if (!GI.thirst.has_value) stamina_restored_this_frame *= .5f; // Reduce stamina restored if is out of water
+            if (can_restore_stamina) // Restore Stamina
+            {
+                float stamina_restored_this_frame = stamina_restored_per_frame;
 
-            current_stamina += stamina_restored_this_frame;
-            current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
-            staminaBar.value = current_stamina;
+                current_stamina += stamina_restored_this_frame;
+                current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
+                staminaBar.value = current_stamina;
 
-            if (!can_run && current_stamina >= current_max_stamina * min_stamina_to_run) can_run = true;
-        }
-    }
-
-    public void clamp_max_health(float value)
-    {
-        value = Mathf.Clamp(value, 0f, maxHealth);
-        current_max_health = value;
-
-        if (current_health > value)
-        {
-            current_health = value;
-            healthBar.value = value;
-        }
-    }
-
-    public void clamp_max_stamina(float value)
-    {
-        value = Mathf.Clamp(value, 0f, maxStamina);
-        current_max_stamina = value;
-
-        if (current_stamina > value)
-        {
-            current_stamina = value;
-            staminaBar.value = value;
-            can_run = true;
+                if (!can_run && current_stamina >= current_max_stamina * min_stamina_to_run) can_run = true;
+            }
         }
     }
 
