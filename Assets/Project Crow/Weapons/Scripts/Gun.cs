@@ -8,6 +8,7 @@ public class Gun : MonoBehaviour
     float last_shot_t, last_reload_t;
 
     AudioSource _audioSource;
+    Transform m_transform;
 
     [SerializeField] ParticleSystem blood_splash_vfx = default;
 
@@ -27,15 +28,21 @@ public class Gun : MonoBehaviour
     [Tooltip("Will the gun fire continuously while the Fire key is pressed?")]
     [SerializeField] bool is_automatic = true;
 
-    [Header("Ammo Clip Settings")]
+    [Header("Ammo Clip")]
     public AmmoType ammo_type;
     [SerializeField] int max_ammo_amount = 30;
     [SerializeField] float reload_time = 1f;
     [SerializeField] int initial_ammo_amount = 30;
 
+    [Header("Recoil")]
+    [SerializeField] Vector3 recoil;
+    [SerializeField] float snappiness;
+    [SerializeField] float return_speed;
+
     void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        m_transform = transform;
     }
 
     void OnEnable()
@@ -80,6 +87,8 @@ public class Gun : MonoBehaviour
             {
                 if (can_shoot && !is_reloading && has_ammo)
                 {
+                    GI.gun_recoil.add_recoil(recoil, snappiness, return_speed);
+
                     // Starts the cooldown to shoot
                     last_shot_t = 0f;
                     can_shoot = false;
@@ -149,7 +158,7 @@ public class Gun : MonoBehaviour
                         }
                         Debug.Log("Distance from enemy: " + distance_from_enemy + "  Damage: " + damage);
                         
-                        // OPTIMIZE THIS.
+                        // TODO OPTIMIZE THIS.
                         // When add Enemy Attack Manager, keep in it references from all enemies in scene.
                         if (hit.collider.CompareTag("EnemyHead"))
                         {

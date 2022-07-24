@@ -89,10 +89,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3211086679680450137}
   - component: {fileID: 3211086679680450136}
-  - component: {fileID: 3211086679680450143}
+  - component: {fileID: 6259662244401734594}
   m_Layer: 9
   m_Name: Ammo
-  m_TagString: CollectableAmmo
+  m_TagString: Consumable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +125,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06, y: 0.14, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3211086679680450143
+--- !u!114 &6259662244401734594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,10 +134,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3211086679680450142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f58569b0150a29c48a6489b710da2132, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c2ceb78024263c4b94d3b18da94fe25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_name: Pistol Ammo
   amount: 3
-  itemName: Pistol ammo
-  itemImage: {fileID: 0}
-  type: 0
+  type: 6
+  m_image: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}

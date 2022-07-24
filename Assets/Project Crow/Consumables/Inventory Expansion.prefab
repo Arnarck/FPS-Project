@@ -58,10 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2ceb78024263c4b94d3b18da94fe25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_name: Inventory Expansion
   amount: 1
-  itemName: Inventory Expansion
-  itemImage: {fileID: 0}
   type: 0
+  m_image: {fileID: 0}
 --- !u!1 &6060502088456026746
 GameObject:
   m_ObjectHideFlags: 0
