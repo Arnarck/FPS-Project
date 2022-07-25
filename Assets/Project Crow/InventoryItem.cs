@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public enum ItemType
 {
@@ -32,10 +29,10 @@ public enum ItemType
 
 public class InventoryItem
 {
-    public string m_name;
-    public int amount;
-    public int max_amount;
-    public bool is_locked = true;
+    public int stored_amount;
+    public int max_capacity;
+    public bool is_avaliable = false;
     public Sprite m_image;
     public ItemType type;
+    public GameObject item;
 }

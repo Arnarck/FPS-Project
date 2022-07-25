@@ -68,18 +68,18 @@ public class ItemPickup : MonoBehaviour
             {
                 switch (item_found.tag)
                 {
-                    case "Consumable":
-                        {
-                            Consumable item = item_found.GetComponent<Consumable>();
-                            bool has_stored_item;
+                    //case "Consumable":
+                    //    {
+                    //        Consumable item = item_found.GetComponent<Consumable>();
+                    //        bool has_stored_item;
 
-                            // Maybe destroy the consumable inside the store_or_remove()?
-                            // Create a method to store ammo?
-                            has_stored_item = GI.player_inventory.store_or_remove(item);
-                            if (has_stored_item) Destroy(item_found);
-                            // ELSE give the player an feedback error
-                        }
-                        break;
+                    //        // Maybe destroy the consumable inside the store_or_remove()?
+                    //        // Create a method to store ammo?
+                    //        has_stored_item = GI.player_inventory.store_or_remove_item(item);
+                    //        if (has_stored_item) Destroy(item_found);
+                    //        // ELSE give the player an feedback error
+                    //    }
+                    //    break;
 
                     //case "CollectableAmmo":
                     //    {
@@ -99,7 +99,9 @@ public class ItemPickup : MonoBehaviour
 
                     case "InventoryExpansion":
                         {
-                            GI.player_inventory.expand_inventory_capacity(4);
+                            //if (!GI.player_inventory.can_expand_slots()) break;
+
+                            GI.player_inventory.expand_inventory_capacity();
                             Destroy(item_found);
                         }
                         break;
