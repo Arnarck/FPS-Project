@@ -29,10 +29,11 @@ public enum ItemType
 
 public class InventoryItem
 {
+    public string m_name;
     public int stored_amount;
     public int max_capacity;
     public bool is_avaliable = false;
-    public Sprite m_image;
+    public Sprite sprite;
     public ItemType type;
-    public GameObject item;
+    public GameObject slot_ui;
 }

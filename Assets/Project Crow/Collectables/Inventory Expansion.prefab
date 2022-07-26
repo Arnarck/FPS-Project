@@ -55,13 +55,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6060502088319799018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c2ceb78024263c4b94d3b18da94fe25, type: 3}
+  m_Script: {fileID: 11500000, guid: 873d15c48592beb4bbcc29e30c6d3bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_name: Inventory Expansion
-  amount: 0
+  sprite: {fileID: 0}
   type: 0
-  m_image: {fileID: 0}
 --- !u!1 &6060502088456026746
 GameObject:
   m_ObjectHideFlags: 0

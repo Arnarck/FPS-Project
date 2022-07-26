@@ -32,16 +32,16 @@ public class ItemPickup : MonoBehaviour
 
             has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
 
-            if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Collectable layer
+            if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Item layer
             {
-                Consumable item = hit.collider.GetComponent<Consumable>();
+                Item item = hit.collider.GetComponent<Item>();
 
                 // Sets the pickup ui position on the screen.
                 Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
                 pickup_interface.position = item_screen_position;
 
                 // Sets the pickup ui values.
-                pickup_image.sprite = item.m_image;
+                pickup_image.sprite = item.sprite;
                 pickup_text.text = item.m_name;
 
                 pickup_interface.gameObject.SetActive(true);
@@ -68,18 +68,18 @@ public class ItemPickup : MonoBehaviour
             {
                 switch (item_found.tag)
                 {
-                    //case "Consumable":
-                    //    {
-                    //        Consumable item = item_found.GetComponent<Consumable>();
-                    //        bool has_stored_item;
+                    case "Item":
+                        {
+                            Item item = item_found.GetComponent<Item>();
+                            bool has_stored_item;
 
-                    //        // Maybe destroy the consumable inside the store_or_remove()?
-                    //        // Create a method to store ammo?
-                    //        has_stored_item = GI.player_inventory.store_or_remove_item(item);
-                    //        if (has_stored_item) Destroy(item_found);
-                    //        // ELSE give the player an feedback error
-                    //    }
-                    //    break;
+                            // Maybe destroy the consumable inside the store_or_remove()?
+                            // Create a method to store ammo?
+                            has_stored_item = GI.player_inventory.store_item(item);
+                            if (has_stored_item) Destroy(item_found);
+                            // ELSE give the player an feedback error
+                        }
+                        break;
 
                     //case "CollectableAmmo":
                     //    {
@@ -99,7 +99,7 @@ public class ItemPickup : MonoBehaviour
 
                     case "InventoryExpansion":
                         {
-                            //if (!GI.player_inventory.can_expand_slots()) break;
+                            if (!GI.player_inventory.can_expand_capacity()) break;
 
                             GI.player_inventory.expand_inventory_capacity();
                             Destroy(item_found);
