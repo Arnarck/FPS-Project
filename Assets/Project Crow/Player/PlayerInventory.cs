@@ -15,15 +15,16 @@ public class PlayerInventory : MonoBehaviour
 
     void Awake()
     {
+        GI.player_inventory = this;
         inventory = new InventoryItem[total_capacity];
-        for (int i = 0; i < inventory.Length; i++)
+
+        for (int i = 0; i < inventory.Length; i++) // Creates the inventory, and disable all slots
         {
             inventory[i] = new InventoryItem();
-            inventory[i].slot_ui = Instantiate(slot_prefab);
-            inventory[i].slot_ui.SetActive(inventory[i].is_avaliable);
+            inventory[i].slot_ui = Instantiate(slot_prefab).GetComponent<InventorySlotData>();
+            inventory[i].slot_ui.gameObject.SetActive(false);
             inventory[i].slot_ui.transform.SetParent(ui_inventory_handler.transform);
         }
-        GI.player_inventory = this;
     }
 
     void Update()
@@ -33,14 +34,6 @@ public class PlayerInventory : MonoBehaviour
             {
                 ui_inventory_screen.SetActive(!ui_inventory_screen.activeInHierarchy);
             }   
-
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                for (int i =0; i < inventory.Length; i++)
-                {
-                    Debug.Log($"Index: {i} \nName: {inventory[i].m_name} \n Stored Amount: {inventory[i].stored_amount} \n Type: {inventory[i].type} \n Is Avaliable: {inventory[i].is_avaliable}");
-                }
-            }
         }
     }
 
@@ -56,11 +49,12 @@ public class PlayerInventory : MonoBehaviour
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                // TODO Put this data at the slot gameObject... And think on how to get the references for image, name, amount, etc...
                 inventory[i].m_name = item.m_name;
                 inventory[i].type = item.type;
                 inventory[i].stored_amount = 1;
-                inventory[i].sprite = item.sprite;
+                inventory[i].slot_ui.button.gameObject.SetActive(true);
+                inventory[i].slot_ui.count_text.text = ""; // Don't display item count for single items ("single" means 1 item per slot)
+                inventory[i].slot_ui.button.image.sprite = item.sprite;
 
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
 
@@ -85,7 +79,8 @@ public class PlayerInventory : MonoBehaviour
                 value--;
                 inventory[i].is_avaliable = true;
                 inventory[i].type = ItemType.NONE;
-                inventory[i].slot_ui.SetActive(true);
+                inventory[i].slot_ui.gameObject.SetActive(true);
+                inventory[i].slot_ui.button.gameObject.SetActive(false);
 
                 if (value < 1) return;
             }

@@ -33,7 +33,6 @@ public class InventoryItem
     public int stored_amount;
     public int max_capacity;
     public bool is_avaliable = false;
-    public Sprite sprite;
     public ItemType type;
-    public GameObject slot_ui;
+    public InventorySlotData slot_ui;
 }
