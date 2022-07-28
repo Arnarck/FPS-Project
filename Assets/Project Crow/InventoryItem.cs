@@ -34,5 +34,5 @@ public class InventoryItem
     public int max_capacity;
     public bool is_avaliable = false;
     public ItemType type;
-    public InventorySlotData slot_ui;
+    public SlotData slot_ui;
 }
