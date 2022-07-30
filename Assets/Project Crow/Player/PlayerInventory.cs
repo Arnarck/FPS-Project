@@ -129,11 +129,6 @@ public class PlayerInventory : MonoBehaviour
         Debug.LogError("No inventory slots avaliable!");
     }
 
-    public void remove_cumulative_item(CumulativeItem item)
-    {
-
-    }
-
     public void remove_item(int i)
     {
 
@@ -145,7 +140,17 @@ public class PlayerInventory : MonoBehaviour
 
         Debug.Log($"Removed 1 {inventory[i].type} from slot {i}.");
 
-        set_slot_data(i, null, ItemType.NONE, 0, false, null);
+        inventory[i].stored_amount--;
+
+        if (inventory[i].stored_amount < 1) // Reset inventory slot
+        {
+            set_slot_data(i, null, ItemType.NONE, 0, false, null);
+            return;
+        }
+        
+        // Should only get here with cumulative items
+        inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
+
         //inventory[i].m_name = null;
         //inventory[i].type = ItemType.NONE;
         //inventory[i].stored_amount = 0;
