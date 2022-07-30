@@ -31,8 +31,7 @@ public class InventoryItem
 {
     public string m_name;
     public int stored_amount;
-    public int max_capacity;
     public bool is_avaliable = false;
     public ItemType type;
-    public SlotData slot_ui;
+    public SlotData ui;
 }

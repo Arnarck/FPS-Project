@@ -34,7 +34,7 @@ public class ItemPickup : MonoBehaviour
 
             if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Item layer
             {
-                Item item = hit.collider.GetComponent<Item>();
+                Collectable item = hit.collider.GetComponent<Collectable>();
 
                 // Sets the pickup ui position on the screen.
                 Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
@@ -73,11 +73,16 @@ public class ItemPickup : MonoBehaviour
                             Item item = item_found.GetComponent<Item>();
                             bool has_stored_item;
 
-                            // Maybe destroy the consumable inside the store_or_remove()?
-                            // Create a method to store ammo?
                             has_stored_item = GI.player_inventory.store_item(item);
                             if (has_stored_item) Destroy(item_found);
                             // ELSE give the player an feedback error
+                        }
+                        break;
+
+                    case "CumulativeItem":
+                        {
+                            CumulativeItem item = item_found.GetComponent<CumulativeItem>();
+                            GI.player_inventory.store_cumulative_item(item);
                         }
                         break;
 

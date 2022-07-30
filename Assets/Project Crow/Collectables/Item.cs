@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : Collectable
 {
-    public string m_name;
-    public Sprite sprite;
     public ItemType type;
 }
