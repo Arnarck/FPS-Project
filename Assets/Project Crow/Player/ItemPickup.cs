@@ -23,6 +23,7 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] Image pickup_image;
     [SerializeField] RectTransform loot_interface;
     [SerializeField] TextMeshProUGUI pickup_text;
+    public InventoryData item_data;
 
     void FixedUpdate()
     {
@@ -31,13 +32,14 @@ public class ItemPickup : MonoBehaviour
             RaycastHit hit;
 
             has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
-
+            
+            // TODO Optimize this. Currently, this code is getting a component every frame that the raycast hits an collectable
             if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Item layer
             {
                 Collectable item = hit.collider.GetComponent<Collectable>();
 
                 // Sets the pickup ui position on the screen.
-                Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(item.transform.position);
+                Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(hit.collider.transform.position);
                 pickup_interface.position = item_screen_position;
 
                 // Sets the pickup ui values.
@@ -71,18 +73,17 @@ public class ItemPickup : MonoBehaviour
                     case "Item":
                         {
                             Item item = item_found.GetComponent<Item>();
-                            bool has_stored_item;
 
-                            has_stored_item = GI.player_inventory.store_item(item);
-                            if (has_stored_item) Destroy(item_found);
-                            // ELSE give the player an feedback error
-                        }
-                        break;
-
-                    case "CumulativeItem":
-                        {
-                            CumulativeItem item = item_found.GetComponent<CumulativeItem>();
-                            GI.player_inventory.store_cumulative_item(item);
+                            if (GI.player_inventory.is_cumulative_item(item.type))
+                            {
+                                Debug.Log($"{item.type} is a cumulative item!");
+                                GI.player_inventory.store_cumulative_item(item);
+                            }
+                            else
+                            {
+                                Debug.Log($"{item.type} is a single item!");
+                                GI.player_inventory.store_item(item);
+                            }
                         }
                         break;
 

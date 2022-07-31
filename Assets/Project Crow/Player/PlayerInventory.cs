@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class PlayerInventory : MonoBehaviour
     public GameObject ui_inventory_screen;
     public GameObject ui_inventory_handler;
     public GameObject slot_prefab;
+    public InventoryData inventory_data;
 
     void Awake()
     {
@@ -38,10 +37,6 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    // TODO Create an class for cumulative items (like ammo), make this class and Item class inherit from "Collectable" class.
-    // Collectable will only have an name and Sprite.
-    // Use Collectable class for items like "InventoryExpansion" or "Ammo Holster Expansion".
-    // Use Collectable class in "ItemPickup.cs" to get the name and image of an item
     public bool store_item(Item item)
     {
         if (is_cumulative_item(item.type)) return false;
@@ -50,16 +45,9 @@ public class PlayerInventory : MonoBehaviour
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                set_slot_data(i, item.m_name, item.type, 1, true, item.sprite);
-
-                //inventory[i].m_name = item.m_name;
-                //inventory[i].type = item.type;
-                //inventory[i].stored_amount = 1;
-                //inventory[i].ui.button.gameObject.SetActive(true);
-                //inventory[i].ui.count_text.text = null; // Don't display item count for single items ("single" means 1 item per slot)
-                //inventory[i].ui.button.image.sprite = item.sprite;
-
+                set_slot_data(i, inventory_data.item[(int)item.type].item_name, item.type, 1, true, inventory_data.item[(int)item.type].sprite);
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
+                Destroy(item.gameObject);
 
                 return true;
             }
@@ -71,7 +59,7 @@ public class PlayerInventory : MonoBehaviour
 
     void set_slot_data(int i, string name, ItemType type, int stored_amount, bool has_item_stored, Sprite sprite)
     {
-        inventory[i].m_name = name;
+        //inventory[i].m_name = name;
         inventory[i].type = type;
         inventory[i].stored_amount = stored_amount;
         inventory[i].ui.slot_index = i;
@@ -82,30 +70,31 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log($"Added {inventory[i].type} to slot {i} and amount {inventory[i].stored_amount}");
     }
 
-    public void store_cumulative_item(CumulativeItem item)
+    public void store_cumulative_item(Item item)
     {
+        int type = (int)item.type;
         for (int i = 0; i < inventory.Length; i++)
         {
             if (inventory[i].is_avaliable)
             {
                 if (inventory[i].type.Equals(ItemType.NONE)) // Add item to an empty slot
                 {
-                    if (get_max_capacity(item.type) >= item.amount) // avaliable space on inventory is greater than item amount
+                    if (inventory_data.item[type].max_capacity >= item.amount) // avaliable space on inventory is greater than item amount
                     {
-                        set_slot_data(i, item.m_name, item.type, item.amount, true, item.sprite);
+                        set_slot_data(i, inventory_data.item[type].item_name, item.type, item.amount, true, inventory_data.item[type].sprite);
                         Destroy(item.gameObject);
                         return;
                     }
                     else // item amount is greater than inventory space
                     {
-                        int remaining_amount_on_item = item.amount - get_max_capacity(item.type);
-                        set_slot_data(i, item.m_name, item.type, get_max_capacity(item.type), true, item.sprite);
+                        int remaining_amount_on_item = item.amount - inventory_data.item[type].max_capacity;
+                        set_slot_data(i, inventory_data.item[type].item_name, item.type, inventory_data.item[type].max_capacity, true, inventory_data.item[type].sprite);
                         item.amount = remaining_amount_on_item;
                     }
                 }
-                else if (inventory[i].type.Equals(item.type) && inventory[i].stored_amount < get_max_capacity(item.type)) // Add item to an existing slot
+                else if (inventory[i].type.Equals(item.type) && inventory[i].stored_amount < inventory_data.item[type].max_capacity) // Add item to an existing slot
                 {
-                    int avaliable_space = get_max_capacity(item.type) - inventory[i].stored_amount;
+                    int avaliable_space = inventory_data.item[type].max_capacity - inventory[i].stored_amount;
 
                     if (avaliable_space >= item.amount) // avaliable space on inventory is greater than item amount
                     {
@@ -118,7 +107,7 @@ public class PlayerInventory : MonoBehaviour
                     else // item amount is greater than inventory space
                     {
                         int remaining_amount_on_item = item.amount - avaliable_space;
-                        inventory[i].stored_amount = get_max_capacity(item.type);
+                        inventory[i].stored_amount = inventory_data.item[type].max_capacity;
                         inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
                         item.amount = remaining_amount_on_item;
                     }
@@ -150,13 +139,6 @@ public class PlayerInventory : MonoBehaviour
         
         // Should only get here with cumulative items
         inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
-
-        //inventory[i].m_name = null;
-        //inventory[i].type = ItemType.NONE;
-        //inventory[i].stored_amount = 0;
-        //inventory[i].ui.button.gameObject.SetActive(false);
-        //inventory[i].ui.count_text.text = null;
-        //inventory[i].ui.button.image.sprite = null;
     }
 
     public void expand_inventory_capacity()
@@ -178,21 +160,6 @@ public class PlayerInventory : MonoBehaviour
         }
 
         Debug.LogError("All inventory slots unlocked. Couldn't expand inventory by " + amount_to_expand + " slots.");
-    }
-
-    public int get_max_capacity(ItemType type)
-    {
-        int i = (int)type + 1;
-
-        if (type.Equals(ItemType.NONE))
-        {
-            Debug.LogError("Trying to get the max capacity of NONE");
-            return 0;
-        }
-
-        if (i >= 6 && i <= 9) return 10;
-
-        return 1;
     }
 
     public bool can_expand_capacity()

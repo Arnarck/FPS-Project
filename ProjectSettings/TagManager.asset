@@ -11,7 +11,7 @@ TagManager:
   - Loot
   - EnemyHead
   - Item
-  - CumulativeItem
+  - Collectable
   layers:
   - Default
   - TransparentFX

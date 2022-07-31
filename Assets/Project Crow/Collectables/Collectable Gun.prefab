@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5664755588390980466}
   m_Layer: 9
   m_Name: Collectable Gun
-  m_TagString: CollectableGun
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,9 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58569b0150a29c48a6489b710da2132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 1
-  itemName: Assault Rifle
-  itemImage: {fileID: 0}
+  type: 2
   type: 2
 --- !u!1001 &5664755587493603676
 PrefabInstance:
