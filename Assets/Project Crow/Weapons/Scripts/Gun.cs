@@ -196,7 +196,7 @@ public class Gun : MonoBehaviour
             }
         }
 
-        { // Process reload time
+        { // Process time to reload
             if (is_reloading)
             {
                 if (last_reload_t >= reload_time)

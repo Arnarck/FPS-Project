@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public enum ItemType
+﻿public enum ItemType
 {
     NONE,
 
@@ -27,16 +25,9 @@ public enum ItemType
     COUNT
 }
 
-public class InventoryData : MonoBehaviour
+public static class InventoryData
 {
-    [System.Serializable]
-    public struct ItemData
-    {
-        public string item_name;
-        public string description;
-        public int max_capacity;
-        public Sprite sprite;
-    }
-
-    public ItemData[] item;
+    public static string[] name = { };
+    public static string[] description = { };
+    public static int[] max_capacity = { 0, 1, 1, 1, 1, 1, 30, 16, 60, 90, 1, 1, 1, 0 };
 }

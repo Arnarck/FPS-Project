@@ -23,7 +23,6 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] Image pickup_image;
     [SerializeField] RectTransform loot_interface;
     [SerializeField] TextMeshProUGUI pickup_text;
-    public InventoryData item_data;
 
     void FixedUpdate()
     {
