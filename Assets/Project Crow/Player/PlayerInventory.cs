@@ -2,13 +2,15 @@
 
 public class PlayerInventory : MonoBehaviour
 {
-    InventoryItem[] inventory; // Total Inventory capacity;
+    [HideInInspector] public InventoryItem[] inventory; // Total Inventory capacity;
+    [HideInInspector] public int current_slot_selected_on_item_menu, previous_slot_selected_on_item_menu = -1;
 
     public int slots_expanded_after_collecting_expansion_item;
     public int total_capacity;
     public bool is_knife_equiped;
     public GameObject ui_inventory_screen;
     public GameObject ui_inventory_handler;
+    public ItemMenu ui_item_menu;
     public GameObject slot_prefab;
 
     void Awake()
@@ -19,7 +21,7 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < inventory.Length; i++) // Creates the inventory, and disable all slots
         {
             inventory[i] = new InventoryItem();
-            inventory[i].ui = Instantiate(slot_prefab).GetComponent<SlotData>();
+            inventory[i].ui = Instantiate(slot_prefab).GetComponent<InventorySlotUI>();
             inventory[i].ui.index = i;
             inventory[i].ui.gameObject.SetActive(false);
             inventory[i].ui.transform.SetParent(ui_inventory_handler.transform);
@@ -32,13 +34,18 @@ public class PlayerInventory : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.I))
             {
                 ui_inventory_screen.SetActive(!ui_inventory_screen.activeInHierarchy);
+                if (ui_inventory_screen.activeInHierarchy == false)
+                {
+                    ui_item_menu.gameObject.SetActive(false);
+                    previous_slot_selected_on_item_menu = -1;
+                }
             }   
         }
     }
 
     public bool store_item(Item item)
     {
-        if (is_cumulative_item(item.type)) return false;
+        if (is_cumulative(item.type)) return false;
 
         for (int i = 0; i < inventory.Length; i++)
         {
@@ -62,7 +69,7 @@ public class PlayerInventory : MonoBehaviour
         inventory[i].stored_amount = stored_amount;
         inventory[i].ui.index = i;
         inventory[i].ui.button.gameObject.SetActive(has_item_stored);
-        inventory[i].ui.count_text.text = is_cumulative_item(type) ? stored_amount.ToString() : null;
+        inventory[i].ui.count_text.text = is_cumulative(type) ? stored_amount.ToString() : null;
         inventory[i].ui.button.image.sprite = sprite;
 
         Debug.Log($"Added {inventory[i].type} to slot {i} and amount {inventory[i].stored_amount}");
@@ -70,7 +77,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void store_cumulative_item(Item item)
     {
-        if (!is_cumulative_item(item.type)) return;
+        if (!is_cumulative(item.type)) return;
 
         int type = (int)item.type;
         for (int i = 0; i < inventory.Length; i++)
@@ -172,11 +179,70 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    public bool is_cumulative_item(ItemType item)
+    public bool is_cumulative(ItemType item)
     {
         if ((int)item >= 6 && (int)item <= 9) return true; // Ammo
         if ((item.Equals(ItemType.FLASHLIGHT_BATTERY))) return true;
 
         return false;
+    }
+
+    public bool is_weapon(ItemType item)
+    {
+        if ((int)item >= 1 && (int)item <= 5) return true;
+        return false;
+    }
+
+    public bool is_consumable(ItemType item)
+    {
+        if ((int)item >= 10 && (int)item <= 12) return true;
+        return false;
+    }
+
+    // TODO Add functionallity of equiping a gun.
+    // if player don't have any gun, auto equip the first one he finds.
+    // Create 4 slots that will work as shortcuts for weapons?
+
+    // TODO (Later) Change "item menu" position based on which slot activated it
+    public void toggle_item_menu(int i)
+    {
+        ItemType item = inventory[i].type;
+        current_slot_selected_on_item_menu = i;
+
+        if (current_slot_selected_on_item_menu == previous_slot_selected_on_item_menu)
+        {
+            ui_item_menu.gameObject.SetActive(false);
+            previous_slot_selected_on_item_menu = -1;
+            return;
+        }
+        else
+        {
+            if (is_weapon(item)) // Weapons
+            {
+                Debug.Log("WEAPON selected");
+                toggle_item_menu_options(false, true, false);
+            }
+            else if (is_cumulative(item)) // Ammo (or cumulative items)
+            {
+                Debug.Log("CUMULATIVE ITEM selected");
+                toggle_item_menu_options(false, false, true);
+            }
+            else if (is_consumable(item)) // Consumable items
+            {
+                Debug.Log("CONSUMABLE ITEM selected");
+                toggle_item_menu_options(true, false, false);
+            }
+
+            ui_item_menu.activate_item_menu();
+        }
+
+        previous_slot_selected_on_item_menu = current_slot_selected_on_item_menu;
+    }
+
+    public void toggle_item_menu_options(bool option1_active, bool option2_active, bool option3_active)
+    {
+        ui_item_menu.options[0].SetActive(option1_active);
+        ui_item_menu.options[1].SetActive(option2_active);
+        ui_item_menu.options[2].SetActive(option3_active);
     }
 }

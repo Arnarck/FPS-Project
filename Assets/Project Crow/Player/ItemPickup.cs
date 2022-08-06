@@ -73,7 +73,7 @@ public class ItemPickup : MonoBehaviour
                         {
                             Item item = item_found.GetComponent<Item>();
 
-                            if (GI.player_inventory.is_cumulative_item(item.type))
+                            if (GI.player_inventory.is_cumulative(item.type))
                             {
                                 Debug.Log($"{item.type} is a cumulative item!");
                                 GI.player_inventory.store_cumulative_item(item);

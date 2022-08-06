@@ -5,5 +5,5 @@ public class InventoryItem
     public int stored_amount;
     public bool is_avaliable = false;
     public ItemType type;
-    public SlotData ui;
+    public InventorySlotUI ui;
 }

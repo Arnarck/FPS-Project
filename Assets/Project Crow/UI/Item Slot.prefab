@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdb94c7bd71fad4d96c6eccac73512d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slot_index: 0
+  index: 0
   button: {fileID: 532740504863908812}
   count_text: {fileID: 898249030312775104}
 --- !u!1 &8644267920407857475
@@ -380,7 +380,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1220691478925746935}
-        m_MethodName: remove_item
+        m_MethodName: toggle_item_menu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
