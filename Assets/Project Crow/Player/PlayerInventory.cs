@@ -3,7 +3,9 @@
 public class PlayerInventory : MonoBehaviour
 {
     [HideInInspector] public InventoryItem[] inventory; // Total Inventory capacity;
+    [HideInInspector] public Weapon[] weapons;
     [HideInInspector] public int current_slot_selected_on_item_menu, previous_slot_selected_on_item_menu = -1;
+    [HideInInspector] public WeaponType equiped_weapon = WeaponType.NONE;
 
     public int slots_expanded_after_collecting_expansion_item;
     public int total_capacity;
@@ -12,19 +14,29 @@ public class PlayerInventory : MonoBehaviour
     public GameObject ui_inventory_handler;
     public ItemMenu ui_item_menu;
     public GameObject slot_prefab;
+    public Transform weapon_holster;
 
     void Awake()
     {
         GI.player_inventory = this;
         inventory = new InventoryItem[total_capacity];
 
+        // TODO maybe turn InventoryItem into a struct
         for (int i = 0; i < inventory.Length; i++) // Creates the inventory, and disable all slots
         {
             inventory[i] = new InventoryItem();
             inventory[i].ui = Instantiate(slot_prefab).GetComponent<InventorySlotUI>();
             inventory[i].ui.index = i;
             inventory[i].ui.gameObject.SetActive(false);
-            inventory[i].ui.transform.SetParent(ui_inventory_handler.transform);
+            inventory[i].ui.transform.SetParent(ui_inventory_handler.transform, false);
+        }
+
+        weapons = new Weapon[weapon_holster.childCount];
+        // Disable all weapons at the start of the game
+        for (int i = 0; i < weapon_holster.childCount; i++)
+        {
+            weapons[i] = weapon_holster.GetChild(i).GetComponent<Weapon>();
+            weapons[i].gameObject.SetActive(false);
         }
     }
 
@@ -51,7 +63,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                set_slot_data(i, item.type, 1, true, item.sprite);
+                set_slot_data(i, item.type, 1, item.sprite);
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
                 Destroy(item.gameObject);
 
@@ -63,12 +75,12 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    void set_slot_data(int i, ItemType type, int stored_amount, bool has_item_stored, Sprite sprite)
+    void set_slot_data(int i, ItemType type, int stored_amount, Sprite sprite)
     {
         inventory[i].type = type;
         inventory[i].stored_amount = stored_amount;
         inventory[i].ui.index = i;
-        inventory[i].ui.button.gameObject.SetActive(has_item_stored);
+        inventory[i].ui.button.gameObject.SetActive(stored_amount > 0 ? true : false);
         inventory[i].ui.count_text.text = is_cumulative(type) ? stored_amount.ToString() : null;
         inventory[i].ui.button.image.sprite = sprite;
 
@@ -88,14 +100,14 @@ public class PlayerInventory : MonoBehaviour
                 {
                     if (InventoryData.max_capacity[type] >= item.amount) // avaliable space on inventory is greater than item amount
                     {
-                        set_slot_data(i, item.type, item.amount, true, item.sprite);
+                        set_slot_data(i, item.type, item.amount, item.sprite);
                         Destroy(item.gameObject);
                         return;
                     }
                     else // item amount is greater than inventory space
                     {
                         int remaining_amount_on_item = item.amount - InventoryData.max_capacity[type];
-                        set_slot_data(i, item.type, InventoryData.max_capacity[type], true, item.sprite);
+                        set_slot_data(i, item.type, InventoryData.max_capacity[type], item.sprite);
                         item.amount = remaining_amount_on_item;
                     }
                 }
@@ -140,7 +152,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (inventory[i].stored_amount < 1) // Reset inventory slot
         {
-            set_slot_data(i, ItemType.NONE, 0, false, null);
+            set_slot_data(i, ItemType.NONE, 0, null);
             return;
         }
         
@@ -191,6 +203,15 @@ public class PlayerInventory : MonoBehaviour
     {
         if ((int)item >= 1 && (int)item <= 5) return true;
         return false;
+    }
+
+    public bool is_ammo(ItemType item)
+    {
+        int current_index = (int)item;
+        int first_ammo_index = (int)ItemType.PISTOL_AMMO;
+        int last_ammo_index = (int)ItemType.SUBMACHINE_GUN_AMMO;
+
+        return current_index >= first_ammo_index && current_index <= last_ammo_index;
     }
 
     public bool is_consumable(ItemType item)
@@ -244,5 +265,135 @@ public class PlayerInventory : MonoBehaviour
         ui_item_menu.options[0].SetActive(option1_active);
         ui_item_menu.options[1].SetActive(option2_active);
         ui_item_menu.options[2].SetActive(option3_active);
+    }
+
+    // TODO Disable option of equiping with the weapon is already equiped
+    // TODO Create 4 slots to serve as shortcuts?
+    public void equip_weapon()
+    {
+        if (!is_weapon(inventory[current_slot_selected_on_item_menu].type))
+        {
+            Debug.LogError($"{inventory[current_slot_selected_on_item_menu].type} is not a weapon!");
+            return;
+        }
+
+        WeaponType weapon = (WeaponType)inventory[current_slot_selected_on_item_menu].type;
+
+        if (weapon.Equals(equiped_weapon))
+        {
+            Debug.LogError($"{weapon} already equiped!");
+            return;
+        }
+        if (weapon.Equals(WeaponType.NONE) || weapon.Equals(WeaponType.COUNT))
+        {
+            Debug.LogError($"Trying to equip {weapon} to weapon slot!");
+            return;
+        }
+
+        // Enables the selected weapon and disable the others
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i].type.Equals(weapon))
+            {
+                weapons[i].gameObject.SetActive(true);
+                equiped_weapon = weapons[i].type;
+            }
+            else weapons[i].gameObject.SetActive(false);
+        }
+
+        display_total_ammo_of_equiped_weapon();
+    }
+
+    public void display_total_ammo_of_equiped_weapon()
+    {
+        if (equiped_weapon.Equals(WeaponType.KNIFE) || equiped_weapon.Equals(WeaponType.NONE) || equiped_weapon.Equals(WeaponType.COUNT))
+        {
+            Debug.LogError($"{equiped_weapon} does not have an ammo count");
+            return;
+        }
+
+        ItemType ammo_type = get_ammo_type_of(equiped_weapon);
+        int total_ammo_count = get_total_item_count(ammo_type);
+        GI.ammo_display.display_ammo_in_holster(total_ammo_count);
+    }
+
+    public ItemType get_ammo_type_of(WeaponType weapon)
+    {
+        switch (weapon)
+        {
+            case WeaponType.PISTOL:
+                return ItemType.PISTOL_AMMO;
+
+            case WeaponType.SHOTGUN:
+                return ItemType.SHOTGUN_AMMO;
+
+            case WeaponType.ASSAULT_RIFLE:
+                return ItemType.ASSAULT_RIFLE_AMMO;
+
+            case WeaponType.SUBMACHINE_GUN:
+                return ItemType.SUBMACHINE_GUN_AMMO;
+
+            default:
+                Debug.Assert(false);
+                break;
+        }
+
+        Debug.LogError($"{weapon} is a invalid weapon type!");
+        return ItemType.NONE;
+    }
+
+    public WeaponType get_weapon_type_of(ItemType item)
+    {
+        switch (item)
+        {
+            case ItemType.PISTOL:
+            case ItemType.PISTOL_AMMO:
+                return WeaponType.PISTOL;
+
+            case ItemType.SHOTGUN:
+            case ItemType.SHOTGUN_AMMO:
+                return WeaponType.SHOTGUN;
+
+            case ItemType.ASSAULT_RIFLE:
+            case ItemType.ASSAULT_RIFLE_AMMO:
+                return WeaponType.ASSAULT_RIFLE;
+
+            case ItemType.SUBMACHINE_GUN:
+            case ItemType.SUBMACHINE_GUN_AMMO:
+                return WeaponType.SUBMACHINE_GUN;
+
+            default:
+                Debug.Assert(false);
+                break;
+        }
+
+        Debug.LogError($"{item} is a invalid weapon type!");
+        return WeaponType.NONE;
+    }
+
+    public int get_total_item_count(ItemType item)
+    {
+        int item_count = 0;
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (item.Equals(inventory[i].type)) item_count += inventory[i].stored_amount;
+        }
+
+        return item_count;
+    }
+
+    public void reset_slot_data()
+    {
+        bool result = check_if_item_is_ammo_and_corresponds_to_equiped_weapon(inventory[current_slot_selected_on_item_menu].type);
+        set_slot_data(current_slot_selected_on_item_menu, ItemType.NONE, 0, null);
+        if (result) display_total_ammo_of_equiped_weapon();
+    }
+
+    public bool check_if_item_is_ammo_and_corresponds_to_equiped_weapon(ItemType item)
+    {
+        if (!is_ammo(item)) return false;
+        if (!equiped_weapon.Equals(get_weapon_type_of(item))) return false; // checks if item is an ammo of the equiped weapon
+
+        return true;
     }
 }

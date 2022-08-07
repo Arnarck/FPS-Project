@@ -72,7 +72,6 @@ public class ItemPickup : MonoBehaviour
                     case "Item":
                         {
                             Item item = item_found.GetComponent<Item>();
-
                             if (GI.player_inventory.is_cumulative(item.type))
                             {
                                 Debug.Log($"{item.type} is a cumulative item!");
@@ -83,6 +82,9 @@ public class ItemPickup : MonoBehaviour
                                 Debug.Log($"{item.type} is a single item!");
                                 GI.player_inventory.store_item(item);
                             }
+
+                            if (GI.player_inventory.check_if_item_is_ammo_and_corresponds_to_equiped_weapon(item.type))
+                                GI.player_inventory.display_total_ammo_of_equiped_weapon();
                         }
                         break;
 

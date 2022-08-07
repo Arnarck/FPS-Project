@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Gun : MonoBehaviour
+public class Gun : Weapon
 {
     bool can_shoot = true, is_reloading, has_ammo, has_started;
     int current_ammo_amount;
@@ -50,7 +50,7 @@ public class Gun : MonoBehaviour
         if (has_started)
         {
             GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
-            GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
+            //GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
         }
     }
 
@@ -61,7 +61,7 @@ public class Gun : MonoBehaviour
         has_ammo = current_ammo_amount > 0 ? true : false;
 
         GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
-        GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
+        //GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
     }
 
     void OnDisable()

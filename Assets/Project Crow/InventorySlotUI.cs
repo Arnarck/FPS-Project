@@ -9,10 +9,10 @@ public class InventorySlotUI : MonoBehaviour
     public Button button;
     public TextMeshProUGUI count_text;
 
-    public void remove_item()
-    {
-        GI.player_inventory.remove_item(index);
-    }
+    //public void remove_item()
+    //{
+    //    GI.player_inventory.remove_item(index);
+    //}
 
     public void toggle_item_menu()
     {

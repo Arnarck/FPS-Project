@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Knife : MonoBehaviour
+public class Knife : Weapon
 {
     float evading_t;
     float last_evade_t;

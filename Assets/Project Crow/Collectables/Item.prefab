@@ -61,6 +61,7 @@ MonoBehaviour:
   m_name: Health Pill
   sprite: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
   type: 10
+  amount: 1
 --- !u!1 &4233373956756125713
 GameObject:
   m_ObjectHideFlags: 0
