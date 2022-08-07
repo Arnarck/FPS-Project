@@ -160,6 +160,30 @@ public class PlayerInventory : MonoBehaviour
         inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
     }
 
+    public void remove_item(ItemType item, int amount_to_remove)
+    {
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (item.Equals(inventory[i].type))
+            {
+                if (inventory[i].stored_amount > amount_to_remove)
+                {
+                    inventory[i].stored_amount -= amount_to_remove;
+                    inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
+                    return;
+                }
+                else
+                {
+                    amount_to_remove -= inventory[i].stored_amount;
+                    set_slot_data(i, ItemType.NONE, 0, null);
+                    if (amount_to_remove < 1) return;
+                }
+            }
+        }
+
+        Debug.LogError($"Could not remove {amount_to_remove} items!");
+    }
+
     public void expand_inventory_capacity()
     {
         int amount_to_expand = slots_expanded_after_collecting_expansion_item;

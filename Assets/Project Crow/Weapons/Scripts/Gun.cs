@@ -189,7 +189,7 @@ public class Gun : Weapon
         }
 
         { // Process Reload Input
-            if (Input.GetKeyDown(KeyCode.R) && !is_reloading && current_ammo_amount < max_ammo_amount && GI.ammo_holster.current_ammo[(int)ammo_type] > 0)
+            if (Input.GetKeyDown(KeyCode.R) && !is_reloading && current_ammo_amount < max_ammo_amount && GI.player_inventory.get_total_item_count(GI.player_inventory.get_ammo_type_of(type)) > 0)
             {
                 is_reloading = true;
                 last_reload_t = 0f;
@@ -205,21 +205,25 @@ public class Gun : Weapon
                     has_ammo = true;
 
                     // Remove ammo from holster and reload clip
+                    ItemType ammo = GI.player_inventory.get_ammo_type_of(type);
                     int spent_ammo = max_ammo_amount - current_ammo_amount;
-                    int ammo_in_holster = GI.ammo_holster.current_ammo[(int)ammo_type];
+                    int ammo_in_holster = GI.player_inventory.get_total_item_count(ammo);
 
                     if (ammo_in_holster >= spent_ammo)
                     {
                         current_ammo_amount = max_ammo_amount;
-                        GI.ammo_holster.store_or_remove(ammo_type, -spent_ammo);
+                        //GI.ammo_holster.store_or_remove(ammo_type, -spent_ammo);
+                        GI.player_inventory.remove_item(ammo, spent_ammo);
                     }
                     else
                     {
                         current_ammo_amount += ammo_in_holster;
-                        GI.ammo_holster.store_or_remove(ammo_type, -ammo_in_holster);
+                        //GI.ammo_holster.store_or_remove(ammo_type, -ammo_in_holster);
+                        GI.player_inventory.remove_item(ammo, ammo_in_holster);
                     }
 
                     GI.ammo_display.display_ammo_in_clip(current_ammo_amount);
+                    GI.player_inventory.display_total_ammo_of_equiped_weapon();
                 }
                 else last_reload_t += Time.deltaTime;
             }
