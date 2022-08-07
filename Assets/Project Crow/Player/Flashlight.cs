@@ -24,6 +24,8 @@ public class Flashlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         { // Flashlight input
             if (Input.GetKeyDown(KeyCode.L) && has_battery)
             {

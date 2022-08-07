@@ -37,6 +37,7 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         if (!is_alive) return;
+        if (GI.pause_game.game_paused) return;
 
         bool is_attacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"); // Gets the name of the current playing animation
 

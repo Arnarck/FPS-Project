@@ -14,4 +14,5 @@ public static class GI
     public static EnemyManager enemy_manager;
     public static Flashlight player_flashlight;
     public static GunRecoil gun_recoil;
+    public static PauseGame pause_game;
 }

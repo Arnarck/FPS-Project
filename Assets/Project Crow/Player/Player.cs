@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     // Health and Stamina
-    bool is_alive = true, can_run = true, can_restore_stamina;
-    float current_health, current_stamina;
-    float current_max_health, current_max_stamina;
+    public bool is_alive = true, can_run = true, can_restore_stamina;
+    public float current_health, current_stamina;
+    public float current_max_health, current_max_stamina;
     float time_elapsed_from_stamina_restoration;
 
     [Header("Health")]
@@ -25,9 +25,6 @@ public class Player : MonoBehaviour
     [SerializeField] float time_to_start_stamina_restoration = 1f;
 
     public bool CanRun { get => can_run; }
-    public bool IsAlive { get => is_alive; }
-    public float MaxHealth { get => maxHealth; }
-    public float MaxStamina { get => maxStamina; }
 
     void Awake()
     {
@@ -52,7 +49,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        {
+        if (GI.pause_game.game_paused) return;
+
+        { // Stamina processes
             if (GI.fp_controller.Running) // Consume stamina
             {
                 time_elapsed_from_stamina_restoration = 0f; // Resets the counter
@@ -64,7 +63,7 @@ public class Player : MonoBehaviour
 
                 if (current_stamina < Mathf.Epsilon) can_run = false;
             }
-            else if (!can_restore_stamina) // Increases the counter
+            else if (!can_restore_stamina) // Cooldown to restore stamina
             {
                 time_elapsed_from_stamina_restoration += Time.fixedDeltaTime;
 
@@ -74,9 +73,7 @@ public class Player : MonoBehaviour
 
             if (can_restore_stamina) // Restore Stamina
             {
-                float stamina_restored_this_frame = stamina_restored_per_frame;
-
-                current_stamina += stamina_restored_this_frame;
+                current_stamina += stamina_restored_per_frame;
                 current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
                 staminaBar.value = current_stamina;
 
@@ -90,6 +87,7 @@ public class Player : MonoBehaviour
         if (!is_alive) return;
         if (value >= Mathf.Epsilon && current_health >= current_max_health) return;
 
+        if (value > 0) Debug.Log($"Health restored by {value} points!");
         current_health += value;
         current_health = Mathf.Clamp(current_health, 0f, current_max_health);
         healthBar.value = current_health;
@@ -100,5 +98,14 @@ public class Player : MonoBehaviour
             is_alive = false;
             Time.timeScale = 0f;
         }
+    }
+
+    public void increase_stamina(float value)
+    {
+        Debug.Log($"Stamina restored by {value} points!");
+        current_stamina += value;
+        current_stamina = Mathf.Clamp(current_stamina, 0, current_max_stamina);
+        staminaBar.value = current_stamina;
+        can_run = true;
     }
 }

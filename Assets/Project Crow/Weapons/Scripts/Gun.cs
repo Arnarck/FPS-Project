@@ -82,6 +82,8 @@ public class Gun : Weapon
 
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         { // Process Shoot Input
             if ( (Input.GetKey(KeyCode.Mouse0) && is_automatic) || (Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic) ) // Checks if is able to shoot
             {

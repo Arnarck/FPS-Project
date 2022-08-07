@@ -21,6 +21,8 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         if (is_enemy_started_attacking)
         {
             if (last_attack_t >= time_to_attack) is_enemy_started_attacking = false;

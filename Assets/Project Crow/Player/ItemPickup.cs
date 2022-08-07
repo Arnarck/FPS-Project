@@ -26,6 +26,8 @@ public class ItemPickup : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GI.pause_game.game_paused) return;
+
         { // Display an item's details on screen
             bool has_hit_colliders = false;
             RaycastHit hit;
@@ -64,6 +66,8 @@ public class ItemPickup : MonoBehaviour
 
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         { // Process Pickup Input
             if (Input.GetKeyDown(KeyCode.E) && (pickup_interface.gameObject.activeInHierarchy || loot_interface.gameObject.activeInHierarchy) )
             {

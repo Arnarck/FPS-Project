@@ -12,6 +12,8 @@ public class GunRecoil : MonoBehaviour
 
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         target_rotation = Vector3.Lerp(target_rotation, Vector3.zero, m_return_speed * Time.deltaTime); // Always try to reset
         current_rotation = Vector3.Slerp(current_rotation, target_rotation, m_snappiness * Time.deltaTime); // Always tries to go to target_rotation
         transform.localRotation = Quaternion.Euler(current_rotation);

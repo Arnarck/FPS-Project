@@ -19,6 +19,8 @@ public class Knife : Weapon
     // Update is called once per frame
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         { // Process attack input
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {

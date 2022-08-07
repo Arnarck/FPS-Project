@@ -45,8 +45,9 @@ public class PlayerInventory : MonoBehaviour
         { // Toggle inventory ui
             if (Input.GetKeyDown(KeyCode.I))
             {
-                ui_inventory_screen.SetActive(!ui_inventory_screen.activeInHierarchy);
-                if (ui_inventory_screen.activeInHierarchy == false)
+                GI.pause_game.toggle_pause_game();
+                ui_inventory_screen.SetActive(GI.pause_game.game_paused);
+                if (GI.pause_game.game_paused == false)
                 {
                     ui_item_menu.gameObject.SetActive(false);
                     previous_slot_selected_on_item_menu = -1;
@@ -140,7 +141,7 @@ public class PlayerInventory : MonoBehaviour
     public void remove_item(int i)
     {
 
-        if (!inventory[i].is_avaliable || inventory[i].type.Equals(ItemType.NONE) || inventory[i].stored_amount == 0)
+        if (!inventory[i].is_avaliable || inventory[i].type.Equals(ItemType.NONE) || inventory[i].stored_amount < 1)
         {
             Debug.LogError("Trying to remove item from an invalid inventory slot!");
             return;
@@ -419,5 +420,30 @@ public class PlayerInventory : MonoBehaviour
         if (!equiped_weapon.Equals(get_weapon_type_of(item))) return false; // checks if item is an ammo of the equiped weapon
 
         return true;
+    }
+
+    public void use_item()
+    {
+        if (inventory[current_slot_selected_on_item_menu].stored_amount < 1)
+        {
+            Debug.LogError("Trying to consume an item from an empty slot");
+            return;
+        }
+
+        switch (inventory[current_slot_selected_on_item_menu].type)
+        {
+            case ItemType.HEALTH_PILL:
+                GI.player.change_health_amount(50f);
+                break;
+
+            case ItemType.STAMINA_PILL:
+                GI.player.increase_stamina(50f);
+                break;
+
+            default:
+                Debug.Assert(false);
+                break;
+        }
+        remove_item(current_slot_selected_on_item_menu);
     }
 }

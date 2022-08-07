@@ -44,7 +44,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				}
 #if !MOBILE_INPUT
 
-                if (input.y > 0 && input.x == 0f && Input.GetKey(RunKey) && GI.player.CanRun)
+                if (input.y > 0 && input.x == 0f && Input.GetKey(RunKey) && GI.player.can_run)
                 {
                     CurrentTargetSpeed *= RunMultiplier;
                     m_Running = true;
@@ -138,6 +138,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void Update()
         {
+            if (GI.pause_game.game_paused) return;
+
             RotateView();
 
             if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
@@ -149,6 +151,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void FixedUpdate()
         {
+            if (GI.pause_game.game_paused) return;
+
             GroundCheck();
             Vector2 input = GetInput();
 
