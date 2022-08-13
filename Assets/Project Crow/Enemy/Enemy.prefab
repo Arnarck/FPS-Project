@@ -432,8 +432,8 @@ MonoBehaviour:
   loot_area: {fileID: 6091170860724511218}
   detection_range: 4
   look_speed: 10
-  starting_health: 100
-  max_health: 100
+  starting_health: 200
+  max_health: 200
   damage: 25
   attack_point: {fileID: 6091170861913396818}
   player_layer_mask:

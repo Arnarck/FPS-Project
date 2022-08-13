@@ -51,6 +51,9 @@ public class PlayerInventory : MonoBehaviour
                 {
                     ui_item_menu.gameObject.SetActive(false);
                     previous_slot_selected_on_item_menu = -1;
+
+                    combine_option_enabled = false;
+                    Debug.Log("Combine disabled!");
                 }
             }   
         }
@@ -445,5 +448,58 @@ public class PlayerInventory : MonoBehaviour
                 break;
         }
         remove_item(current_slot_selected_on_item_menu);
+    }
+
+    public bool combine_option_enabled;
+    public void clicked_combine_button()
+    {
+        combine_option_enabled = true;
+        Debug.Log("Combine enabled!");
+    }
+
+    public void try_to_combine_item_slots(int i)
+    {
+        if (i == current_slot_selected_on_item_menu)
+        {
+            Debug.LogError("Trying to combine an inventory with itself");
+            return;
+        }
+
+        // This don't cause any bug, but its better to prevent the player to think that he can combine an slot with one slot that are completely filled
+        if (inventory[i].stored_amount == InventoryData.max_capacity[(int)inventory[i].type])
+        {
+            Debug.LogError("This slot is already filled!");
+            return;
+        }
+
+        if (!inventory[i].type.Equals(inventory[current_slot_selected_on_item_menu].type))
+        {
+            Debug.LogError("Trying to combine item with an different item type");
+            return;
+        }
+        if (!is_cumulative(inventory[i].type)) return; // @Arnarck remove this line if modify how "combine" works
+
+        int avaliable_space = InventoryData.max_capacity[(int)inventory[i].type] - inventory[i].stored_amount;
+        int space_needed = inventory[current_slot_selected_on_item_menu].stored_amount;
+
+        if (space_needed > avaliable_space) // The first slot won't be reseted
+        {
+            // Remove item count from the first slot to send it to the second slot
+            inventory[current_slot_selected_on_item_menu].stored_amount = space_needed - avaliable_space;
+            inventory[current_slot_selected_on_item_menu].ui.count_text.text = inventory[current_slot_selected_on_item_menu].stored_amount.ToString();
+
+            // Fills the slot that will receive the item
+            inventory[i].stored_amount = InventoryData.max_capacity[(int)inventory[i].type];
+            inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
+        }
+        else // The first slot will be reseted
+        {
+            set_slot_data(current_slot_selected_on_item_menu, ItemType.NONE, 0, null);
+            inventory[i].stored_amount += space_needed;
+            inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
+        }
+
+        combine_option_enabled = false;
+        Debug.Log("Combine disabled!");
     }
 }

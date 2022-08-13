@@ -380,7 +380,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1220691478925746935}
-        m_MethodName: toggle_item_menu
+        m_MethodName: clicked_item_slot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
