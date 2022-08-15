@@ -4,12 +4,13 @@ public class PlayerInventory : MonoBehaviour
 {
     [HideInInspector] public InventoryItem[] inventory; // Total Inventory capacity;
     [HideInInspector] public Weapon[] weapons;
-    [HideInInspector] public int current_slot_selected_on_item_menu, previous_slot_selected_on_item_menu = -1;
+    [HideInInspector] public int current_slot_selected_on_item_menu;
     [HideInInspector] public WeaponType equiped_weapon = WeaponType.NONE;
 
     public int slots_expanded_after_collecting_expansion_item;
     public int total_capacity;
     public bool is_knife_equiped;
+    public bool combine_option_enabled;
     public GameObject ui_inventory_screen;
     public GameObject ui_inventory_handler;
     public ItemMenu ui_item_menu;
@@ -49,14 +50,39 @@ public class PlayerInventory : MonoBehaviour
                 ui_inventory_screen.SetActive(GI.pause_game.game_paused);
                 if (GI.pause_game.game_paused == false)
                 {
-                    ui_item_menu.gameObject.SetActive(false);
-                    previous_slot_selected_on_item_menu = -1;
-
+                    disable_item_menu();
                     combine_option_enabled = false;
                     Debug.Log("Combine disabled!");
                 }
             }   
         }
+
+        { // Close current menu / option active
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                if (combine_option_enabled)
+                {
+                    combine_option_enabled = false;
+                    Debug.Log("Combine disabled!");
+                }
+                else if (ui_item_menu.gameObject.activeInHierarchy)
+                {
+                    disable_item_menu();
+                }
+                else if (ui_inventory_screen.activeInHierarchy)
+                {
+                    GI.pause_game.toggle_pause_game();
+                    ui_inventory_screen.SetActive(false);
+                    toggle_all_slot_buttons(true);
+                }
+            }
+        }
+    }
+
+    public void disable_item_menu()
+    {
+        ui_item_menu.gameObject.SetActive(false);
+        toggle_all_slot_buttons(true);
     }
 
     public bool store_item(Item item)
@@ -248,44 +274,32 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
-    // TODO Add functionallity of equiping a gun.
-    // if player don't have any gun, auto equip the first one he finds.
-    // Create 4 slots that will work as shortcuts for weapons?
-
-    // TODO (Later) Change "item menu" position based on which slot activated it
+    // @Arnarck Create 4 slots that will work as shortcuts for weapons?
+    // @Arnarck prevents player from accessing other inventory slots while the item menu is active
+    // @Arnarck (Later) Change "item menu" position based on which slot activated it
     public void toggle_item_menu(int i)
     {
         ItemType item = inventory[i].type;
         current_slot_selected_on_item_menu = i;
 
-        if (current_slot_selected_on_item_menu == previous_slot_selected_on_item_menu)
-        {
-            ui_item_menu.gameObject.SetActive(false);
-            previous_slot_selected_on_item_menu = -1;
-            return;
-        }
-        else
-        {
-            if (is_weapon(item)) // Weapons
-            {
-                Debug.Log("WEAPON selected");
-                toggle_item_menu_options(false, true, false);
-            }
-            else if (is_cumulative(item)) // Ammo (or cumulative items)
-            {
-                Debug.Log("CUMULATIVE ITEM selected");
-                toggle_item_menu_options(false, false, true);
-            }
-            else if (is_consumable(item)) // Consumable items
-            {
-                Debug.Log("CONSUMABLE ITEM selected");
-                toggle_item_menu_options(true, false, false);
-            }
+        toggle_all_slot_buttons(false, i);
 
-            ui_item_menu.activate_item_menu();
+        if (is_weapon(item)) // Weapons
+        {
+            Debug.Log("WEAPON selected");
+            toggle_item_menu_options(false, true, false);
         }
-
-        previous_slot_selected_on_item_menu = current_slot_selected_on_item_menu;
+        else if (is_cumulative(item)) // Ammo (or cumulative items)
+        {
+            Debug.Log("CUMULATIVE ITEM selected");
+            toggle_item_menu_options(false, false, true);
+        }
+        else if (is_consumable(item)) // Consumable items
+        {
+            Debug.Log("CONSUMABLE ITEM selected");
+            toggle_item_menu_options(true, false, false);
+        }
+        ui_item_menu.activate_item_menu();
     }
 
     public void toggle_item_menu_options(bool option1_active, bool option2_active, bool option3_active)
@@ -295,8 +309,8 @@ public class PlayerInventory : MonoBehaviour
         ui_item_menu.options[2].SetActive(option3_active);
     }
 
-    // TODO Disable option of equiping with the weapon is already equiped
-    // TODO Create 4 slots to serve as shortcuts?
+    // @Arnarck Disable option of equiping with the weapon is already equiped
+    // @Arnarck Create 4 slots to serve as shortcuts?
     public void equip_weapon()
     {
         if (!is_weapon(inventory[current_slot_selected_on_item_menu].type))
@@ -305,8 +319,7 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        WeaponType weapon = (WeaponType)inventory[current_slot_selected_on_item_menu].type;
-
+        WeaponType weapon = get_weapon_type_of(inventory[current_slot_selected_on_item_menu].type);
         if (weapon.Equals(equiped_weapon))
         {
             Debug.LogError($"{weapon} already equiped!");
@@ -330,6 +343,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         display_total_ammo_of_equiped_weapon();
+        disable_item_menu();
     }
 
     public void display_total_ammo_of_equiped_weapon()
@@ -415,6 +429,7 @@ public class PlayerInventory : MonoBehaviour
         bool result = check_if_item_is_ammo_and_corresponds_to_equiped_weapon(inventory[current_slot_selected_on_item_menu].type);
         set_slot_data(current_slot_selected_on_item_menu, ItemType.NONE, 0, null);
         if (result) display_total_ammo_of_equiped_weapon();
+        disable_item_menu();
     }
 
     public bool check_if_item_is_ammo_and_corresponds_to_equiped_weapon(ItemType item)
@@ -435,11 +450,22 @@ public class PlayerInventory : MonoBehaviour
 
         switch (inventory[current_slot_selected_on_item_menu].type)
         {
+            // @Arnarck add a message to player saying that his status are already full... Or just disable "use button"
             case ItemType.HEALTH_PILL:
+                if (GI.player.health >= GI.player.max_health)
+                {
+                    Debug.Log("Health already full");
+                    return;
+                }
                 GI.player.change_health_amount(50f);
                 break;
 
             case ItemType.STAMINA_PILL:
+                if (GI.player.stamina >= GI.player.max_stamina)
+                {
+                    Debug.Log("Stamina already full");
+                    return;
+                }
                 GI.player.increase_stamina(50f);
                 break;
 
@@ -448,12 +474,15 @@ public class PlayerInventory : MonoBehaviour
                 break;
         }
         remove_item(current_slot_selected_on_item_menu);
+        disable_item_menu();
     }
 
-    public bool combine_option_enabled;
+    
     public void clicked_combine_button()
     {
         combine_option_enabled = true;
+        ui_item_menu.gameObject.SetActive(false);
+        disable_all_slots_not_combinable_with_current_selected_slot();
         Debug.Log("Combine enabled!");
     }
 
@@ -500,6 +529,26 @@ public class PlayerInventory : MonoBehaviour
         }
 
         combine_option_enabled = false;
+        toggle_all_slot_buttons(true);
         Debug.Log("Combine disabled!");
+    }
+
+    public void toggle_all_slot_buttons(bool interactable, int exception = -1)
+    {
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (i == exception) continue;
+            inventory[i].ui.button.interactable = interactable;
+        }
+    }
+
+    public void disable_all_slots_not_combinable_with_current_selected_slot()
+    {
+        ItemType item = inventory[current_slot_selected_on_item_menu].type;
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (item == inventory[i].type) inventory[i].ui.button.interactable = true;
+            else inventory[i].ui.button.interactable = false;
+        }
     }
 }

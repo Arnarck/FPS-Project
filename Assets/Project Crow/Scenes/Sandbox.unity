@@ -17846,7 +17846,17 @@ PrefabInstance:
       objectReference: {fileID: 981568398}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
+      propertyPath: health_bar
+      value: 
+      objectReference: {fileID: 981568398}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
       propertyPath: staminaBar
+      value: 
+      objectReference: {fileID: 1503658714}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: stamina_bar
       value: 
       objectReference: {fileID: 1503658714}
     - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
