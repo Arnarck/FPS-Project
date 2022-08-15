@@ -11,6 +11,7 @@ public class EnemyManager : MonoBehaviour
     public int enemies_attacking;
     public float time_to_attack = .1f;
 
+    //@Arnarck make an bool to check if an enemy is pursuiting the player. The enemy itself sets this variable to "true"
     void Awake()
     {
         GI.enemy_manager = this;

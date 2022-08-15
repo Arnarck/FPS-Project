@@ -3,9 +3,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    // Health and Stamina
-    public bool is_alive = true, can_run = true, can_restore_stamina;
     float time_elapsed_from_stamina_restoration;
+    public bool is_alive = true, can_run = true, can_restore_stamina;
 
     [Header("Health")]
     [SerializeField] Slider health_bar;
@@ -21,7 +20,11 @@ public class Player : MonoBehaviour
     public float stamina_consumed_per_frame = .5f;
     public float time_to_start_restoring_stamina = 1f;
 
-    public bool CanRun { get => can_run; }
+    [Header("Terror")]
+    public Slider terror_bar;
+    public float terror;
+    public float max_terror;
+    public float terror_reduced_per_frame;
 
     void Awake()
     {
@@ -31,15 +34,17 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        // Health and Stamina
         health_bar.value = health;
         health_bar.maxValue = max_health;
 
         stamina_bar.value = stamina;
         stamina_bar.maxValue = max_stamina;
+
+        terror_bar.value = terror;
+        terror_bar.maxValue = max_terror;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (GI.pause_game.game_paused) return;
 
@@ -74,6 +79,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        { // Terror decay over time
+            terror -= Time.deltaTime * terror_reduced_per_frame;
+            terror = Mathf.Clamp(terror, 0, max_terror);
+            terror_bar.value = terror;
+        }
+    }
+
     public void change_health_amount(float value)
     {
         if (!is_alive) return;
@@ -99,5 +113,13 @@ public class Player : MonoBehaviour
         stamina = Mathf.Clamp(stamina, 0, max_stamina);
         stamina_bar.value = stamina;
         can_run = true;
+    }
+
+    public void increase_terror(float value)
+    {
+        Debug.Log($"Terror increased by {value} points");
+        terror += value;
+        terror = Mathf.Clamp(terror, 0, max_terror);
+        terror_bar.value = terror;
     }
 }

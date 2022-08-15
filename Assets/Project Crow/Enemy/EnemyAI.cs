@@ -3,30 +3,31 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    float current_health, time_elapsed_since_last_attack;
-    bool is_alive = true, is_provoked, can_attack = true;
+    float time_elapsed_since_last_attack;
+    public bool is_alive = true, is_provoked, can_attack = true;
 
     Transform target;
     NavMeshAgent nav_mesh_agent;
     Animator animator;
 
-    [SerializeField] GameObject loot_area;
-    [SerializeField] float detection_range = 4f;
-    [SerializeField] float look_speed = 10f;
-    [SerializeField] float starting_health = 100f;
-    [SerializeField] float max_health = 100f;
-    [SerializeField] float damage = 25f;
+    public GameObject loot_area;
+    public float detection_range = 4f;
+    public float look_speed = 10f;
+    public float health = 100f;
+    //public float max_health = 100f;
+    public float damage = 25f;
+    public float terror_damage = 10f;
+
     [Header("Attack Settings")]
-    [SerializeField] Transform attack_point;
-    [SerializeField] LayerMask player_layer_mask;
-    [SerializeField] float attack_range = .5f;
-    [SerializeField] float time_to_attack = 1f;
+    public Transform attack_point;
+    public LayerMask player_layer_mask;
+    public float attack_range = .5f;
+    public float time_to_attack = 1f;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         nav_mesh_agent = GetComponent<NavMeshAgent>();
-        current_health = starting_health;
     }
 
     void Start()
@@ -105,7 +106,11 @@ public class EnemyAI : MonoBehaviour
         Collider[] hit_colliders = new Collider[1];
         int colliders_found = Physics.OverlapSphereNonAlloc(attack_point.position, attack_range, hit_colliders, player_layer_mask);
 
-        if (colliders_found > 0 && hit_colliders[0].CompareTag("Player")) GI.player.change_health_amount(-damage);
+        if (colliders_found > 0 && hit_colliders[0].CompareTag("Player"))
+        {
+            GI.player.change_health_amount(-damage);
+            GI.player.increase_terror(terror_damage);
+        }
         else Debug.Log("Player not found");
     }
 
@@ -116,8 +121,8 @@ public class EnemyAI : MonoBehaviour
         if (value < Mathf.Epsilon) value *= -1;
         Debug.Log("Damage received: " + value);
 
-        current_health -= value;
-        if (current_health < Mathf.Epsilon)
+        health -= value;
+        if (health < Mathf.Epsilon)
         {
             nav_mesh_agent.speed = 0f;
             loot_area.SetActive(true);
