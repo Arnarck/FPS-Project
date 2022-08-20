@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     public float time_to_apply_overdose_debuff = 2f;
     public float health_damage = -5f;
     public float terror_applied = 5f;
+    public float stamina_restored_when_overdosed = .5f; // Multiplier
 
     void Awake()
     {
@@ -82,7 +83,10 @@ public class Player : MonoBehaviour
 
             if (can_restore_stamina) // Restore Stamina
             {
-                stamina += stamina_restored_per_frame;
+                // Restore less stamina when overdosed
+                if (is_overdosed) stamina += stamina_restored_per_frame * stamina_restored_when_overdosed;
+                else stamina += stamina_restored_per_frame;
+
                 stamina = Mathf.Clamp(stamina, 0, max_stamina);
                 stamina_bar.value = stamina;
 
@@ -107,15 +111,18 @@ public class Player : MonoBehaviour
         }
 
         { // Overdose
-            if (is_overdosed)
+            if (overdose > 0f)
             {
                 overdose_t -= Time.deltaTime;
                 if (overdose_t <= 0f) // Apply overdose debuff and restarts the cronometer
                 {
                     overdose_t += time_to_apply_overdose_debuff;
-                    change_health_amount(health_damage);
-                    change_terror_amount(terror_applied);
                     change_overdose_amount(-15f);
+                    if (is_overdosed)
+                    {
+                        change_health_amount(health_damage);
+                        change_terror_amount(terror_applied);
+                    }
                 }
             }
         }
