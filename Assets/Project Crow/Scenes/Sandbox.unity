@@ -387,6 +387,7 @@ Transform:
   - {fileID: 1474047282}
   - {fileID: 714189100}
   - {fileID: 829563336}
+  - {fileID: 1172884877}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3022,7 +3023,7 @@ RectTransform:
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.34, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5094,7 +5095,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f081c8b55efd11f4b8665d8c042f640b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.00000035763
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f081c8b55efd11f4b8665d8c042f640b,
         type: 3}
@@ -7939,8 +7940,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.8, y: -50}
-  m_SizeDelta: {x: 150, y: 15}
+  m_AnchoredPosition: {x: 114.86, y: -52.5}
+  m_SizeDelta: {x: 189.72058, y: 20.000137}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &939068004
 PrefabInstance:
@@ -9568,6 +9569,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.04, y: 0.0039999997, z: 0.03}
   m_Center: {x: -0.02, y: 0, z: 0.015}
+--- !u!4 &1172884877 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+    type: 3}
+  m_PrefabInstance: {fileID: 1988480398}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1178348328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10742,7 +10749,7 @@ GameObject:
   - component: {fileID: 1282495371}
   - component: {fileID: 1282495372}
   m_Layer: 5
-  m_Name: Thirst Fill Area
+  m_Name: Overdose Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16173,6 +16180,91 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   game_paused: 0
+--- !u!1001 &1988480398
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 37911989}
+    m_Modifications:
+    - target: {fileID: 4233373956623109249, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_Name
+      value: Consumable (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -38.109
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.235
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.377
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109250, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109252, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109252, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: m_name
+      value: Stamina Pill
+      objectReference: {fileID: 0}
+    - target: {fileID: 4233373956623109252, guid: a7889942bb81a754bacf08074488aa06,
+        type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7889942bb81a754bacf08074488aa06, type: 3}
 --- !u!1001 &2007765693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16650,12 +16742,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2053108215}
   m_Layer: 5
-  m_Name: Thirst Bar
+  m_Name: Overdose Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2053108215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16674,8 +16766,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.8, y: -70}
-  m_SizeDelta: {x: 150, y: 15}
+  m_AnchoredPosition: {x: 114.86, y: -75.91}
+  m_SizeDelta: {x: 189.72046, y: 17.946194}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &2053125608
 PrefabInstance:
@@ -17869,6 +17961,16 @@ PrefabInstance:
       propertyPath: stamina_bar
       value: 
       objectReference: {fileID: 1503658714}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: max_overdose
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: overdose_bar
+      value: 
+      objectReference: {fileID: 1282495372}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: terror_reduced_per_frame

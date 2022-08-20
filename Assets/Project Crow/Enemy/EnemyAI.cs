@@ -16,7 +16,8 @@ public class EnemyAI : MonoBehaviour
     public float health = 100f;
     //public float max_health = 100f;
     public float damage = 25f;
-    public float terror_damage = 10f;
+    public float terror_damage = 15f;
+    public float terror_reduced_when_killed = -10f;
 
     [Header("Attack Settings")]
     public Transform attack_point;
@@ -109,7 +110,7 @@ public class EnemyAI : MonoBehaviour
         if (colliders_found > 0 && hit_colliders[0].CompareTag("Player"))
         {
             GI.player.change_health_amount(-damage);
-            GI.player.increase_terror(terror_damage);
+            GI.player.change_terror_amount(terror_damage);
         }
         else Debug.Log("Player not found");
     }
@@ -118,7 +119,6 @@ public class EnemyAI : MonoBehaviour
     {
         if (!is_alive) return;
 
-        if (value < Mathf.Epsilon) value *= -1;
         Debug.Log("Damage received: " + value);
 
         health -= value;
@@ -127,6 +127,7 @@ public class EnemyAI : MonoBehaviour
             nav_mesh_agent.speed = 0f;
             loot_area.SetActive(true);
             GetComponent<CapsuleCollider>().isTrigger = true;
+            GI.player.change_terror_amount(terror_reduced_when_killed);
             is_alive = false;
         }
         else
@@ -151,8 +152,8 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawWireSphere(attack_point.position, attack_range);
     }
 
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(25, 25, 200, 20), "Enemy is attacking: " + animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
-    }
+    //private void OnGUI()
+    //{
+    //    GUI.Label(new Rect(25, 25, 200, 20), "Enemy is attacking: " + animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
+    //}
 }

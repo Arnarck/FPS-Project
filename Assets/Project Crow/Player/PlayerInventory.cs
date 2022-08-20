@@ -22,7 +22,7 @@ public class PlayerInventory : MonoBehaviour
         GI.player_inventory = this;
         inventory = new InventoryItem[total_capacity];
 
-        // TODO maybe turn InventoryItem into a struct
+        // @Arnarck maybe turn InventoryItem into a struct
         for (int i = 0; i < inventory.Length; i++) // Creates the inventory, and disable all slots
         {
             inventory[i] = new InventoryItem();
@@ -63,6 +63,7 @@ public class PlayerInventory : MonoBehaviour
                 if (combine_option_enabled)
                 {
                     combine_option_enabled = false;
+                    toggle_all_slot_buttons(true);
                     Debug.Log("Combine disabled!");
                 }
                 else if (ui_item_menu.gameObject.activeInHierarchy)
@@ -452,21 +453,27 @@ public class PlayerInventory : MonoBehaviour
         {
             // @Arnarck add a message to player saying that his status are already full... Or just disable "use button"
             case ItemType.HEALTH_PILL:
-                if (GI.player.health >= GI.player.max_health)
                 {
-                    Debug.Log("Health already full");
-                    return;
+                    if (GI.player.health >= GI.player.max_health)
+                    {
+                        Debug.Log("Health already full");
+                        return;
+                    }
+                    GI.player.change_health_amount(50f);
+                    GI.player.change_overdose_amount(60f);
                 }
-                GI.player.change_health_amount(50f);
                 break;
 
             case ItemType.STAMINA_PILL:
-                if (GI.player.stamina >= GI.player.max_stamina)
                 {
-                    Debug.Log("Stamina already full");
-                    return;
+                    if (GI.player.stamina >= GI.player.max_stamina)
+                    {
+                        Debug.Log("Stamina already full");
+                        return;
+                    }
+                    GI.player.increase_stamina(50f);
+                    GI.player.change_overdose_amount(35f);
                 }
-                GI.player.increase_stamina(50f);
                 break;
 
             default:

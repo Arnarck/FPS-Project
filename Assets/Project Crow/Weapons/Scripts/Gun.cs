@@ -89,7 +89,7 @@ public class Gun : Weapon
             {
                 if (can_shoot && !is_reloading && has_ammo)
                 {
-                    GI.gun_recoil.add_recoil(recoil, snappiness, return_speed);
+                    GI.gun_recoil.add_recoil(recoil * GI.player.recoil_multiplier_based_on_terror, snappiness, return_speed);
 
                     // Starts the cooldown to shoot
                     last_shot_t = 0f;
