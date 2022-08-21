@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bdde86ff7458de49b6b1b8b404fce97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   attack_area: {fileID: 631242650}
   evade_direction: {x: 0, y: 0}
   time_to_evade: 0.5
@@ -221,7 +222,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 30
   m_SpotAngle: 30
   m_InnerSpotAngle: 1
   m_CookieSize: 10
@@ -323,9 +324,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7291415108757390170}
   - component: {fileID: 93211382}
-  - component: {fileID: 6954083926403634710}
   m_Layer: 0
-  m_Name: Weapons
+  m_Name: Weapon Holster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,19 +446,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6954083926403634710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3908673365447188924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bef3f8733a13db4458a8fe5f9db827b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  switch_sound: {fileID: 8300000, guid: ca541888c2f925443a7804af7e546b86, type: 3}
 --- !u!1 &6954083926971463761
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,16 +609,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e22f16a109db34ba8ddff9f8ed5f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
-  startHealth: 100
-  maxHealth: 100
-  staminaBar: {fileID: 0}
-  startStamina: 100
-  maxStamina: 100
+  is_alive: 1
+  can_run: 1
+  can_restore_stamina: 0
+  is_overdosed: 0
+  health_bar: {fileID: 0}
+  health: 50
+  max_health: 100
+  stamina_bar: {fileID: 0}
+  stamina: 50
+  max_stamina: 100
   min_stamina_to_run: 1
   stamina_restored_per_frame: 0.1
   stamina_consumed_per_frame: 0.2
-  time_to_start_stamina_restoration: 2
+  time_to_start_restoring_stamina: 1
+  terror_bar: {fileID: 0}
+  terror: 0
+  max_terror: 100
+  terror_reduced_per_tick: -2
+  recoil_multiplier_based_on_terror: 0
+  time_to_reduce_terror: 3
+  overdose_bar: {fileID: 0}
+  overdose: 0
+  max_overdose: 100
+  time_to_apply_overdose_debuff: 5
+  overdose_reduced_per_tick: -15
+  health_damage: -5
+  terror_applied: 5
+  stamina_restored_when_overdosed: 0.5
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,13 +666,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce541724a7776e4ab49e944d4e9ef4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expanded_amount: 4
+  weapons: []
+  current_slot_selected_on_item_menu: 0
+  equiped_weapon: 0
+  slots_expanded_after_collecting_expansion_item: 4
   total_capacity: 16
   is_knife_equiped: 0
+  combine_option_enabled: 0
   ui_inventory_screen: {fileID: 0}
   ui_inventory_handler: {fileID: 0}
+  ui_item_menu: {fileID: 0}
   slot_prefab: {fileID: 584307593358724918, guid: 1045e505b11d9a44b978288c2d056ea6,
     type: 3}
+  weapon_holster: {fileID: 7291415108757390170}
 --- !u!114 &1825013189
 MonoBehaviour:
   m_ObjectHideFlags: 0

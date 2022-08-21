@@ -222,17 +222,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2f13b0f5dea4644adc321b04e11e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blood_splash_vfx: {fileID: 0}
+  type: 2
+  can_shoot: 1
+  is_reloading: 0
+  has_ammo: 0
   muzzle_flash_vfx: {fileID: 7075960315893431313}
   muzzle_smoke_vfx: {fileID: 3598347395320698161}
+  blood_splash_vfx: {fileID: 0}
+  is_collected: 0
   damage: 12
+  damage_distance_1: 8
+  headshot_multiplier: 1.5
   range: 100
   time_to_shoot: 0.1
   is_automatic: 0
   ammo_type: 0
-  max_ammo_amount: 15
   reload_time: 1
-  initial_ammo_amount: 30
+  max_ammo_amount: 15
+  ammo_amount: 7
+  recoil: {x: 0.3, y: 0.1, z: 0}
+  snappiness: 0
+  return_speed: 0
 --- !u!1 &6105292476713039294
 GameObject:
   m_ObjectHideFlags: 0

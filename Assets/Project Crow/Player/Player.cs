@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    float time_elapsed_from_stamina_restoration, overdose_t;
+    float time_elapsed_from_stamina_restoration, overdose_t, terror_t;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
 
     [Header("Health")]
@@ -24,14 +24,16 @@ public class Player : MonoBehaviour
     public Slider terror_bar;
     public float terror;
     public float max_terror;
-    public float terror_reduced_per_frame;
-    public float recoil_multiplier_based_on_terror;
+    public float terror_reduced_per_tick;
+    public float recoil_multiplier_based_on_terror = 1f;
+    public float time_to_reduce_terror = 3f;
 
     [Header("Medicine Overdose")]
     public Slider overdose_bar;
     public float overdose;
     public float max_overdose;
     public float time_to_apply_overdose_debuff = 2f;
+    public float overdose_reduced_per_tick = -15f;
     public float health_damage = -5f;
     public float terror_applied = 5f;
     public float stamina_restored_when_overdosed = .5f; // Multiplier
@@ -55,13 +57,15 @@ public class Player : MonoBehaviour
 
         overdose_bar.maxValue = max_overdose;
         overdose_bar.value = overdose;
+
+        recoil_multiplier_based_on_terror = 1f;
     }
 
     void FixedUpdate()
     {
         if (GI.pause_game.game_paused) return;
 
-        { // Stamina processes
+        { // Stamina
             if (GI.fp_controller.Running) // Consume stamina
             {
                 time_elapsed_from_stamina_restoration = 0f; // Resets the counter
@@ -80,7 +84,6 @@ public class Player : MonoBehaviour
                 if (time_elapsed_from_stamina_restoration >= time_to_start_restoring_stamina) can_restore_stamina = true;
             }
 
-
             if (can_restore_stamina) // Restore Stamina
             {
                 // Restore less stamina when overdosed
@@ -98,16 +101,16 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // @Arnarck make terror reduce each 3 seconds or something instead of every frame
-        { // Terror decay over time
-            terror -= Time.deltaTime * terror_reduced_per_frame;
-            terror = Mathf.Clamp(terror, 0, max_terror);
-            terror_bar.value = terror;
-
-            if (terror >= 85f) recoil_multiplier_based_on_terror = 4f;
-            else if (terror >= 60f) recoil_multiplier_based_on_terror = 3f;
-            else if (terror >= 30f) recoil_multiplier_based_on_terror = 2f;
-            else recoil_multiplier_based_on_terror = 1f;
+        { // Terror
+            if (terror > 0f)
+            {
+                terror_t -= Time.deltaTime;
+                if (terror_t <= 0f)
+                {
+                    terror_t += time_to_reduce_terror;
+                    change_terror_amount(terror_reduced_per_tick);
+                }
+            }
         }
 
         { // Overdose
@@ -117,7 +120,7 @@ public class Player : MonoBehaviour
                 if (overdose_t <= 0f) // Apply overdose debuff and restarts the cronometer
                 {
                     overdose_t += time_to_apply_overdose_debuff;
-                    change_overdose_amount(-15f);
+                    change_overdose_amount(overdose_reduced_per_tick);
                     if (is_overdosed)
                     {
                         change_health_amount(health_damage);
@@ -157,14 +160,26 @@ public class Player : MonoBehaviour
 
     public void change_terror_amount(float value)
     {
+        if (terror <= 0f && value > 0f) terror_t = time_to_reduce_terror;
+
         Debug.Log($"Terror modified by {value} points");
         terror += value;
         terror = Mathf.Clamp(terror, 0, max_terror);
         terror_bar.value = terror;
+
+        // Change gun recoil based on terror amount
+        if (terror >= 85f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_3;
+        else if (terror >= 60f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_2;
+        else if (terror >= 30f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_1;
+        else recoil_multiplier_based_on_terror = 1f; // No terror
     }
 
     public void change_overdose_amount(float value)
     {
+        // Only set the counter the first time the overdose is increased
+        if (overdose <= 0f && value > 0f) overdose_t = time_to_apply_overdose_debuff;
+
+        Debug.Log($"Overdose changed by {value} amount");
         overdose += value;
 
         if (!is_overdosed && overdose >= max_overdose) // Apply overdose

@@ -460,7 +460,11 @@ public class PlayerInventory : MonoBehaviour
                         return;
                     }
                     GI.player.change_health_amount(50f);
-                    GI.player.change_overdose_amount(60f);
+
+                    // Increases overdose amount after consuming a pill.
+                    // Increases overdose EVEN MORE if player is overdosed
+                    if (GI.player.is_overdosed) GI.player.change_overdose_amount(GI.Config.overdose_increased_by_health_pill * GI.Config.overdosed_multiplier);
+                    else GI.player.change_overdose_amount(GI.Config.overdose_increased_by_health_pill);
                 }
                 break;
 
@@ -472,7 +476,9 @@ public class PlayerInventory : MonoBehaviour
                         return;
                     }
                     GI.player.increase_stamina(50f);
-                    GI.player.change_overdose_amount(35f);
+
+                    if (GI.player.is_overdosed) GI.player.change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill * GI.Config.overdosed_multiplier);
+                    else GI.player.change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill);
                 }
                 break;
 

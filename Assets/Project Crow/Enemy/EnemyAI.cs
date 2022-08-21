@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour
 
         bool is_attacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"); // Gets the name of the current playing animation
 
-        { // Process AI Behaviour
+        { // AI Behaviour
             Vector3 relative_position = target.position - transform.position;
             float distance_from_target = Util.distance(transform.position, target.position);
 
@@ -90,7 +90,7 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
-        { // Process Attack Cooldown
+        { // Attack Cooldown
             if (!can_attack && !is_attacking)
             {
                 time_elapsed_since_last_attack += Time.deltaTime;

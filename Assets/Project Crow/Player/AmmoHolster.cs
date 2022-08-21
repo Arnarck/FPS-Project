@@ -30,7 +30,7 @@ public class AmmoHolster : MonoBehaviour
         
         current_ammo[slot] = Mathf.Clamp(current_ammo[slot] + amount, 0, max_ammo[slot]);
 
-        if (GI.gun_switcher.get_current_gun().ammo_type == type) GI.ammo_display.display_ammo_in_holster(current_ammo[slot]);
+        //if (GI.gun_switcher.get_current_gun().ammo_type == type) GI.ammo_display.display_ammo_in_holster(current_ammo[slot]);
 
         return true;
     }
