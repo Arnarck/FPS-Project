@@ -5,7 +5,7 @@ public class Gun : Weapon
 {
     public bool can_shoot = true, is_reloading, has_ammo;
     bool has_started;
-    float last_shot_t, last_reload_t;
+    float shoot_t, last_reload_t;
 
     AudioSource _audioSource;
     Transform m_transform;
@@ -17,12 +17,22 @@ public class Gun : Weapon
 
     [Header("Shoot")]
     public float damage = 30;
-    public float distance_1 = 5f;
-    public float damage_distance_1 = 23;
     public float headshot_multiplier = 1.5f;
     public float range = 100f;
     public float time_to_shoot = .15f;
     public bool is_automatic = true;
+
+    [Header("Damage over distance")]
+    public float distance_1 = 5f;
+    public float damage_distance_1 = 23;
+
+    [Header("Integrity")]
+    public float integrity;
+    public float max_integrity = 100f;
+    public float integrity_reduced_per_shot = 30f;
+    public float low_integrity = 30f;
+    public float time_to_shoot_with_low_integrity;
+    public float time_to_shoot_with_no_integrity;
 
     [Header("Ammo Clip")]
     public AmmoType ammo_type;
@@ -87,8 +97,14 @@ public class Gun : Weapon
                     // Recoil
                     GI.gun_recoil.add_recoil(recoil * GI.player.recoil_multiplier_based_on_terror, snappiness, return_speed);
 
-                    // Starts the cooldown to shoot
-                    last_shot_t = 0f;
+                    // Integrity
+                    integrity -= integrity_reduced_per_shot;
+                    integrity = Mathf.Clamp(integrity, 0, max_integrity);
+
+                    // Time to shoot
+                    if (integrity <= 0f) shoot_t = time_to_shoot_with_no_integrity;
+                    else if (integrity < 30f) shoot_t = time_to_shoot_with_low_integrity;
+                    else shoot_t = time_to_shoot;
                     can_shoot = false;
 
                     // Reduce ammo
@@ -146,8 +162,11 @@ public class Gun : Weapon
         { // Fire rate
             if (!can_shoot)
             {
-                if (last_shot_t >= time_to_shoot) can_shoot = true;
-                else last_shot_t += Time.deltaTime;
+                if (shoot_t <= 0f) can_shoot = true;
+                else shoot_t -= Time.deltaTime;
+
+                //if (shoot_t >= time_to_shoot) can_shoot = true;
+                //else shoot_t += Time.deltaTime;
             }
         }
 
