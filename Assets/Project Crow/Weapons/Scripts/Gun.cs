@@ -16,21 +16,15 @@ public class Gun : Weapon
     public ParticleSystem blood_splash_vfx = default;
 
     [Header("Shoot")]
-    public float damage = 30;
     public float headshot_multiplier = 1.5f;
     public float range = 100f;
-    public float time_to_shoot = .15f;
     public bool is_automatic = true;
 
     [Header("Damage over distance")]
     public float distance_1 = 5f;
     public float damage_distance_1 = 23;
 
-    [Header("Integrity")]
-    public float integrity;
-    public float max_integrity = 100f;
-    public float integrity_reduced_per_shot = 30f;
-    public float low_integrity = 30f;
+    [Header("Integrity Debuff")]
     public float time_to_shoot_with_low_integrity;
     public float time_to_shoot_with_no_integrity;
 
@@ -41,9 +35,9 @@ public class Gun : Weapon
     public int ammo_amount = 30;
 
     [Header("Recoil")]
-    public Vector3 recoil;
     public float snappiness;
     public float return_speed;
+    public Vector3 recoil;
 
     void Awake()
     {
@@ -90,7 +84,7 @@ public class Gun : Weapon
         if (GI.pause_game.game_paused) return;
 
         { // Process Shoot Input
-            if ( (Input.GetKey(KeyCode.Mouse0) && is_automatic) || (Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic) ) // Checks if is able to shoot
+            if ((Input.GetKey(KeyCode.Mouse0) && is_automatic) || (Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic)) // Checks if is able to shoot
             {
                 if (can_shoot && !is_reloading && has_ammo)
                 {
@@ -98,13 +92,13 @@ public class Gun : Weapon
                     GI.gun_recoil.add_recoil(recoil * GI.player.recoil_multiplier_based_on_terror, snappiness, return_speed);
 
                     // Integrity
-                    integrity -= integrity_reduced_per_shot;
+                    integrity -= integrity_reduced_per_attack;
                     integrity = Mathf.Clamp(integrity, 0, max_integrity);
 
                     // Time to shoot
                     if (integrity <= 0f) shoot_t = time_to_shoot_with_no_integrity;
                     else if (integrity < 30f) shoot_t = time_to_shoot_with_low_integrity;
-                    else shoot_t = time_to_shoot;
+                    else shoot_t = time_to_attack;
                     can_shoot = false;
 
                     // Reduce ammo
@@ -124,7 +118,7 @@ public class Gun : Weapon
                     // Checks if the gun shot hits anything
                     RaycastHit hit;
                     bool hasHitColliders;
-                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range); 
+                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range);
 
                     // @Arnarck change the VFX played based on what the player hits
                     // Hits the enemy
@@ -136,7 +130,7 @@ public class Gun : Weapon
 
                         if (distance_from_enemy > distance_1) actual_damage = damage_distance_1;
                         Debug.Log("Distance from enemy: " + distance_from_enemy + "  Damage: " + actual_damage);
-                        
+
                         // @Arnarck OPTIMIZE THIS.
                         // When add Enemy Attack Manager, keep in it references from all enemies in scene.
                         if (hit.collider.CompareTag("EnemyHead"))

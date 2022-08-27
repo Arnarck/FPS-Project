@@ -249,7 +249,7 @@ public class PlayerInventory : MonoBehaviour
     public bool is_cumulative(ItemType item)
     {
         if ((int)item >= 6 && (int)item <= 9) return true; // Ammo
-        if ((item.Equals(ItemType.FLASHLIGHT_BATTERY))) return true;
+        if (item == ItemType.GUN_REPAIR_KIT) return true;
 
         return false;
     }
@@ -271,7 +271,7 @@ public class PlayerInventory : MonoBehaviour
 
     public bool is_consumable(ItemType item)
     {
-        if ((int)item >= 10 && (int)item <= 12) return true;
+        if ((int)item >= 10 && (int)item <= 13) return true;
         return false;
     }
 
@@ -406,7 +406,7 @@ public class PlayerInventory : MonoBehaviour
                 return WeaponType.SUBMACHINE_GUN;
 
             default:
-                Debug.Assert(false);
+                //Debug.Assert(false);
                 break;
         }
 
@@ -449,43 +449,7 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        switch (inventory[current_slot_selected_on_item_menu].type)
-        {
-            // @Arnarck add a message to player saying that his status are already full... Or just disable "use button"
-            case ItemType.HEALTH_PILL:
-                {
-                    if (GI.player.health >= GI.player.max_health)
-                    {
-                        Debug.Log("Health already full");
-                        return;
-                    }
-                    GI.player.change_health_amount(50f);
-
-                    // Increases overdose amount after consuming a pill.
-                    // Increases overdose EVEN MORE if player is overdosed
-                    if (GI.player.is_overdosed) GI.player.change_overdose_amount(GI.Config.overdose_increased_by_health_pill * GI.Config.overdosed_multiplier);
-                    else GI.player.change_overdose_amount(GI.Config.overdose_increased_by_health_pill);
-                }
-                break;
-
-            case ItemType.STAMINA_PILL:
-                {
-                    if (GI.player.stamina >= GI.player.max_stamina)
-                    {
-                        Debug.Log("Stamina already full");
-                        return;
-                    }
-                    GI.player.increase_stamina(50f);
-
-                    if (GI.player.is_overdosed) GI.player.change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill * GI.Config.overdosed_multiplier);
-                    else GI.player.change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill);
-                }
-                break;
-
-            default:
-                Debug.Assert(false);
-                break;
-        }
+        GI.player.use_item(inventory[current_slot_selected_on_item_menu].type);
         remove_item(current_slot_selected_on_item_menu);
         disable_item_menu();
     }
@@ -507,20 +471,33 @@ public class PlayerInventory : MonoBehaviour
             return;
         }
 
-        // This don't cause any bug, but its better to prevent the player to think that he can combine an slot with one slot that are completely filled
-        if (inventory[i].stored_amount == InventoryData.max_capacity[(int)inventory[i].type])
+        if (inventory[i].type == inventory[current_slot_selected_on_item_menu].type && is_cumulative(inventory[i].type))
         {
-            Debug.LogError("This slot is already filled!");
-            return;
+            combine_cumulative_itens_of_same_type(i);
+        }
+        else if (is_weapon(inventory[i].type) && inventory[current_slot_selected_on_item_menu].type == ItemType.GUN_REPAIR_KIT)
+        {
+            combine_gun_with_repair_kit(i);
         }
 
-        if (!inventory[i].type.Equals(inventory[current_slot_selected_on_item_menu].type))
-        {
-            Debug.LogError("Trying to combine item with an different item type");
-            return;
-        }
-        if (!is_cumulative(inventory[i].type)) return; // @Arnarck remove this line if modify how "combine" works
+        combine_option_enabled = false;
+        toggle_all_slot_buttons(true);
+        Debug.Log("Combine disabled!");
+    }
 
+    void combine_gun_with_repair_kit(int index)
+    {
+        remove_item(current_slot_selected_on_item_menu);
+        WeaponType weapon_type = get_weapon_type_of(inventory[index].type);
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapon_type == weapons[i].type) weapons[i].increase_integrity(GI.Config.gun_integrity_restored_by_repair_kit);
+        }
+    }
+
+    void combine_cumulative_itens_of_same_type(int i)
+    {
         int avaliable_space = InventoryData.max_capacity[(int)inventory[i].type] - inventory[i].stored_amount;
         int space_needed = inventory[current_slot_selected_on_item_menu].stored_amount;
 
@@ -540,10 +517,6 @@ public class PlayerInventory : MonoBehaviour
             inventory[i].stored_amount += space_needed;
             inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
         }
-
-        combine_option_enabled = false;
-        toggle_all_slot_buttons(true);
-        Debug.Log("Combine disabled!");
     }
 
     public void toggle_all_slot_buttons(bool interactable, int exception = -1)
@@ -560,8 +533,39 @@ public class PlayerInventory : MonoBehaviour
         ItemType item = inventory[current_slot_selected_on_item_menu].type;
         for (int i = 0; i < inventory.Length; i++)
         {
-            if (item == inventory[i].type) inventory[i].ui.button.interactable = true;
+            if (can_combine_slot_with_cumulative_item(item, i)) inventory[i].ui.button.interactable = true;
+            else if (can_combine_slot_with_repair_kit(item, i)) inventory[i].ui.button.interactable = true;
             else inventory[i].ui.button.interactable = false;
         }
+    }
+
+    public bool can_combine_slot_with_cumulative_item(ItemType item, int index)
+    {
+        if (!is_cumulative(item)) return false;
+
+        InventoryItem slot = inventory[index];
+        bool is_current_slot_selected = index == current_slot_selected_on_item_menu;
+        bool has_avaliable_space_on_slot = slot.stored_amount < InventoryData.max_capacity[(int)slot.type];
+
+        return item == slot.type && has_avaliable_space_on_slot && !is_current_slot_selected;
+    }
+
+    public bool can_combine_slot_with_repair_kit(ItemType item, int index)
+    {
+        if (!is_weapon(inventory[index].type)) return false;
+
+        bool is_current_slot_selected = index == current_slot_selected_on_item_menu;
+        bool is_weapon_integrity_full = false;
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i].type == get_weapon_type_of(inventory[index].type))
+            {
+                is_weapon_integrity_full = weapons[i].integrity >= weapons[i].max_integrity;
+                break;
+            }
+        }
+
+        return item == ItemType.GUN_REPAIR_KIT && !is_current_slot_selected && !is_weapon_integrity_full;
     }
 }

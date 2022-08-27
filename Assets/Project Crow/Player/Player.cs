@@ -197,4 +197,70 @@ public class Player : MonoBehaviour
         overdose = Mathf.Clamp(overdose, 0, max_overdose);
         overdose_bar.value = overdose;
     }
+
+    // @Arnarck change this name to "use_consumable", "use_pills" or something like that
+    public void use_item(ItemType item)
+    {
+        switch (item)
+        {
+            // @Arnarck add a message to player saying that his status are already full... Or just disable "use button"
+            case ItemType.HEALTH_PILL:
+                {
+                    if (health >= max_health)
+                    {
+                        Debug.Log("Health already full");
+                        return;
+                    }
+                    change_health_amount(GI.Config.health_restored_by_pill);
+
+                    // Increases overdose amount after consuming a pill.
+                    // Increases overdose EVEN MORE if player is overdosed
+                    if (is_overdosed) change_overdose_amount(GI.Config.overdose_increased_by_health_pill * GI.Config.overdosed_multiplier);
+                    else change_overdose_amount(GI.Config.overdose_increased_by_health_pill);
+                }
+                break;
+
+            case ItemType.STAMINA_PILL:
+                {
+                    if (stamina >= max_stamina)
+                    {
+                        Debug.Log("Stamina already full");
+                        return;
+                    }
+                    increase_stamina(GI.Config.stamina_restored_by_pill);
+
+                    if (is_overdosed) change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill * GI.Config.overdosed_multiplier);
+                    else change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill);
+                }
+                break;
+
+            case ItemType.ANTI_TERROR_PILL:
+                {
+                    if (terror <= 0f)
+                    {
+                        Debug.Log("Terror already empty");
+                        return;
+                    }
+                    change_terror_amount(-GI.Config.terror_decreased_by_pill);
+
+                    if (is_overdosed) change_overdose_amount(GI.Config.overdose_increased_by_terror_pill * GI.Config.overdosed_multiplier);
+                    else change_overdose_amount(GI.Config.overdose_increased_by_terror_pill);
+                }
+                break;
+
+            case ItemType.ANTI_OVERDOSE_PILL:
+                {
+                    if (overdose <= 0f)
+                    {
+                        Debug.Log("Overdose already empty");
+                    }
+                    change_overdose_amount(-max_overdose);
+                }
+                break;
+
+            default:
+                Debug.Assert(false);
+                break;
+        }
+    }
 }

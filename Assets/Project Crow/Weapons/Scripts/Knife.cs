@@ -12,7 +12,6 @@ public class Knife : Weapon
     public float time_to_evade = .5f;
     public float attack_radius = .5f;
     public float evade_time = 1f;
-    public float damage = 20f;
     public float evade_force = 50f;
     public bool is_evading, can_evade;
 
