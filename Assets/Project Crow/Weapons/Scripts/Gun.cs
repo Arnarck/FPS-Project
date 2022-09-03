@@ -12,6 +12,7 @@ public class Gun : Weapon
 
     [HideInInspector] public Vector3 start_position;
 
+    // @Arnarck Create an dictionary and store all vfx into it
     [Header("Visual Effects")]
     public ParticleSystem muzzle_flash_vfx = default;
     public ParticleSystem muzzle_smoke_vfx = default;
@@ -43,6 +44,7 @@ public class Gun : Weapon
 
     [Header("Aiming")]
     public Vector3 aiming_position;
+    public float recoil_percentage_when_aiming = .3f;
 
     void Awake()
     {
@@ -95,7 +97,7 @@ public class Gun : Weapon
                 if (can_shoot && !is_reloading && has_ammo)
                 {
                     // Recoil
-                    GI.gun_recoil.add_recoil(recoil * GI.player.recoil_multiplier_based_on_terror, snappiness, return_speed);
+                    GI.gun_recoil.add_recoil(get_recoil(), snappiness, return_speed);
 
                     // Integrity
                     integrity -= integrity_reduced_per_attack;
@@ -207,6 +209,12 @@ public class Gun : Weapon
                 else last_reload_t += Time.deltaTime;
             }
         }
+    }
+
+    public Vector3 get_recoil()
+    {
+        if (GI.player.is_aiming) return recoil * GI.player.recoil_multiplier_based_on_terror * recoil_percentage_when_aiming;
+        else return recoil * GI.player.recoil_multiplier_based_on_terror;
     }
 
     public void toggle_aim(float percentage)

@@ -141,8 +141,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        // @Arnarck reduce gun recoil while aiming.
-        // @Arnarck turn off aim when switching a gun, and prevents player from aiming for short period of time (for animations)
+        // @Arnarck turn off aim when switching a gun, and prevents player from aiming for a short period of time (for animations)
         { // Aiming
             if (Input.GetKeyDown(KeyCode.Mouse1) && GI.player_inventory.is_equiped_with_a_gun())
             {

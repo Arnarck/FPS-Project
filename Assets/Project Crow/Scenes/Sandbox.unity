@@ -18540,7 +18540,7 @@ PrefabInstance:
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: time_to_attack
-      value: 0.25
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
@@ -18560,12 +18560,12 @@ PrefabInstance:
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: time_to_shoot_with_no_integrity
-      value: 0.5
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2448831175767296285, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: time_to_shoot_with_low_integrity
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3297466980413822248, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
