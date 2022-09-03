@@ -10,6 +10,8 @@ public class Gun : Weapon
     AudioSource _audioSource;
     Transform m_transform;
 
+    [HideInInspector] public Vector3 start_position;
+
     [Header("Visual Effects")]
     public ParticleSystem muzzle_flash_vfx = default;
     public ParticleSystem muzzle_smoke_vfx = default;
@@ -39,10 +41,14 @@ public class Gun : Weapon
     public float return_speed;
     public Vector3 recoil;
 
+    [Header("Aiming")]
+    public Vector3 aiming_position;
+
     void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         m_transform = transform;
+        gun = this;
     }
 
     void OnEnable()
@@ -60,7 +66,7 @@ public class Gun : Weapon
         has_ammo = ammo_amount > 0 ? true : false;
 
         GI.ammo_display.display_ammo_in_clip(ammo_amount);
-        //GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
+        start_position = m_transform.localPosition;
     }
 
     void OnDisable()
@@ -83,7 +89,7 @@ public class Gun : Weapon
     {
         if (GI.pause_game.game_paused) return;
 
-        { // Process Shoot Input
+        { // Shoot
             if ((Input.GetKey(KeyCode.Mouse0) && is_automatic) || (Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic)) // Checks if is able to shoot
             {
                 if (can_shoot && !is_reloading && has_ammo)
@@ -158,13 +164,10 @@ public class Gun : Weapon
             {
                 if (shoot_t <= 0f) can_shoot = true;
                 else shoot_t -= Time.deltaTime;
-
-                //if (shoot_t >= time_to_shoot) can_shoot = true;
-                //else shoot_t += Time.deltaTime;
             }
         }
 
-        { // Reload Input
+        { // Reload
             if (Input.GetKeyDown(KeyCode.R) && !is_reloading && ammo_amount < max_ammo_amount && GI.player_inventory.get_total_item_count(GI.player_inventory.get_ammo_type_of(type)) > 0)
             {
                 is_reloading = true;
@@ -172,7 +175,7 @@ public class Gun : Weapon
             }
         }
 
-        { // Time to reload
+        { // Reload time
             if (is_reloading)
             {
                 if (last_reload_t >= reload_time)
@@ -204,5 +207,12 @@ public class Gun : Weapon
                 else last_reload_t += Time.deltaTime;
             }
         }
+    }
+
+    public void toggle_aim(float percentage)
+    {
+        Vector3 from = GI.player.is_aiming ? start_position : aiming_position;
+        Vector3 to = GI.player.is_aiming ? aiming_position : start_position;
+        m_transform.localPosition = Vector3.Lerp(from, to, percentage);
     }
 }

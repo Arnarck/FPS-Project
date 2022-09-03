@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    float start_fov;
+    [HideInInspector] public float fov_percentage = 1f;
     float time_elapsed_from_stamina_restoration, overdose_t, terror_t;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
 
@@ -38,6 +40,11 @@ public class Player : MonoBehaviour
     public float terror_applied = 5f;
     public float stamina_restored_when_overdosed = .5f; // Multiplier
 
+    [Header("Aim")]
+    public bool is_aiming;
+    public float fov_when_aiming = 50f;
+    public float fov_speed = 10f;
+
     void Awake()
     {
         GI.player = this;
@@ -59,6 +66,8 @@ public class Player : MonoBehaviour
         overdose_bar.value = overdose;
 
         recoil_multiplier_based_on_terror = 1f;
+
+        start_fov = GI.fp_camera.fieldOfView;
     }
 
     void FixedUpdate()
@@ -101,6 +110,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (GI.pause_game.game_paused) return;
+
         { // Terror
             if (terror > 0f)
             {
@@ -127,6 +138,27 @@ public class Player : MonoBehaviour
                         change_terror_amount(terror_applied);
                     }
                 }
+            }
+        }
+
+        // @Arnarck reduce gun recoil while aiming.
+        // @Arnarck turn off aim when switching a gun, and prevents player from aiming for short period of time (for animations)
+        { // Aiming
+            if (Input.GetKeyDown(KeyCode.Mouse1) && GI.player_inventory.is_equiped_with_a_gun())
+            {
+                is_aiming = !is_aiming;
+                fov_percentage = fov_percentage < 1f ? 1f - fov_percentage : 0f;
+            }
+
+            if (fov_percentage < 1f)
+            {
+                float from = is_aiming ? start_fov : fov_when_aiming;
+                float to = is_aiming ? fov_when_aiming : start_fov;
+                
+                fov_percentage += Time.deltaTime * fov_speed;
+                fov_percentage = Mathf.Clamp(fov_percentage, 0f, 1f);
+                GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
+                GI.player_inventory.get_equiped_weapon().gun.toggle_aim(fov_percentage);
             }
         }
     }

@@ -1,5 +1,14 @@
 ﻿using UnityEngine;
 
+//struct WeaponData
+//{
+//    Weapon weapon;
+//    Gun gun;
+//    Knife knife;
+//    public bool is_gun;
+//    public bool is_equiped;
+//}
+
 public class PlayerInventory : MonoBehaviour
 {
     [HideInInspector] public InventoryItem[] inventory; // Total Inventory capacity;
@@ -567,5 +576,23 @@ public class PlayerInventory : MonoBehaviour
         }
 
         return item == ItemType.GUN_REPAIR_KIT && !is_current_slot_selected && !is_weapon_integrity_full;
+    }
+
+    public bool is_equiped_with_a_gun()
+    {
+        if (equiped_weapon == WeaponType.KNIFE) return false;
+        else if (equiped_weapon == WeaponType.NONE) return false;
+        else return true;
+    }
+
+    public Weapon get_equiped_weapon()
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i].type == equiped_weapon) return weapons[i];
+        }
+
+        Debug.LogError("Equiped weapon not found");
+        return null;
     }
 }

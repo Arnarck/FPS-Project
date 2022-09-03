@@ -15,6 +15,11 @@ public class Knife : Weapon
     public float evade_force = 50f;
     public bool is_evading, can_evade;
 
+    void Awake()
+    {
+        knife = this;
+    }
+
     // Update is called once per frame
     void Update()
     {

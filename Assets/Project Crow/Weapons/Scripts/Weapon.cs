@@ -18,6 +18,9 @@ public enum WeaponType
 // Base class for Guns, Knives, etc
 public class Weapon : MonoBehaviour
 {
+    [HideInInspector] public Gun gun;
+    [HideInInspector] public Knife knife;
+
     public WeaponType type;
 
     [Header("Attack")]
