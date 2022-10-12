@@ -9,12 +9,10 @@ public class Player : MonoBehaviour
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
 
     [Header("Health")]
-    [SerializeField] Slider health_bar;
     public float health = 50;
     public float max_health = 100f;
 
     [Header("Stamina")]
-    [SerializeField] Slider stamina_bar;
     public float stamina = 50;
     public float max_stamina = 100f;
     public float min_stamina_to_run = 10f;
@@ -23,7 +21,6 @@ public class Player : MonoBehaviour
     public float time_to_start_restoring_stamina = 1f;
 
     [Header("Terror")]
-    public Slider terror_bar;
     public float terror;
     public float max_terror;
     public float terror_reduced_per_tick;
@@ -31,7 +28,6 @@ public class Player : MonoBehaviour
     public float time_to_reduce_terror = 3f;
 
     [Header("Medicine Overdose")]
-    public Slider overdose_bar;
     public float overdose;
     public float max_overdose;
     public float time_to_apply_overdose_debuff = 2f;
@@ -53,17 +49,17 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        health_bar.maxValue = max_health;
-        health_bar.value = health;
+        GI.hud.health_bar.maxValue = max_health;
+        GI.hud.health_bar.value = health;
 
-        stamina_bar.maxValue = max_stamina;
-        stamina_bar.value = stamina;
+        GI.hud.stamina_bar.maxValue = max_stamina;
+        GI.hud.stamina_bar.value = stamina;
 
-        terror_bar.maxValue = max_terror;
-        terror_bar.value = terror;
+        GI.hud.terror_bar.maxValue = max_terror;
+        GI.hud.terror_bar.value = terror;
 
-        overdose_bar.maxValue = max_overdose;
-        overdose_bar.value = overdose;
+        GI.hud.overdose_bar.maxValue = max_overdose;
+        GI.hud.overdose_bar.value = overdose;
 
         recoil_multiplier_based_on_terror = 1f;
 
@@ -82,7 +78,7 @@ public class Player : MonoBehaviour
 
                 stamina -= stamina_consumed_per_frame;
                 stamina = Mathf.Clamp(stamina, 0, max_stamina);
-                stamina_bar.value = stamina;
+                GI.hud.stamina_bar.value = stamina;
 
                 if (stamina < Mathf.Epsilon) can_run = false;
             }
@@ -100,7 +96,7 @@ public class Player : MonoBehaviour
                 else stamina += stamina_restored_per_frame;
 
                 stamina = Mathf.Clamp(stamina, 0, max_stamina);
-                stamina_bar.value = stamina;
+                GI.hud.stamina_bar.value = stamina;
 
                 if (!can_run && stamina >= max_stamina * min_stamina_to_run) can_run = true;
             }
@@ -146,6 +142,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse1) && GI.player_inventory.is_equiped_with_a_gun())
             {
                 is_aiming = !is_aiming;
+                GI.hud.gun_reticle.SetActive(!is_aiming);
                 fov_percentage = fov_percentage < 1f ? 1f - fov_percentage : 0f;
             }
 
@@ -170,7 +167,7 @@ public class Player : MonoBehaviour
         if (value > 0) Debug.Log($"Health restored by {value} points!");
         health += value;
         health = Mathf.Clamp(health, 0f, max_health);
-        health_bar.value = health;
+        GI.hud.health_bar.value = health;
 
         if (health < Mathf.Epsilon)
         {
@@ -185,7 +182,7 @@ public class Player : MonoBehaviour
         Debug.Log($"Stamina restored by {value} points!");
         stamina += value;
         stamina = Mathf.Clamp(stamina, 0, max_stamina);
-        stamina_bar.value = stamina;
+        GI.hud.stamina_bar.value = stamina;
         can_run = true;
     }
 
@@ -196,7 +193,7 @@ public class Player : MonoBehaviour
         Debug.Log($"Terror modified by {value} points");
         terror += value;
         terror = Mathf.Clamp(terror, 0, max_terror);
-        terror_bar.value = terror;
+        GI.hud.terror_bar.value = terror;
 
         // Change gun recoil based on terror amount
         if (terror >= 85f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_3;
@@ -226,7 +223,7 @@ public class Player : MonoBehaviour
         }
 
         overdose = Mathf.Clamp(overdose, 0, max_overdose);
-        overdose_bar.value = overdose;
+        GI.hud.overdose_bar.value = overdose;
     }
 
     // @Arnarck change this name to "use_consumable", "use_pills" or something like that

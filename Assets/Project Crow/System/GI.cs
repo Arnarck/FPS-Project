@@ -14,6 +14,7 @@ public static class GI
     public static Flashlight player_flashlight;
     public static GunRecoil gun_recoil;
     public static PauseGame pause_game;
+    public static HUD hud;
 
     public static class Config
     {

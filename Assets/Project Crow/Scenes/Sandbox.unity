@@ -4106,7 +4106,7 @@ GameObject:
   - component: {fileID: 787976935}
   - component: {fileID: 787976934}
   m_Layer: 5
-  m_Name: Weapon Reticle
+  m_Name: Gun Reticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11162,6 +11162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2130696880}
+  - component: {fileID: 2130696881}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -11185,6 +11186,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2130696881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130696879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b55b98af2962442b896b845bf9810d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun_reticle: {fileID: 787976932}
+  health_bar: {fileID: 981568398}
+  stamina_bar: {fileID: 1503658714}
+  terror_bar: {fileID: 489260660}
+  overdose_bar: {fileID: 1282495372}
 --- !u!1001 &4844387718740899085
 PrefabInstance:
   m_ObjectHideFlags: 0
