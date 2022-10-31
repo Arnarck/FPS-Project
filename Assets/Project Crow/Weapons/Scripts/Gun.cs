@@ -144,9 +144,13 @@ public class Gun : Weapon
                         if (hit.collider.CompareTag("EnemyHead"))
                         {
                             hit.collider.transform.parent.GetComponent<EnemyAI>().take_damage(actual_damage * headshot_multiplier);
-                            Debug.Log("DAMAGE: " + actual_damage + " | HEADSHOT MULTIPLIER: " + headshot_multiplier);
+                            Debug.Log($"SHOT DISTANCE: {distance_from_enemy} | RAW DAMAGE: {actual_damage} | HEADSHOT MULTIPLIER: {headshot_multiplier} | ACTUAL DAMAGE: {actual_damage * headshot_multiplier}");
                         }
-                        else hit.collider.GetComponent<EnemyAI>().take_damage(actual_damage);
+                        else
+                        {
+                            hit.collider.GetComponent<EnemyAI>().take_damage(actual_damage);
+                            Debug.Log($"SHOT DISTANCE: {distance_from_enemy} | DAMAGE: {actual_damage}");
+                        }
 
                         // Plays hit VFX
                         // The rotation needed to make the object look at normalDirection.

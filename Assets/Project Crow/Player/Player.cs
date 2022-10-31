@@ -61,8 +61,6 @@ public class Player : MonoBehaviour
         GI.hud.overdose_bar.maxValue = max_overdose;
         GI.hud.overdose_bar.value = overdose;
 
-        recoil_multiplier_based_on_terror = 1f;
-
         start_fov = GI.fp_camera.fieldOfView;
     }
 

@@ -414,6 +414,9 @@ public class PlayerInventory : MonoBehaviour
             case ItemType.SUBMACHINE_GUN_AMMO:
                 return WeaponType.SUBMACHINE_GUN;
 
+            case ItemType.KNIFE:
+                return WeaponType.KNIFE;
+
             default:
                 //Debug.Assert(false);
                 break;
