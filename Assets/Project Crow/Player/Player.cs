@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public float fov_percentage = 1f;
     float time_elapsed_from_stamina_restoration, overdose_t, terror_t;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
+    [HideInInspector] Vector2 start_mouse_sensitivity;
 
     [Header("Health")]
     public float health = 50;
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
 
     [Header("Aim")]
     public bool is_aiming;
-    public float fov_when_aiming = 50f;
+    //public float fov_when_aiming = 50f;
     public float fov_speed = 10f;
 
     void Awake()
@@ -62,6 +63,9 @@ public class Player : MonoBehaviour
         GI.hud.overdose_bar.value = overdose;
 
         start_fov = GI.fp_camera.fieldOfView;
+
+        start_mouse_sensitivity.x = GI.fp_controller.mouseLook.XSensitivity;
+        start_mouse_sensitivity.y = GI.fp_controller.mouseLook.YSensitivity;
     }
 
     void FixedUpdate()
@@ -142,17 +146,29 @@ public class Player : MonoBehaviour
                 is_aiming = !is_aiming;
                 GI.hud.gun_reticle.SetActive(!is_aiming);
                 fov_percentage = fov_percentage < 1f ? 1f - fov_percentage : 0f;
+                if (is_aiming)
+                {
+                    GI.fp_controller.mouseLook.XSensitivity = GI.player_inventory.get_equiped_weapon().gun.aiming_sensitivity.x;
+                    GI.fp_controller.mouseLook.YSensitivity = GI.player_inventory.get_equiped_weapon().gun.aiming_sensitivity.y;
+                }
+                else
+                {
+                    GI.fp_controller.mouseLook.XSensitivity = start_mouse_sensitivity.x;
+                    GI.fp_controller.mouseLook.YSensitivity = start_mouse_sensitivity.y;
+                }
             }
 
             if (fov_percentage < 1f)
             {
-                float from = is_aiming ? start_fov : fov_when_aiming;
-                float to = is_aiming ? fov_when_aiming : start_fov;
+                Gun equiped_gun = GI.player_inventory.get_equiped_weapon().gun;
+                float from = is_aiming ? start_fov : equiped_gun.fov_when_aiming;
+                float to = is_aiming ? equiped_gun.fov_when_aiming : start_fov;
                 
-                fov_percentage += Time.deltaTime * fov_speed;
+                fov_percentage += Time.deltaTime * equiped_gun.fov_speed;
                 fov_percentage = Mathf.Clamp(fov_percentage, 0f, 1f);
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
-                GI.player_inventory.get_equiped_weapon().gun.toggle_aim(fov_percentage);
+                equiped_gun.toggle_aim_position(fov_percentage);
+                equiped_gun.toggle_aim_rotation(fov_percentage);
             }
         }
     }

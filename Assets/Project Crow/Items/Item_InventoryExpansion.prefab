@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6060502088319799016}
   - component: {fileID: 1209438228145723273}
   m_Layer: 9
-  m_Name: Inventory Expansion
+  m_Name: Item_InventoryExpansion
   m_TagString: InventoryExpansion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

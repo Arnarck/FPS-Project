@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2296573992731204287
 Transform:
   m_ObjectHideFlags: 0
@@ -143,27 +143,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2f13b0f5dea4644adc321b04e11e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gun: {fileID: 4718119321247085825}
+  knife: {fileID: 0}
   type: 4
-  can_shoot: 1
+  damage: 9
+  time_to_attack: 0.13
+  integrity: 100
+  max_integrity: 100
+  integrity_reduced_per_attack: 1
+  low_integrity: 30
+  can_shoot: 0
   is_reloading: 0
-  has_ammo: 0
+  has_ammo: 1
+  start_position: {x: 0.13, y: -0.12, z: 0}
+  start_rotation: {x: -0, y: 0, z: 0}
   muzzle_flash_vfx: {fileID: 7075960315893431313}
   muzzle_smoke_vfx: {fileID: 3598347395320698161}
   blood_splash_vfx: {fileID: 0}
-  damage: 30
-  distance_1: 15
-  damage_distance_1: 23
-  headshot_multiplier: 1.5
-  range: 100
-  time_to_shoot: 0.15
+  headshot_multiplier: 1.35
+  range: 1000
   is_automatic: 1
+  distance_1: 15
+  damage_distance_1: 19
+  time_to_shoot_with_low_integrity: 0.18
+  time_to_shoot_with_no_integrity: 0.25
   ammo_type: 2
   reload_time: 2
   max_ammo_amount: 30
-  ammo_amount: 23
-  recoil: {x: 0, y: 0, z: 0}
-  snappiness: 0
-  return_speed: 0
+  ammo_amount: 29
+  snappiness: 10
+  return_speed: 8
+  recoil: {x: -10, y: 4, z: 1}
+  fov_when_aiming: 30
+  fov_speed: 5
+  recoil_percentage_when_aiming: 0.1
+  aiming_sensitivity: {x: 0.75, y: 0.75}
+  aiming_position: {x: 0, y: -0.07, z: 0}
+  aiming_rotation: {x: -0.3, y: 0, z: 0}
 --- !u!1 &6105292476713039294
 GameObject:
   m_ObjectHideFlags: 0

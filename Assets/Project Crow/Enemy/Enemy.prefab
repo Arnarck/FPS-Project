@@ -418,6 +418,9 @@ MonoBehaviour:
   is_alive: 1
   is_provoked: 0
   can_attack: 1
+  target: {fileID: 0}
+  nav_mesh_agent: {fileID: 0}
+  animator: {fileID: 0}
   loot_area: {fileID: 6091170860724511218}
   detection_range: 4
   look_speed: 10
@@ -455,7 +458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6091170861913396819}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.36100006, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0.36100006, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6091170860270199868}

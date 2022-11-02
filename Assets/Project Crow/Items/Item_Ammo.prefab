@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4815060122547120084
+--- !u!1 &3211086678887831468
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4815060122547120085}
-  - component: {fileID: 4815060122547120087}
-  - component: {fileID: 4815060122547120086}
+  - component: {fileID: 3211086678887831469}
+  - component: {fileID: 3211086678887831471}
+  - component: {fileID: 3211086678887831470}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -18,35 +18,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4815060122547120085
+--- !u!4 &3211086678887831469
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815060122547120084}
+  m_GameObject: {fileID: 3211086678887831468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.062896825, y: 0.13753, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0.024676485, z: 0}
+  m_LocalScale: {x: 0.19364038, y: 0.049352974, z: 0.10412207}
   m_Children: []
-  m_Father: {fileID: 4815060122870976033}
+  m_Father: {fileID: 3211086679680450137}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4815060122547120087
+--- !u!33 &3211086678887831471
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815060122547120084}
+  m_GameObject: {fileID: 3211086678887831468}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4815060122547120086
+--- !u!23 &3211086678887831470
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815060122547120084}
+  m_GameObject: {fileID: 3211086678887831468}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -79,7 +79,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &4815060122870976038
+--- !u!1 &3211086679680450142
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,57 +87,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4815060122870976033}
-  - component: {fileID: 4815060122870976032}
-  - component: {fileID: 7945077592517074787}
+  - component: {fileID: 3211086679680450137}
+  - component: {fileID: 3211086679680450136}
+  - component: {fileID: 3678822033920392976}
   m_Layer: 9
-  m_Name: Ammo Holster Expansion
-  m_TagString: AmmoHolsterExpansion
+  m_Name: Item_Ammo
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4815060122870976033
+--- !u!4 &3211086679680450137
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815060122870976038}
-  m_LocalRotation: {x: -0, y: 0.34970045, z: -0, w: 0.93686163}
-  m_LocalPosition: {x: 3.938, y: 1.37, z: 5.404442}
+  m_GameObject: {fileID: 3211086679680450142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.873, y: 1.43, z: 5.064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4815060122547120085}
+  - {fileID: 3211086678887831469}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 40.938004, z: 0}
---- !u!65 &4815060122870976032
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3211086679680450136
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815060122870976038}
+  m_GameObject: {fileID: 3211086679680450142}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.34, y: 0.52, z: 0.02}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7945077592517074787
+  m_Size: {x: 0.2, y: 0.054204106, z: 0.11}
+  m_Center: {x: 0, y: 0.02666229, z: 0}
+--- !u!114 &3678822033920392976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4815060122870976038}
+  m_GameObject: {fileID: 3211086679680450142}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 873d15c48592beb4bbcc29e30c6d3bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_name: Ammo Holster Expansion
-  sprite: {fileID: 21300000, guid: 4db017495c69e8140a56a0e2b669e3f8, type: 3}
-  type: 0
-  amount: 0
+  type: 6
+  amount: 10

@@ -6,9 +6,9 @@ public class EnemyAI : MonoBehaviour
     float time_elapsed_since_last_attack;
     public bool is_alive = true, is_provoked, can_attack = true;
 
-    Transform target;
-    NavMeshAgent nav_mesh_agent;
-    Animator animator;
+    [HideInInspector] public Transform target;
+    [HideInInspector] public NavMeshAgent nav_mesh_agent;
+    [HideInInspector] public Animator animator;
 
     public GameObject loot_area;
     public float detection_range = 4f;
@@ -129,6 +129,7 @@ public class EnemyAI : MonoBehaviour
             GetComponent<CapsuleCollider>().isTrigger = true;
             GI.player.change_terror_amount(terror_reduced_when_killed);
             is_alive = false;
+            gameObject.SetActive(false); // Using in Sandbox
         }
         else
         {

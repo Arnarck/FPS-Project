@@ -10,7 +10,7 @@ public class Gun : Weapon
     AudioSource _audioSource;
     Transform m_transform;
 
-    [HideInInspector] public Vector3 start_position;
+    [HideInInspector] public Vector3 start_position, start_rotation;
 
     // @Arnarck Create an dictionary and store all vfx into it
     [Header("Visual Effects")]
@@ -43,8 +43,12 @@ public class Gun : Weapon
     public Vector3 recoil;
 
     [Header("Aiming")]
-    public Vector3 aiming_position;
+    public float fov_when_aiming = 40f;
+    public float fov_speed = 10f; // How fast the fov will change when turning on / off the aim.
     public float recoil_percentage_when_aiming = .3f;
+    public Vector2 aiming_sensitivity;
+    public Vector3 aiming_position;
+    public Vector3 aiming_rotation;
 
     void Awake()
     {
@@ -69,6 +73,7 @@ public class Gun : Weapon
 
         GI.ammo_display.display_ammo_in_clip(ammo_amount);
         start_position = m_transform.localPosition;
+        start_rotation = transform.localRotation.eulerAngles;
     }
 
     void OnDisable()
@@ -221,10 +226,17 @@ public class Gun : Weapon
         else return recoil * GI.player.recoil_multiplier_based_on_terror;
     }
 
-    public void toggle_aim(float percentage)
+    public void toggle_aim_position(float percentage)
     {
         Vector3 from = GI.player.is_aiming ? start_position : aiming_position;
         Vector3 to = GI.player.is_aiming ? aiming_position : start_position;
         m_transform.localPosition = Vector3.Lerp(from, to, percentage);
+    }
+
+    public void toggle_aim_rotation(float percentage)
+    {
+        Quaternion from = GI.player.is_aiming ? Quaternion.Euler(start_rotation) : Quaternion.Euler(aiming_rotation);
+        Quaternion to = GI.player.is_aiming ? Quaternion.Euler(aiming_rotation) : Quaternion.Euler(start_rotation);
+        m_transform.localRotation = Quaternion.Lerp(from, to, percentage);
     }
 }

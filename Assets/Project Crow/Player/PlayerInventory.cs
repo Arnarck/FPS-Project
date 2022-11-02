@@ -596,7 +596,7 @@ public class PlayerInventory : MonoBehaviour
             if (weapons[i].type == equiped_weapon) return weapons[i];
         }
 
-        Debug.LogError("Equiped weapon not found");
+        //Debug.LogError("Equiped weapon not found");
         return null;
     }
 }
