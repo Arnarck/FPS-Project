@@ -15,6 +15,7 @@ public static class GI
     public static GunRecoil gun_recoil;
     public static PauseGame pause_game;
     public static HUD hud;
+    public static ItemData item_data;
 
     public static class Config
     {

@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2215747027271623168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2215747027271623198}
+  - component: {fileID: 2215747027271623199}
+  m_Layer: 0
+  m_Name: Data
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2215747027271623198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2215747027271623168}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2215747027271623199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2215747027271623168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a12698c17b14804a86be140359308e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - item_name: Knife
+    type: 1
+    sprite: {fileID: 21300000, guid: 33c40651781e54f4982c6c64718ad02d, type: 3}
+  - item_name: Pistol
+    type: 2
+    sprite: {fileID: 21300000, guid: 33c40651781e54f4982c6c64718ad02d, type: 3}
+  - item_name: Shotgun
+    type: 3
+    sprite: {fileID: 21300000, guid: 33c40651781e54f4982c6c64718ad02d, type: 3}
+  - item_name: Assault Rifle
+    type: 4
+    sprite: {fileID: 21300000, guid: 33c40651781e54f4982c6c64718ad02d, type: 3}
+  - item_name: Submachine Gun
+    type: 5
+    sprite: {fileID: 21300000, guid: 33c40651781e54f4982c6c64718ad02d, type: 3}
+  - item_name: Pistol Ammo
+    type: 6
+    sprite: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de, type: 3}
+  - item_name: Shotgun Ammo
+    type: 7
+    sprite: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de, type: 3}
+  - item_name: Assault Rifle Ammo
+    type: 8
+    sprite: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de, type: 3}
+  - item_name: Submachine Gun Ammo
+    type: 9
+    sprite: {fileID: 21300000, guid: 5b1a64ea234fb2343b8d0686c51280de, type: 3}
+  - item_name: Health Pill
+    type: 10
+    sprite: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
+  - item_name: Stamina Pill
+    type: 11
+    sprite: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
+  - item_name: Anti Terror Pill
+    type: 12
+    sprite: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
+  - item_name: Anti Overdose Pill
+    type: 13
+    sprite: {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
+  - item_name: Gun Repair Kit
+    type: 14
+    sprite: {fileID: 21300000, guid: 5485e2f56028a3c4cb54f5caa167377e, type: 3}
+  - item_name: Inventory Expansion
+    type: 15
+    sprite: {fileID: 21300000, guid: 5485e2f56028a3c4cb54f5caa167377e, type: 3}

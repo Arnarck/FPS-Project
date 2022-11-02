@@ -18,7 +18,6 @@ public class PlayerInventory : MonoBehaviour
 
     public int slots_expanded_after_collecting_expansion_item;
     public int total_capacity;
-    public bool is_knife_equiped;
     public bool combine_option_enabled;
     public GameObject ui_inventory_screen;
     public GameObject ui_inventory_handler;
@@ -103,7 +102,8 @@ public class PlayerInventory : MonoBehaviour
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                set_slot_data(i, item.type, 1, item.sprite);
+                ItemDetails item_details = GI.item_data.get_item(item.type);
+                set_slot_data(i, item_details.type, 1, item_details.sprite);
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
                 Destroy(item.gameObject);
 
@@ -138,16 +138,17 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (inventory[i].type.Equals(ItemType.NONE)) // Add item to an empty slot
                 {
+                    ItemDetails item_details = GI.item_data.get_item(item.type);
                     if (InventoryData.max_capacity[type] >= item.amount) // avaliable space on inventory is greater than item amount
                     {
-                        set_slot_data(i, item.type, item.amount, item.sprite);
+                        set_slot_data(i, item_details.type, item.amount, item_details.sprite);
                         Destroy(item.gameObject);
                         return;
                     }
                     else // item amount is greater than inventory space
                     {
                         int remaining_amount_on_item = item.amount - InventoryData.max_capacity[type];
-                        set_slot_data(i, item.type, InventoryData.max_capacity[type], item.sprite);
+                        set_slot_data(i, item_details.type, InventoryData.max_capacity[type], item_details.sprite);
                         item.amount = remaining_amount_on_item;
                     }
                 }

@@ -37,15 +37,16 @@ public class ItemPickup : MonoBehaviour
             // TODO Optimize this. Currently, this code is getting a component every frame that the raycast hits an collectable
             if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Item layer
             {
-                Collectable item = hit.collider.GetComponent<Collectable>();
+                Item item = hit.collider.GetComponent<Item>();
+                ItemDetails item_details = GI.item_data.get_item(item.type);
 
                 // Sets the pickup ui position on the screen.
                 Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(hit.collider.transform.position);
                 pickup_interface.position = item_screen_position;
 
                 // Sets the pickup ui values.
-                pickup_image.sprite = item.sprite;
-                pickup_text.text = item.m_name;
+                pickup_image.sprite = item_details.sprite;
+                pickup_text.text = item_details.item_name;
 
                 pickup_interface.gameObject.SetActive(true);
                 item_found = hit.collider.gameObject;

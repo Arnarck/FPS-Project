@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6060502088319799017}
   - component: {fileID: 6060502088319799016}
-  - component: {fileID: 7493560818023066388}
+  - component: {fileID: 1209438228145723273}
   m_Layer: 9
   m_Name: Inventory Expansion
   m_TagString: InventoryExpansion
@@ -46,7 +46,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.12, y: 0.2, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7493560818023066388
+--- !u!114 &1209438228145723273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,11 +55,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6060502088319799018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a160c4cbca18d04ba9cff36cb52a3a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 873d15c48592beb4bbcc29e30c6d3bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_name: Inventory Expansion
-  sprite: {fileID: 21300000, guid: 0c6271a290ef75b4c97d58746c86c5b8, type: 3}
+  type: 15
+  amount: 1
 --- !u!1 &6060502088456026746
 GameObject:
   m_ObjectHideFlags: 0

@@ -227,7 +227,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector2 GetInput()
         {
             // Prevents player from moving if he's evading
-            if (GI.player_inventory.is_knife_equiped && FindObjectOfType<Knife>().is_evading)
+            Weapon equiped_weapon = GI.player_inventory.get_equiped_weapon();
+            if (equiped_weapon != null && equiped_weapon.type == WeaponType.KNIFE && equiped_weapon.knife.is_evading)
             {
                 Vector2 evade_direction = FindObjectOfType<Knife>().evade_direction;
                 movementSettings.CurrentTargetSpeed = FindObjectOfType<Knife>().evade_force;

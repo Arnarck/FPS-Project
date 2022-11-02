@@ -23,6 +23,7 @@
 
     // Repair
     GUN_REPAIR_KIT,
+    INVENTORY_EXPANSION,
 
     // Important
 
