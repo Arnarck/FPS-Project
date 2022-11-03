@@ -11,13 +11,16 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public Animator animator;
 
     public GameObject loot_area;
-    public float detection_range = 4f;
     public float look_speed = 10f;
     public float health = 100f;
     //public float max_health = 100f;
     public float damage = 25f;
     public float terror_damage = 15f;
     public float terror_reduced_when_killed = -10f;
+
+    [Header("Detection Settings")]
+    public float detection_range = 4f;
+    public Transform detection_point;
 
     [Header("Attack Settings")]
     public Transform attack_point;
@@ -46,6 +49,7 @@ public class EnemyAI : MonoBehaviour
         { // AI Behaviour
             Vector3 relative_position = target.position - transform.position;
             float distance_from_target = Util.distance(transform.position, target.position);
+            float target_distance_from_detection_point = Vector3.Distance(detection_point.position, target.position);
 
             if (is_provoked && distance_from_target <= nav_mesh_agent.stoppingDistance) // Makes the enemy attack
             {
@@ -79,9 +83,10 @@ public class EnemyAI : MonoBehaviour
 
                 animator.SetBool("isWalking", true);
             }
-            else if (distance_from_target <= detection_range) // Checks if the target is close enough
+            else if (target_distance_from_detection_point <= detection_range) // Checks if the target is close enough
             {
                 // Checks if there is an wall between player and enemy
+                // TODO Launches the raycast from the enemy's head instead of the middle of he's body, so the raycast don't collides with small props
                 RaycastHit hit;
                 bool has_hit_colliders = Physics.Raycast(transform.position, relative_position.normalized, out hit, distance_from_target);
                 Debug.DrawRay(transform.position, relative_position, Color.green);
@@ -147,7 +152,7 @@ public class EnemyAI : MonoBehaviour
     {
         // Draws Detection range.
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detection_range);
+        Gizmos.DrawWireSphere(detection_point.position, detection_range);
 
         // Draws attack hit area
         Gizmos.DrawWireSphere(attack_point.position, attack_range);
