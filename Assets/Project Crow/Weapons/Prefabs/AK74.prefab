@@ -146,7 +146,7 @@ MonoBehaviour:
   gun: {fileID: 4718119321247085825}
   knife: {fileID: 0}
   type: 4
-  damage: 9
+  damage: 11
   time_to_attack: 0.13
   integrity: 100
   max_integrity: 100
