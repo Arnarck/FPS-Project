@@ -94,18 +94,18 @@ public class PlayerInventory : MonoBehaviour
         toggle_all_slot_buttons(true);
     }
 
-    public bool store_item(Item item)
+    public bool store_item(ItemType item_type)
     {
-        if (is_cumulative(item.type)) return false;
+        if (is_cumulative(item_type)) return false;
 
         for (int i = 0; i < inventory.Length; i++)
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                ItemDetails item_details = GI.item_data.get_item(item.type);
+                ItemDetails item_details = GI.item_data.get_item(item_type);
                 set_slot_data(i, item_details.type, 1, item_details.sprite);
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
-                Destroy(item.gameObject);
+                //Destroy(item.gameObject);
 
                 return true;
             }
@@ -127,55 +127,56 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log($"Added {inventory[i].type} to slot {i} and amount {inventory[i].stored_amount}");
     }
 
-    public void store_cumulative_item(Item item)
+    public bool store_cumulative_item(ItemType item_type, int item_amount)
     {
-        if (!is_cumulative(item.type)) return;
+        if (!is_cumulative(item_type)) return false;
 
-        int type = (int)item.type;
+        int type = (int)item_type;
         for (int i = 0; i < inventory.Length; i++)
         {
             if (inventory[i].is_avaliable)
             {
                 if (inventory[i].type.Equals(ItemType.NONE)) // Add item to an empty slot
                 {
-                    ItemDetails item_details = GI.item_data.get_item(item.type);
-                    if (InventoryData.max_capacity[type] >= item.amount) // avaliable space on inventory is greater than item amount
+                    ItemDetails item_details = GI.item_data.get_item(item_type);
+                    if (InventoryData.max_capacity[type] >= item_amount) // avaliable space on inventory is greater than item amount
                     {
-                        set_slot_data(i, item_details.type, item.amount, item_details.sprite);
-                        Destroy(item.gameObject);
-                        return;
+                        set_slot_data(i, item_details.type, item_amount, item_details.sprite);
+                        //Destroy(item.gameObject);
+                        return true;
                     }
                     else // item amount is greater than inventory space
                     {
-                        int remaining_amount_on_item = item.amount - InventoryData.max_capacity[type];
+                        int remaining_amount_on_item = item_amount - InventoryData.max_capacity[type];
                         set_slot_data(i, item_details.type, InventoryData.max_capacity[type], item_details.sprite);
-                        item.amount = remaining_amount_on_item;
+                        item_amount = remaining_amount_on_item;
                     }
                 }
-                else if (inventory[i].type.Equals(item.type) && inventory[i].stored_amount < InventoryData.max_capacity[type]) // Add item to an existing slot
+                else if (inventory[i].type.Equals(item_type) && inventory[i].stored_amount < InventoryData.max_capacity[type]) // Add item to an existing slot
                 {
                     int avaliable_space = InventoryData.max_capacity[type] - inventory[i].stored_amount;
 
-                    if (avaliable_space >= item.amount) // avaliable space on inventory is greater than item amount
+                    if (avaliable_space >= item_amount) // avaliable space on inventory is greater than item amount
                     {
-                        inventory[i].stored_amount += item.amount;
+                        inventory[i].stored_amount += item_amount;
                         inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
-                        item.amount = 0;
-                        Destroy(item.gameObject);
-                        return;
+                        item_amount = 0;
+                        //Destroy(item.gameObject);
+                        return true;
                     }
                     else // item amount is greater than inventory space
                     {
-                        int remaining_amount_on_item = item.amount - avaliable_space;
+                        int remaining_amount_on_item = item_amount - avaliable_space;
                         inventory[i].stored_amount = InventoryData.max_capacity[type];
                         inventory[i].ui.count_text.text = inventory[i].stored_amount.ToString();
-                        item.amount = remaining_amount_on_item;
+                        item_amount = remaining_amount_on_item;
                     }
                 }
             }
         }
 
         Debug.LogError("No inventory slots avaliable!");
+        return false;
     }
 
     public void remove_item(int i)

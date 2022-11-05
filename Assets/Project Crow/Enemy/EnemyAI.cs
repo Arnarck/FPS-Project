@@ -75,6 +75,7 @@ public class EnemyAI : MonoBehaviour
             }
             else if (is_provoked && !is_attacking) // Makes the enemy chase the player
             {
+                // TODO Only makes the enemy look at the player if the raycast takes the player
                 Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
                 Quaternion look_rotation = Quaternion.LookRotation(look_position);
 

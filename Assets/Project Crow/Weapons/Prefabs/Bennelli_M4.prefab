@@ -395,6 +395,7 @@ MonoBehaviour:
   is_reloading: 0
   has_ammo: 0
   start_position: {x: 0, y: 0, z: 0}
+  start_rotation: {x: 0, y: 0, z: 0}
   muzzle_flash_vfx: {fileID: 7075960315893431313}
   muzzle_smoke_vfx: {fileID: 3598347395320698161}
   blood_splash_vfx: {fileID: 0}
@@ -408,12 +409,16 @@ MonoBehaviour:
   ammo_type: 1
   reload_time: 6
   max_ammo_amount: 8
-  ammo_amount: 4
+  ammo_amount: 0
   snappiness: 0
   return_speed: 0
   recoil: {x: 0, y: 0, z: 0}
-  aiming_position: {x: 0, y: 0, z: 0}
+  fov_when_aiming: 40
+  fov_speed: 10
   recoil_percentage_when_aiming: 0.3
+  aiming_sensitivity: {x: 0, y: 0}
+  aiming_position: {x: 0, y: 0, z: 0}
+  aiming_rotation: {x: 0, y: 0, z: 0}
 --- !u!1 &6105292476713039294
 GameObject:
   m_ObjectHideFlags: 0

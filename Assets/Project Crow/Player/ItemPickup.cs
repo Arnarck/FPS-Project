@@ -80,12 +80,14 @@ public class ItemPickup : MonoBehaviour
                             if (GI.player_inventory.is_cumulative(item.type))
                             {
                                 Debug.Log($"{item.type} is a cumulative item!");
-                                GI.player_inventory.store_cumulative_item(item);
+                                bool has_stored_item_completely = GI.player_inventory.store_cumulative_item(item.type, item.amount);
+                                if (has_stored_item_completely) Destroy(item.gameObject);
                             }
                             else
                             {
                                 Debug.Log($"{item.type} is a single item!");
-                                GI.player_inventory.store_item(item);
+                                bool has_stored_item = GI.player_inventory.store_item(item.type);
+                                if (has_stored_item) Destroy(item.gameObject);
                             }
 
                             if (GI.player_inventory.check_if_item_is_ammo_and_corresponds_to_equiped_weapon(item.type))

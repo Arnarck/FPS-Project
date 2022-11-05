@@ -249,7 +249,7 @@ MonoBehaviour:
   ammo_type: 0
   reload_time: 1
   max_ammo_amount: 15
-  ammo_amount: 7
+  ammo_amount: 0
   snappiness: 10
   return_speed: 10
   recoil: {x: -5, y: 0.4, z: 0}
