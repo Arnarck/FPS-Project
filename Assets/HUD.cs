@@ -7,6 +7,7 @@ using TMPro;
 public class HUD : MonoBehaviour
 {
     public GameObject gun_reticle;
+    public GameObject debug_screen;
     public Slider health_bar;
     public Slider stamina_bar;
     public Slider terror_bar;
@@ -15,5 +16,13 @@ public class HUD : MonoBehaviour
     void Awake()
     {
         GI.hud = this;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            debug_screen.SetActive(!debug_screen.activeSelf);
+        }
     }
 }

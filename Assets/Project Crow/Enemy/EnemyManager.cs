@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    EnemyAI[] enemies;
     float last_attack_t;
     bool is_enemy_started_attacking;
 
     public int enemies_attacking;
     public float time_to_attack = .1f;
+    public EnemyAI[] enemies;
 
     //@Arnarck make an bool to check if an enemy is pursuiting the player. The enemy itself sets this variable to "true"
     void Awake()

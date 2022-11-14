@@ -7,6 +7,8 @@ public struct ItemDetails
 {
     public string item_name;
     //public string description;
+    //public bool is_consumable;
+    //public bool is_stockable; // can stock more than 1 item amount per slot.
     public ItemType type;
     public Sprite sprite;
 }
