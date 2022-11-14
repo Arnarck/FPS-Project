@@ -25,6 +25,21 @@ public class DebugMenu : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GI.pause_game.toggle_pause_game();
+            debug_screen.SetActive(!debug_screen.activeSelf);
+        }
+    }
+
+    public void toggle_debug_screen()
+    {
+        GI.pause_game.toggle_pause_game();
+        debug_screen.SetActive(!debug_screen.activeSelf);
+    }
+
     public void expand_inventory_capacity()
     {
         GI.player_inventory.expand_inventory_capacity();
