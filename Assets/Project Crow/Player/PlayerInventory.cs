@@ -355,6 +355,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         display_total_ammo_of_equiped_weapon();
+        GI.hud.ammo_display.SetActive(is_equiped_with_a_gun()); // Enables the ammo display if player equips a gun, otherwise disables it
         disable_item_menu();
     }
 
@@ -368,7 +369,7 @@ public class PlayerInventory : MonoBehaviour
 
         ItemType ammo_type = get_ammo_type_of(equiped_weapon);
         int total_ammo_count = get_total_item_count(ammo_type);
-        GI.ammo_display.display_ammo_in_holster(total_ammo_count);
+        GI.hud.display_ammo_in_holster(total_ammo_count);
     }
 
     public ItemType get_ammo_type_of(WeaponType weapon)

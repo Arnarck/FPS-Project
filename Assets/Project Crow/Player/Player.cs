@@ -66,6 +66,9 @@ public class Player : MonoBehaviour
 
         start_mouse_sensitivity.x = GI.fp_controller.mouseLook.XSensitivity;
         start_mouse_sensitivity.y = GI.fp_controller.mouseLook.YSensitivity;
+
+        GI.hud.ammo_display.SetActive(GI.player_inventory.is_equiped_with_a_gun());
+        
     }
 
     void FixedUpdate()

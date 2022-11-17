@@ -6,20 +6,24 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
-    public GameObject gun_reticle;
-    public GameObject debug_screen;
-    public Slider health_bar;
-    public Slider stamina_bar;
-    public Slider terror_bar;
-    public Slider overdose_bar;
+    public TextMeshProUGUI ammo_in_clip, ammo_in_holster;
+    public Slider health_bar, stamina_bar, terror_bar, overdose_bar;
+    public GameObject gun_reticle, ammo_display;
 
     void Awake()
     {
         GI.hud = this;
     }
 
-    void Update()
+    public void display_ammo_in_clip(int ammo_amount)
     {
+        if (ammo_in_clip == null) return;
+        ammo_in_clip.text = ammo_amount.ToString();
+    }
 
+    public void display_ammo_in_holster(int ammo_amount)
+    {
+        if (ammo_in_holster == null) return;
+        ammo_in_holster.text = ammo_amount.ToString();
     }
 }

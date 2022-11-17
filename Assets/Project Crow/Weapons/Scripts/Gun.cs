@@ -61,7 +61,8 @@ public class Gun : Weapon
     {
         if (has_started)
         {
-            GI.ammo_display.display_ammo_in_clip(ammo_amount);
+            GI.hud.ammo_display.SetActive(true);
+            GI.hud.display_ammo_in_clip(ammo_amount);
             //GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
         }
     }
@@ -71,7 +72,9 @@ public class Gun : Weapon
         has_started = true;
         has_ammo = ammo_amount > 0 ? true : false;
 
-        GI.ammo_display.display_ammo_in_clip(ammo_amount);
+        GI.hud.ammo_display.SetActive(true);
+        GI.hud.display_ammo_in_clip(ammo_amount);
+
         start_position = m_transform.localPosition;
         start_rotation = transform.localRotation.eulerAngles;
     }
@@ -121,7 +124,7 @@ public class Gun : Weapon
                         ammo_amount = 0;
                         has_ammo = false;
                     }
-                    GI.ammo_display.display_ammo_in_clip(ammo_amount);
+                    GI.hud.display_ammo_in_clip(ammo_amount);
 
                     // Plays shot VFX
                     muzzle_flash_vfx.Play();
@@ -212,7 +215,7 @@ public class Gun : Weapon
                         GI.player_inventory.remove_item(ammo, ammo_in_holster);
                     }
 
-                    GI.ammo_display.display_ammo_in_clip(ammo_amount);
+                    GI.hud.display_ammo_in_clip(ammo_amount);
                     GI.player_inventory.display_total_ammo_of_equiped_weapon();
                 }
                 else last_reload_t += Time.deltaTime;
