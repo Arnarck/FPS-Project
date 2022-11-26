@@ -539,7 +539,7 @@ MonoBehaviour:
     ForwardSpeed: 3.5
     BackwardSpeed: 3.25
     StrafeSpeed: 3.25
-    RunMultiplier: 1.5
+    RunMultiplier: 1.75
     RunKey: 304
     JumpForce: 50
     SlopeCurveModifier:
@@ -621,9 +621,9 @@ MonoBehaviour:
   can_run: 1
   can_restore_stamina: 0
   is_overdosed: 0
-  health: 50
+  health: 100
   max_health: 100
-  stamina: 50
+  stamina: 100
   max_stamina: 100
   min_stamina_to_run: 1
   stamina_restored_per_frame: 0.1
@@ -642,7 +642,6 @@ MonoBehaviour:
   terror_applied: 5
   stamina_restored_when_overdosed: 0.5
   is_aiming: 0
-  fov_when_aiming: 50
   fov_speed: 10
 --- !u!114 &736016151
 MonoBehaviour:
