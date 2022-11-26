@@ -1,34 +1,4 @@
-﻿public enum ItemType
-{
-    NONE,
-
-    // Weapons
-    KNIFE,
-    PISTOL,
-    SHOTGUN,
-    ASSAULT_RIFLE,
-    SUBMACHINE_GUN,
-
-    // Ammo Type
-    PISTOL_AMMO,
-    SHOTGUN_AMMO,
-    ASSAULT_RIFLE_AMMO,
-    SUBMACHINE_GUN_AMMO,
-
-    // Consumables
-    HEALTH_PILL,
-    STAMINA_PILL,
-    ANTI_TERROR_PILL,
-    ANTI_OVERDOSE_PILL,
-
-    // Repair
-    GUN_REPAIR_KIT,
-    INVENTORY_EXPANSION,
-
-    // Important
-
-    COUNT
-}
+﻿
 
 // @Arnarck move this to GI
 public static class InventoryData

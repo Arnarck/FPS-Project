@@ -2,6 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType
+{
+    NONE,
+
+    // Weapons
+    KNIFE,
+    PISTOL,
+    SHOTGUN,
+    ASSAULT_RIFLE,
+    SUBMACHINE_GUN,
+
+    // Ammo Type
+    PISTOL_AMMO,
+    SHOTGUN_AMMO,
+    ASSAULT_RIFLE_AMMO,
+    SUBMACHINE_GUN_AMMO,
+
+    // Consumables
+    HEALTH_PILL,
+    STAMINA_PILL,
+    ANTI_TERROR_PILL,
+    ANTI_OVERDOSE_PILL,
+
+    // Tools
+    GUN_REPAIR_KIT,
+    INVENTORY_EXPANSION,
+    FLASHLIGHT_BATTERY,
+
+    // Important
+
+    COUNT
+}
+
 [System.Serializable]
 public struct ItemDetails
 {
@@ -13,6 +46,7 @@ public struct ItemDetails
     public Sprite sprite;
 }
 
+
 public class ItemData : MonoBehaviour
 {
     public ItemDetails[] items;
@@ -22,7 +56,7 @@ public class ItemData : MonoBehaviour
         GI.item_data = this;
     }
 
-    public ItemDetails get_item(ItemType type)
+    public ItemDetails get_details_of(ItemType type)
     {
         foreach (ItemDetails item in items)
         {

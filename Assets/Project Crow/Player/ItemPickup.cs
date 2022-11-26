@@ -38,7 +38,7 @@ public class ItemPickup : MonoBehaviour
             if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Item layer
             {
                 Item item = hit.collider.GetComponent<Item>();
-                ItemDetails item_details = GI.item_data.get_item(item.type);
+                ItemDetails item_details = GI.item_data.get_details_of(item.type);
 
                 // Sets the pickup ui position on the screen.
                 Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(hit.collider.transform.position);

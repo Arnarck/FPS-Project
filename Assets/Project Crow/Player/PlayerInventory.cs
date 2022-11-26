@@ -1,14 +1,5 @@
 ﻿using UnityEngine;
 
-//struct WeaponData
-//{
-//    Weapon weapon;
-//    Gun gun;
-//    Knife knife;
-//    public bool is_gun;
-//    public bool is_equiped;
-//}
-
 public class PlayerInventory : MonoBehaviour
 {
     [HideInInspector] public InventoryItem[] inventory; // Total Inventory capacity;
@@ -102,7 +93,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                ItemDetails item_details = GI.item_data.get_item(item_type);
+                ItemDetails item_details = GI.item_data.get_details_of(item_type);
                 set_slot_data(i, item_details.type, 1, item_details.sprite);
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
                 //Destroy(item.gameObject);
@@ -138,7 +129,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (inventory[i].type.Equals(ItemType.NONE)) // Add item to an empty slot
                 {
-                    ItemDetails item_details = GI.item_data.get_item(item_type);
+                    ItemDetails item_details = GI.item_data.get_details_of(item_type);
                     if (InventoryData.max_capacity[type] >= item_amount) // avaliable space on inventory is greater than item amount
                     {
                         set_slot_data(i, item_details.type, item_amount, item_details.sprite);
