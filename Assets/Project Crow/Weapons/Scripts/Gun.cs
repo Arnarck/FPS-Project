@@ -41,6 +41,7 @@ public class Gun : Weapon
     public float snappiness;
     public float return_speed;
     public Vector3 recoil;
+    public Transform parent;
 
     [Header("Aiming")]
     public float fov_when_aiming = 40f;
