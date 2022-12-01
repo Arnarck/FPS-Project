@@ -358,7 +358,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 4
+  m_Speed: 1.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 0
@@ -423,7 +423,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   loot_area: {fileID: 6091170860724511218}
   look_speed: 10
-  health: 100
+  health: 190
   damage: 20
   terror_damage: 18
   terror_reduced_when_killed: -10
