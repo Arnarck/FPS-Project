@@ -10,7 +10,12 @@ public class EnemyTrigger : MonoBehaviour
         {
             foreach (EnemyAI enemy in enemies_to_provoke)
             {
-                if (enemy.is_alive) enemy.is_provoked = true;
+
+                if (enemy.is_alive)
+                {
+                    if (!enemy.gameObject.activeSelf) enemy.gameObject.SetActive(true);
+                    enemy.is_provoked = true;
+                }
             }
         }
     }
