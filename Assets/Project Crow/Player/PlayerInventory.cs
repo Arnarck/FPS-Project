@@ -10,9 +10,6 @@ public class PlayerInventory : MonoBehaviour
     public int slots_expanded_after_collecting_expansion_item;
     public int total_capacity;
     public bool combine_option_enabled;
-    public GameObject ui_inventory_screen;
-    public GameObject ui_inventory_handler;
-    public ItemMenu ui_item_menu;
     public GameObject slot_prefab;
     public Transform weapon_holster;
 
@@ -28,7 +25,7 @@ public class PlayerInventory : MonoBehaviour
             inventory[i].ui = Instantiate(slot_prefab).GetComponent<InventorySlotUI>();
             inventory[i].ui.index = i;
             inventory[i].ui.gameObject.SetActive(false);
-            inventory[i].ui.transform.SetParent(ui_inventory_handler.transform, false);
+            inventory[i].ui.transform.SetParent(GI.hud.inventory_handler.transform, false);
         }
 
         weapons = new Weapon[weapon_holster.childCount];
@@ -46,7 +43,7 @@ public class PlayerInventory : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.I))
             {
                 GI.pause_game.toggle_pause_game();
-                ui_inventory_screen.SetActive(GI.pause_game.game_paused);
+                GI.hud.inventory_screen.SetActive(GI.pause_game.game_paused);
                 if (GI.pause_game.game_paused == false)
                 {
                     disable_item_menu();
@@ -65,14 +62,14 @@ public class PlayerInventory : MonoBehaviour
                     toggle_all_slot_buttons(true);
                     Debug.Log("Combine disabled!");
                 }
-                else if (ui_item_menu.gameObject.activeInHierarchy)
+                else if (GI.hud.item_menu.gameObject.activeInHierarchy)
                 {
                     disable_item_menu();
                 }
-                else if (ui_inventory_screen.activeInHierarchy)
+                else if (GI.hud.inventory_screen.activeInHierarchy)
                 {
                     GI.pause_game.toggle_pause_game();
-                    ui_inventory_screen.SetActive(false);
+                    GI.hud.inventory_screen.SetActive(false);
                     toggle_all_slot_buttons(true);
                 }
             }
@@ -81,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void disable_item_menu()
     {
-        ui_item_menu.gameObject.SetActive(false);
+        GI.hud.item_menu.gameObject.SetActive(false);
         toggle_all_slot_buttons(true);
     }
 
@@ -302,14 +299,14 @@ public class PlayerInventory : MonoBehaviour
             Debug.Log("CONSUMABLE ITEM selected");
             toggle_item_menu_options(true, false, false);
         }
-        ui_item_menu.activate_item_menu();
+        GI.hud.item_menu.activate_item_menu();
     }
 
     public void toggle_item_menu_options(bool option1_active, bool option2_active, bool option3_active)
     {
-        ui_item_menu.options[0].SetActive(option1_active);
-        ui_item_menu.options[1].SetActive(option2_active);
-        ui_item_menu.options[2].SetActive(option3_active);
+        GI.hud.item_menu.options[0].SetActive(option1_active);
+        GI.hud.item_menu.options[1].SetActive(option2_active);
+        GI.hud.item_menu.options[2].SetActive(option3_active);
     }
 
     // @Arnarck Disable option of equiping with the weapon is already equiped
@@ -464,7 +461,7 @@ public class PlayerInventory : MonoBehaviour
     public void clicked_combine_button()
     {
         combine_option_enabled = true;
-        ui_item_menu.gameObject.SetActive(false);
+        GI.hud.item_menu.gameObject.SetActive(false);
         disable_all_slots_not_combinable_with_current_selected_slot();
         Debug.Log("Combine enabled!");
     }
@@ -491,6 +488,7 @@ public class PlayerInventory : MonoBehaviour
         Debug.Log("Combine disabled!");
     }
 
+    //@TODO: Currently the Knife is displaying when clicking to combine repair kit with gun. Add condition to disable the knife
     void combine_gun_with_repair_kit(int index)
     {
         remove_item(current_slot_selected_on_item_menu);

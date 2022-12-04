@@ -201,7 +201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1982509991
 Transform:
   m_ObjectHideFlags: 0
@@ -229,8 +229,8 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 30
-  m_SpotAngle: 30
+  m_Range: 15
+  m_SpotAngle: 60
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
@@ -470,7 +470,6 @@ GameObject:
   - component: {fileID: 6954083926403634708}
   - component: {fileID: 736016151}
   - component: {fileID: 736016152}
-  - component: {fileID: 1825013189}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -537,10 +536,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 6954083926973102711}
   movementSettings:
-    ForwardSpeed: 3.5
-    BackwardSpeed: 3.25
-    StrafeSpeed: 3.25
-    RunMultiplier: 1.75
+    ForwardSpeed: 2.75
+    BackwardSpeed: 2.5
+    StrafeSpeed: 2.75
+    RunMultiplier: 2
     RunKey: 304
     JumpForce: 50
     SlopeCurveModifier:
@@ -628,7 +627,7 @@ MonoBehaviour:
   max_stamina: 100
   min_stamina_to_run: 1
   stamina_restored_per_frame: 0.1
-  stamina_consumed_per_frame: 0.2
+  stamina_consumed_per_frame: 0.4
   time_to_start_restoring_stamina: 1
   terror: 0
   max_terror: 100
@@ -644,6 +643,7 @@ MonoBehaviour:
   stamina_restored_when_overdosed: 0.5
   is_aiming: 0
   fov_speed: 10
+  flashlight: {fileID: 1982509990}
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,27 +679,9 @@ MonoBehaviour:
   slots_expanded_after_collecting_expansion_item: 4
   total_capacity: 16
   combine_option_enabled: 0
-  ui_inventory_screen: {fileID: 0}
-  ui_inventory_handler: {fileID: 0}
-  ui_item_menu: {fileID: 0}
   slot_prefab: {fileID: 584307593358724918, guid: 1045e505b11d9a44b978288c2d056ea6,
     type: 3}
   weapon_holster: {fileID: 7291415108757390170}
---- !u!114 &1825013189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29581815791b136408b1aae5952e0619, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashlight: {fileID: 1982509990}
-  battery_consumed_per_frame: 2
-  battery: 100
 --- !u!1 &6954083926971463763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,6 +1067,81 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: M1911
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: has_ammo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: fov_speed
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: integrity
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: reload_time
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: low_integrity
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: time_to_attack
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: fov_when_aiming
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: max_ammo_amount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: damage_distance_1
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: headshot_multiplier
+      value: 1.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: max_shots_in_sequence
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: sequence_shots_decay_time
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: integrity_reduced_per_attack
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: time_to_shoot_with_no_integrity
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: time_to_shoot_with_low_integrity
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26af8f7cd401a404488b9ecfcd8e4c8a, type: 3}

@@ -5,7 +5,7 @@ public class Gun : Weapon
 {
     public bool can_shoot = true, is_reloading, has_ammo;
     bool has_started;
-    float shoot_t, last_reload_t;
+    float time_to_shoot, time_to_reload, time_to_decay_sequence_shots;
 
     AudioSource _audioSource;
     Transform m_transform;
@@ -38,6 +38,9 @@ public class Gun : Weapon
     public int ammo_amount = 30;
 
     [Header("Recoil")]
+    public int current_shots_in_sequence;
+    public int max_shots_in_sequence = 8;
+    public float sequence_shots_decay_time = .4f;
     public float snappiness;
     public float return_speed;
     public Vector3 recoil;
@@ -85,15 +88,12 @@ public class Gun : Weapon
         // Cancel reload process so the gun won't reenable in reloading state.
         if (is_reloading)
         {
-            last_reload_t = 0f;
+            time_to_reload = 0f;
             is_reloading = false;
         }
 
-        // Cancel shoot cooldown if gun is switched.
-        //if (!can_shoot)
-        //{
-        //    can_shoot = true;
-        //}
+        current_shots_in_sequence = 0;
+        time_to_decay_sequence_shots = 0;
     }
 
     void Update()
@@ -105,17 +105,21 @@ public class Gun : Weapon
             {
                 if (can_shoot && !is_reloading && has_ammo)
                 {
+                    // Sequence Shots
+                    if (current_shots_in_sequence < max_shots_in_sequence) current_shots_in_sequence += 1;
+                    time_to_decay_sequence_shots = sequence_shots_decay_time;
+
                     // Recoil
-                    GI.gun_recoil.add_recoil(get_recoil(), snappiness, return_speed);
+                    GI.gun_recoil.add_recoil(get_recoil(), snappiness, return_speed, current_shots_in_sequence);
 
                     // Integrity
                     integrity -= integrity_reduced_per_attack;
                     integrity = Mathf.Clamp(integrity, 0, max_integrity);
 
                     // Time to shoot
-                    if (integrity <= 0f) shoot_t = time_to_shoot_with_no_integrity;
-                    else if (integrity < 30f) shoot_t = time_to_shoot_with_low_integrity;
-                    else shoot_t = time_to_attack;
+                    if (integrity <= 0f) time_to_shoot = time_to_shoot_with_no_integrity;
+                    else if (integrity < low_integrity) time_to_shoot = time_to_shoot_with_low_integrity;
+                    else time_to_shoot = time_to_attack;
                     can_shoot = false;
 
                     // Reduce ammo
@@ -177,8 +181,8 @@ public class Gun : Weapon
         { // Fire rate
             if (!can_shoot)
             {
-                if (shoot_t <= 0f) can_shoot = true;
-                else shoot_t -= Time.deltaTime;
+                time_to_shoot -= Time.deltaTime;
+                if (time_to_shoot <= 0f) can_shoot = true;
             }
         }
 
@@ -186,14 +190,14 @@ public class Gun : Weapon
             if (Input.GetKeyDown(KeyCode.R) && !is_reloading && ammo_amount < max_ammo_amount && GI.player_inventory.get_total_item_count(GI.player_inventory.get_ammo_type_of(type)) > 0)
             {
                 is_reloading = true;
-                last_reload_t = 0f;
+                time_to_reload = reload_time;
             }
         }
 
         { // Reload time
             if (is_reloading)
             {
-                if (last_reload_t >= reload_time)
+                if (time_to_reload <= 0f) // Reload finished
                 {
                     is_reloading = false;
                     has_ammo = true;
@@ -219,7 +223,19 @@ public class Gun : Weapon
                     GI.hud.display_ammo_in_clip(ammo_amount);
                     GI.player_inventory.display_total_ammo_of_equiped_weapon();
                 }
-                else last_reload_t += Time.deltaTime;
+                else time_to_reload -= Time.deltaTime;
+            }
+        }
+
+        { // Sequence shots
+            if (current_shots_in_sequence > 0)
+            {
+                time_to_decay_sequence_shots -= Time.deltaTime;
+                if (time_to_decay_sequence_shots <= 0f)
+                {
+                    current_shots_in_sequence = 0;
+                    time_to_decay_sequence_shots = 0f;
+                }
             }
         }
     }

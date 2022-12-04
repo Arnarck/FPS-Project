@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
 
 public class DebugMenu : MonoBehaviour
 {
-    public bool insta_kill;
     public Button debug_button_prefab;
     public Transform avaliable_items_screen;
     public GameObject debug_screen;
@@ -61,10 +58,5 @@ public class DebugMenu : MonoBehaviour
     public void kill_all_enemies()
     {
         foreach (EnemyAI enemy in GI.enemy_manager.enemies) enemy.take_damage(enemy.health);
-    }
-
-    public void toggle_insta_kill()
-    {
-        insta_kill = !insta_kill;
     }
 }

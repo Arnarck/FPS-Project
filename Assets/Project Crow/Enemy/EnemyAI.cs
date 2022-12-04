@@ -10,10 +10,8 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public NavMeshAgent nav_mesh_agent;
     [HideInInspector] public Animator animator;
 
-    public GameObject loot_area;
     public float look_speed = 10f;
     public float health = 100f;
-    //public float max_health = 100f;
     public float damage = 25f;
     public float terror_damage = 15f;
     public float terror_reduced_when_killed = -10f;
@@ -131,7 +129,6 @@ public class EnemyAI : MonoBehaviour
         if (health < Mathf.Epsilon)
         {
             nav_mesh_agent.speed = 0f;
-            loot_area.SetActive(true);
             GetComponent<CapsuleCollider>().isTrigger = true;
             GI.player.change_terror_amount(terror_reduced_when_killed);
             is_alive = false;

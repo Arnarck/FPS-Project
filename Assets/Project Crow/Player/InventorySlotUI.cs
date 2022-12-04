@@ -12,7 +12,7 @@ public class InventorySlotUI : MonoBehaviour
     public void clicked_item_slot()
     {
         // Disable item menu when clicking on the same slot that activated it
-        if (GI.player_inventory.ui_item_menu.gameObject.activeInHierarchy && GI.player_inventory.current_slot_selected_on_item_menu == index)
+        if (GI.hud.item_menu.gameObject.activeInHierarchy && GI.player_inventory.current_slot_selected_on_item_menu == index)
         {
             GI.player_inventory.disable_item_menu();
             return;

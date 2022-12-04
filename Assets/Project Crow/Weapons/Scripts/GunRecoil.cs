@@ -23,13 +23,11 @@ public class GunRecoil : MonoBehaviour
         //weapon_holster.localPosition = current_rotation;
     }
 
-    public void add_recoil(Vector3 recoil, float snappiness, float return_speed)
+    public void add_recoil(Vector3 recoil, float snappiness, float return_speed, int sequence_shots)
     {
         m_snappiness = snappiness;
         m_return_speed = return_speed;
 
-        if (target_rotation == Vector3.zero) target_rotation = new Vector3(recoil.x, Random.Range(-recoil.y, recoil.y), Random.Range(-recoil.z, recoil.z)); // Keep this line (just remove the if statement)
-        else target_rotation +=  (new Vector3(recoil.x, Random.Range(-recoil.y, recoil.y), Random.Range(-recoil.z, recoil.z))) * 2f; // Remove this line
-
+        target_rotation = new Vector3(recoil.x, Random.Range(-recoil.y, recoil.y), Random.Range(-recoil.z, recoil.z)) * sequence_shots; // Keep this line (just remove the if statement)
     }
 }

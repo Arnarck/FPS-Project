@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    float start_fov;
+    float start_fov, x_mouse_axis, y_mouse_axis;
     [HideInInspector] public float fov_percentage = 1f;
     float time_elapsed_from_stamina_restoration, overdose_t, terror_t;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
@@ -39,8 +39,10 @@ public class Player : MonoBehaviour
 
     [Header("Aim")]
     public bool is_aiming;
-    //public float fov_when_aiming = 50f;
     public float fov_speed = 10f;
+
+    [Header("Flashlight")]
+    public Light flashlight;
 
     void Awake()
     {
@@ -172,6 +174,13 @@ public class Player : MonoBehaviour
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
                 equiped_gun.toggle_aim_position(fov_percentage);
                 equiped_gun.toggle_aim_rotation(fov_percentage);
+            }
+        }
+
+        { // Flashlight
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                flashlight.gameObject.SetActive(!flashlight.gameObject.activeSelf);
             }
         }
     }

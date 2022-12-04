@@ -51,7 +51,6 @@ public class EnemySpawner : MonoBehaviour
 
                 enemy.health = 100f;
                 enemy.nav_mesh_agent.speed = 3.5f;
-                enemy.loot_area.SetActive(false);
                 enemy.GetComponent<CapsuleCollider>().isTrigger = false;
                 enemy.is_alive = true;
                 return;
