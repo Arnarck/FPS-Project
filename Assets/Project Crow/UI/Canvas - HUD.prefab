@@ -5725,6 +5725,9 @@ MonoBehaviour:
   overdose_bar: {fileID: 8549671555426457989}
   gun_reticle: {fileID: 8549671554864273645}
   ammo_display: {fileID: 8549671554519933391}
+  inventory_screen: {fileID: 8549671554624188167}
+  inventory_handler: {fileID: 8549671555389943500}
+  item_menu: {fileID: 8549671555286351998}
 --- !u!114 &8549671554412562956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5737,7 +5740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b5bca978ff1e94ab4f9ba6aca6ce1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  insta_kill: 0
   debug_button_prefab: {fileID: 247419886579412200, guid: 22d5525dd7abf2a40b4bcee4df63e073,
     type: 3}
   avaliable_items_screen: {fileID: 210261901}

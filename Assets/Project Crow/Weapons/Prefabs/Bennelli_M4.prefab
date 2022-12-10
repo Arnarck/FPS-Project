@@ -399,6 +399,9 @@ MonoBehaviour:
   muzzle_flash_vfx: {fileID: 7075960315893431313}
   muzzle_smoke_vfx: {fileID: 3598347395320698161}
   blood_splash_vfx: {fileID: 0}
+  layer_mask:
+    serializedVersion: 2
+    m_Bits: 1811
   headshot_multiplier: 1.5
   range: 100
   is_automatic: 0
@@ -410,9 +413,13 @@ MonoBehaviour:
   reload_time: 6
   max_ammo_amount: 8
   ammo_amount: 0
+  current_shots_in_sequence: 0
+  max_shots_in_sequence: 8
+  sequence_shots_decay_time: 0.4
   snappiness: 0
   return_speed: 0
   recoil: {x: 0, y: 0, z: 0}
+  parent: {fileID: 0}
   fov_when_aiming: 40
   fov_speed: 10
   recoil_percentage_when_aiming: 0.3

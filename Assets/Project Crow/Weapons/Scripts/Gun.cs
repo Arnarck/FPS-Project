@@ -19,6 +19,7 @@ public class Gun : Weapon
     public ParticleSystem blood_splash_vfx = default;
 
     [Header("Shoot")]
+    public LayerMask layer_mask;
     public float headshot_multiplier = 1.5f;
     public float range = 100f;
     public bool is_automatic = true;
@@ -44,7 +45,6 @@ public class Gun : Weapon
     public float snappiness;
     public float return_speed;
     public Vector3 recoil;
-    public Transform parent;
 
     [Header("Aiming")]
     public float fov_when_aiming = 40f;
@@ -139,9 +139,9 @@ public class Gun : Weapon
                     // Checks if the gun shot hits anything
                     RaycastHit hit;
                     bool hasHitColliders;
-                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range);
+                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range, layer_mask);
 
-                    // @Arnarck change the VFX played based on what the player hits
+                    // @TODO: Change the VFX played based on what the player hits
                     // Hits the enemy
                     if (hasHitColliders && hit.collider.gameObject.layer == 10)
                     {

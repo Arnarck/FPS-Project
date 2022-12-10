@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
 
         { // AI Behaviour
             Vector3 relative_position = target.position - transform.position;
-            float distance_from_target = Util.distance(transform.position, target.position);
+            float distance_from_target = Vector3.Distance(transform.position, target.position);
             float target_distance_from_detection_point = Vector3.Distance(detection_point.position, target.position);
 
             if (is_provoked && distance_from_target <= nav_mesh_agent.stoppingDistance) // Makes the enemy attack

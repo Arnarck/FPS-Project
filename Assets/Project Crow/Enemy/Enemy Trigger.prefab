@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6479043743151990696}
   - component: {fileID: 6479043743151990711}
   - component: {fileID: 6479043743151990710}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
