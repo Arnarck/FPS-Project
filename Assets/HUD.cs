@@ -4,10 +4,12 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
-    public TextMeshProUGUI ammo_in_clip, ammo_in_holster;
+    public TextMeshProUGUI ammo_in_clip, ammo_in_holster, pickup_text;
     public Slider health_bar, stamina_bar, terror_bar, overdose_bar;
     public GameObject gun_reticle, ammo_display, inventory_screen, inventory_handler;
     public ItemMenu item_menu;
+    public Image pickup_image;
+    public RectTransform pickup_interface;
 
     void Awake()
     {

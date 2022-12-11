@@ -18,11 +18,7 @@ public class ItemPickup : MonoBehaviour
 {
     GameObject item_found;
 
-    [SerializeField] float rayLength;
-    [SerializeField] RectTransform pickup_interface;
-    [SerializeField] Image pickup_image;
-    [SerializeField] RectTransform loot_interface;
-    [SerializeField] TextMeshProUGUI pickup_text;
+    public float ray_length = 2f;
 
     void FixedUpdate()
     {
@@ -32,9 +28,9 @@ public class ItemPickup : MonoBehaviour
             bool has_hit_colliders = false;
             RaycastHit hit;
 
-            has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, rayLength);
+            has_hit_colliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, ray_length);
             
-            // TODO Optimize this. Currently, this code is getting a component every frame that the raycast hits an collectable
+            // @TODO: Optimize this. Currently, this code is getting a component every frame that the raycast hits an collectable
             if (has_hit_colliders && hit.collider.gameObject.layer == 9) // Item layer
             {
                 Item item = hit.collider.GetComponent<Item>();
@@ -42,24 +38,18 @@ public class ItemPickup : MonoBehaviour
 
                 // Sets the pickup ui position on the screen.
                 Vector3 item_screen_position = GI.fp_camera.WorldToScreenPoint(hit.collider.transform.position);
-                pickup_interface.position = item_screen_position;
+                GI.hud.pickup_interface.position = item_screen_position;
 
                 // Sets the pickup ui values.
-                pickup_image.sprite = item_details.sprite;
-                pickup_text.text = item_details.item_name;
+                GI.hud.pickup_image.sprite = item_details.sprite;
+                GI.hud.pickup_text.text = item_details.item_name;
 
-                pickup_interface.gameObject.SetActive(true);
+                GI.hud.pickup_interface.gameObject.SetActive(true);
                 item_found = hit.collider.gameObject;
-            }
-            else if (has_hit_colliders && hit.collider.CompareTag("Loot"))
-            {
-                item_found = hit.collider.gameObject;
-                loot_interface.gameObject.SetActive(true);
             }
             else
             {
-                loot_interface.gameObject.SetActive(false);
-                pickup_interface.gameObject.SetActive(false);
+                GI.hud.pickup_interface.gameObject.SetActive(false);
                 item_found = null;
             }
         }
@@ -70,7 +60,7 @@ public class ItemPickup : MonoBehaviour
         if (GI.pause_game.game_paused) return;
 
         { // Process Pickup Input
-            if (Input.GetKeyDown(KeyCode.E) && (pickup_interface.gameObject.activeInHierarchy || loot_interface.gameObject.activeInHierarchy) )
+            if (Input.GetKeyDown(KeyCode.E) && GI.hud.pickup_interface.gameObject.activeInHierarchy)
             {
                 switch (item_found.tag)
                 {
@@ -95,22 +85,6 @@ public class ItemPickup : MonoBehaviour
                         }
                         break;
 
-                    //case "CollectableAmmo":
-                    //    {
-                    //        Ammo ammo = item_found.GetComponent<Ammo>();
-                    //        bool has_added_ammo = GI.ammo_holster.store_or_remove(ammo.type, ammo.amount);
-                    //        if (has_added_ammo) Destroy(item_found);
-                    //        // ELSE give the player an feedbacck error
-                    //    }
-                    //    break;
-
-                    //case "AmmoHolsterExpansion":
-                    //    {
-                    //        GI.ammo_holster.expand_max_ammo();
-                    //        Destroy(item_found);
-                    //    }
-                    //    break;
-
                     case "InventoryExpansion":
                         {
                             if (!GI.player_inventory.can_expand_capacity()) break;
@@ -119,37 +93,6 @@ public class ItemPickup : MonoBehaviour
                             Destroy(item_found);
                         }
                         break;
-
-                    //case "CollectableGun":
-                    //    {
-                    //        Ammo gun = item_found.GetComponent<Ammo>();
-                    //        GI.gun_switcher.collect_gun((int)gun.type);
-                    //        Destroy(item_found);
-                    //    }
-                    //    break;
-                        
-                    //case "Loot":
-                    //    {
-                    //        item_found.SetActive(false);
-                    //        int random_item = Random.Range(0, 2);
-
-                    //        if (random_item == 0)
-                    //        {
-                    //            int random_consumable = Random.Range(0, (int)ConsumableType.COUNT);
-                    //            int random_amount = Random.Range(1, 4);
-                    //            // Maybe put every consumable into a list, and send an random item of the list
-                    //            GI.player_inventory.store_or_remove((ConsumableType)random_consumable, random_amount);
-                    //            Debug.Log("Collected " + random_amount + " of " + (ConsumableType)random_consumable);
-                    //        }
-                    //        else
-                    //        {
-                    //            int random_ammo_type = Random.Range(0, (int)AmmoType.COUNT);
-                    //            int random_amount = Random.Range(1, 6);
-                    //            GI.ammo_holster.store_or_remove((AmmoType)random_ammo_type, random_amount);
-                    //            Debug.Log("Collected " + random_amount + " of " + (AmmoType)random_ammo_type);
-                    //        }
-                    //    }
-                    //    break;
 
                     default:
                         Debug.LogError("Tag not found!");
