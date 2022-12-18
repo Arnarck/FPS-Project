@@ -11,8 +11,9 @@ public class BulletSpreadTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(generate_random_point());
+        //StartCoroutine(generate_random_point());
         //StartCoroutine(generate_random_point_around_edges());
+        StartCoroutine(generate_random_point_in_any_point());
     }
 
     // Update is called once per frame
@@ -29,6 +30,7 @@ public class BulletSpreadTest : MonoBehaviour
             float random_x = Random.Range(-range, range);
             float max_y = Mathf.Sqrt( Mathf.Pow(range, 2f) - Mathf.Pow(random_x, 2f) );
             float random_y = Random.Range(-max_y, max_y);
+            Debug.Log($"X: {random_x} | Y: {random_y}");
 
             Instantiate(prefab, new Vector3(random_x, 0f, random_y), Quaternion.identity);
 
@@ -45,6 +47,25 @@ public class BulletSpreadTest : MonoBehaviour
             float random_x = Random.Range(-range, range);
             float max_y = Mathf.Sqrt(Mathf.Pow(range, 2f) - Mathf.Pow(random_x, 2f));
             float random_y = Random.Range(0, 2) == 0 ? max_y : -max_y;
+
+            Instantiate(prefab, new Vector3(random_x, 0f, random_y), Quaternion.identity);
+
+            iterations++;
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    IEnumerator generate_random_point_in_any_point()
+    {
+        int iterations = 0;
+        while (iterations <= max_iterations)
+        {
+            float random_x = Random.Range(-range, range);
+            float max_y = Mathf.Sqrt(Mathf.Pow(range, 2f) - Mathf.Pow(random_x, 2f));
+            float random_y = Random.Range(-max_y, max_y);
+            Debug.Log($"X: {random_x} | Y: {random_y}");
+            random_x += transform.position.x;
+            random_y += transform.position.z;
 
             Instantiate(prefab, new Vector3(random_x, 0f, random_y), Quaternion.identity);
 

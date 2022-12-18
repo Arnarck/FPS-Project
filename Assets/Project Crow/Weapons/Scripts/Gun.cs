@@ -67,7 +67,7 @@ public class Gun : Weapon
         {
             GI.hud.ammo_display.SetActive(true);
             GI.hud.display_ammo_in_clip(ammo_amount);
-            //GI.ammo_display.display_ammo_in_holster(GI.ammo_holster.current_ammo[(int)ammo_type]);
+            GI.hud.display_gun_crosshair(0.05f);
         }
     }
 
@@ -78,6 +78,7 @@ public class Gun : Weapon
 
         GI.hud.ammo_display.SetActive(true);
         GI.hud.display_ammo_in_clip(ammo_amount);
+        GI.hud.display_gun_crosshair(0.05f);
 
         start_position = m_transform.localPosition;
         start_rotation = transform.localRotation.eulerAngles;
@@ -139,7 +140,27 @@ public class Gun : Weapon
                     // Checks if the gun shot hits anything
                     RaycastHit hit;
                     bool hasHitColliders;
-                    hasHitColliders = Physics.Raycast(GI.fp_camera.transform.position, GI.fp_camera.transform.forward, out hit, range, layer_mask);
+
+                    // x^2 + y^2 = r^2
+                    float radius = Screen.width * 0.05f;
+                    float random_x = Random.Range(-radius, radius);
+                    float max_y = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(random_x, 2));
+                    float random_y = Random.Range(-max_y, max_y);
+                    Vector3 spawn_position = new Vector3(random_x + Screen.width * .5f, random_y + Screen.height * .5f, 0f);
+
+                    RectTransform debug_image = Instantiate(GI.hud.debug_image, GI.hud.canvas, false).GetComponent<RectTransform>();
+                    float a = spawn_position.x / Screen.width;
+                    float b = spawn_position.y / Screen.height;
+
+                    debug_image.anchoredPosition = new Vector3(1920 * a, 1080 * b);
+
+                    Ray ray = GI.fp_camera.ScreenPointToRay(spawn_position);
+                    hasHitColliders = Physics.Raycast(ray, out hit, range, layer_mask);
+                    if (hasHitColliders)
+                    {
+                        blood_splash_vfx.transform.position = hit.point;
+                        blood_splash_vfx.Play();
+                    }
 
                     // @TODO: Change the VFX played based on what the player hits
                     // Hits the enemy
