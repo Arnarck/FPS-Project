@@ -46,6 +46,9 @@ public class Gun : Weapon
     public float return_speed;
     public Vector3 recoil;
 
+    [Header("Crosshair")]
+    public float crosshair_radius = .05f; // Percentage of the screen size
+
     [Header("Aiming")]
     public float fov_when_aiming = 40f;
     public float fov_speed = 10f; // How fast the fov will change when turning on / off the aim.
@@ -67,7 +70,7 @@ public class Gun : Weapon
         {
             GI.hud.ammo_display.SetActive(true);
             GI.hud.display_ammo_in_clip(ammo_amount);
-            GI.hud.display_gun_crosshair(0.05f);
+            GI.hud.display_gun_crosshair(crosshair_radius);
         }
     }
 
@@ -78,7 +81,7 @@ public class Gun : Weapon
 
         GI.hud.ammo_display.SetActive(true);
         GI.hud.display_ammo_in_clip(ammo_amount);
-        GI.hud.display_gun_crosshair(0.05f);
+        GI.hud.display_gun_crosshair(crosshair_radius);
 
         start_position = m_transform.localPosition;
         start_rotation = transform.localRotation.eulerAngles;
@@ -137,26 +140,26 @@ public class Gun : Weapon
                     muzzle_smoke_vfx.Play();
                     _audioSource.Play();
 
-                    // Checks if the gun shot hits anything
-                    RaycastHit hit;
-                    bool hasHitColliders;
-
-                    // x^2 + y^2 = r^2
-                    float radius = Screen.width * 0.05f;
+                    // Generates a random point on screen to "spawn the gun shot".
+                    // The random point is generated inside a range in a circular space.
+                    float radius = Screen.width * crosshair_radius;
                     float random_x = Random.Range(-radius, radius);
-                    float max_y = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(random_x, 2));
+                    float max_y = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(random_x, 2)); // x^2 + y^2 = r^2 -> Equation to project a circle on a cartesian plane
                     float random_y = Random.Range(-max_y, max_y);
                     Vector3 spawn_position = new Vector3(random_x + Screen.width * .5f, random_y + Screen.height * .5f, 0f);
 
+                    // Debug to show the shot position on screen.
                     RectTransform debug_image = Instantiate(GI.hud.debug_image, GI.hud.canvas, false).GetComponent<RectTransform>();
                     float a = spawn_position.x / Screen.width;
                     float b = spawn_position.y / Screen.height;
 
                     debug_image.anchoredPosition = new Vector3(1920 * a, 1080 * b);
 
+                    // Checks if the gun shot hits anything
+                    RaycastHit hit;
                     Ray ray = GI.fp_camera.ScreenPointToRay(spawn_position);
-                    hasHitColliders = Physics.Raycast(ray, out hit, range, layer_mask);
-                    if (hasHitColliders)
+                    bool has_hit_colliders = Physics.Raycast(ray, out hit, range, layer_mask);
+                    if (has_hit_colliders)
                     {
                         blood_splash_vfx.transform.position = hit.point;
                         blood_splash_vfx.Play();
@@ -164,7 +167,7 @@ public class Gun : Weapon
 
                     // @TODO: Change the VFX played based on what the player hits
                     // Hits the enemy
-                    if (hasHitColliders && hit.collider.gameObject.layer == 10)
+                    if (has_hit_colliders && hit.collider.gameObject.layer == 10)
                     {
                         // Damage Drop over distance
                         float distance_from_enemy = Vector3.Distance(GI.fp_camera.transform.position, hit.collider.transform.position);

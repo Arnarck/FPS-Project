@@ -259,6 +259,7 @@ MonoBehaviour:
   snappiness: 30
   return_speed: 10
   recoil: {x: -5, y: 0.4, z: 0}
+  crosshair_radius: 0.015
   fov_when_aiming: 50
   fov_speed: 7.5
   recoil_percentage_when_aiming: 0.7

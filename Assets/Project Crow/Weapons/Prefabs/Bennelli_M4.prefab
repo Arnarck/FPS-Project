@@ -419,7 +419,7 @@ MonoBehaviour:
   snappiness: 0
   return_speed: 0
   recoil: {x: 0, y: 0, z: 0}
-  parent: {fileID: 0}
+  crosshair_radius: 0.1
   fov_when_aiming: 40
   fov_speed: 10
   recoil_percentage_when_aiming: 0.3

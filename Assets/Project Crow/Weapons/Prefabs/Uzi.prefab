@@ -627,10 +627,10 @@ MonoBehaviour:
   type: 5
   damage: 10
   time_to_attack: 0.085
-  integrity: 81
+  integrity: 100
   max_integrity: 100
-  integrity_reduced_per_attack: 1
-  low_integrity: 30
+  integrity_reduced_per_attack: 0.7
+  low_integrity: 20
   can_shoot: 1
   is_reloading: 0
   has_ammo: 1
@@ -647,21 +647,21 @@ MonoBehaviour:
   is_automatic: 1
   distance_1: 12
   damage_distance_1: 6
-  time_to_shoot_with_low_integrity: 0.12
+  time_to_shoot_with_low_integrity: 0.11
   time_to_shoot_with_no_integrity: 0.15
   ammo_type: 3
-  reload_time: 1
-  max_ammo_amount: 45
+  reload_time: 1.35
+  max_ammo_amount: 30
   ammo_amount: 0
   current_shots_in_sequence: 0
-  max_shots_in_sequence: 8
+  max_shots_in_sequence: 10
   sequence_shots_decay_time: 0.4
-  snappiness: 14
-  return_speed: 8
-  recoil: {x: -7, y: -3, z: 1}
-  parent: {fileID: 0}
-  fov_when_aiming: 45
-  fov_speed: 12
+  snappiness: 30
+  return_speed: 18
+  recoil: {x: -2, y: -1.3, z: 0.2}
+  crosshair_radius: 0.03
+  fov_when_aiming: 55
+  fov_speed: 10
   recoil_percentage_when_aiming: 0.45
   aiming_sensitivity: {x: 1.25, y: 1.25}
   aiming_position: {x: 0, y: -0.0629, z: 0}
