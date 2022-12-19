@@ -771,12 +771,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18916076}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!224 &22685800 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8549671554401690209, guid: 4f67fa1a4eb9d774194cead2de572820,
-    type: 3}
-  m_PrefabInstance: {fileID: 8549671554412562953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &23969984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28077,18 +28071,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282541798}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1286863347 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8549671555430757370, guid: 4f67fa1a4eb9d774194cead2de572820,
-    type: 3}
-  m_PrefabInstance: {fileID: 8549671554412562953}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1287573722
 GameObject:
   m_ObjectHideFlags: 0
@@ -29935,12 +29917,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375577739}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!224 &1377141909 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8549671555721875100, guid: 4f67fa1a4eb9d774194cead2de572820,
-    type: 3}
-  m_PrefabInstance: {fileID: 8549671554412562953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1386534255
 GameObject:
   m_ObjectHideFlags: 0
@@ -30220,18 +30196,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401219114}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1402758625 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8549671555714101224, guid: 4f67fa1a4eb9d774194cead2de572820,
-    type: 3}
-  m_PrefabInstance: {fileID: 8549671554412562953}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1403722051
 GameObject:
   m_ObjectHideFlags: 0
@@ -46324,22 +46288,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: pickup_text
-      value: 
-      objectReference: {fileID: 1286863347}
-    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: pickup_image
-      value: 
-      objectReference: {fileID: 1402758625}
-    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: loot_interface
-      value: 
-      objectReference: {fileID: 1377141909}
-    - target: {fileID: 736016151, guid: 6564b44ac1ffbb54fa15b0af51cb438c, type: 3}
-      propertyPath: pickup_interface
-      value: 
-      objectReference: {fileID: 22685800}
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: blood_splash_vfx
