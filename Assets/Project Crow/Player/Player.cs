@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         start_mouse_sensitivity.y = GI.fp_controller.mouseLook.YSensitivity;
 
         GI.hud.ammo_display.SetActive(GI.player_inventory.is_equiped_with_a_gun());
-        
+        GI.hud.display_crosshair_of_equiped_weapon();
     }
 
     void FixedUpdate()
@@ -144,12 +144,12 @@ public class Player : MonoBehaviour
             }
         }
 
-        // @Arnarck turn off aim when switching a gun, and prevents player from aiming for a short period of time (for animations)
+        // @TODO: turn off aim when switching a gun, and prevents player from aiming for a short period of time (for animations)
         { // Aiming
             if (Input.GetKeyDown(KeyCode.Mouse1) && GI.player_inventory.is_equiped_with_a_gun())
             {
                 is_aiming = !is_aiming;
-                GI.hud.gun_reticle.SetActive(!is_aiming);
+                //GI.hud.gun_reticle.SetActive(!is_aiming);
                 fov_percentage = fov_percentage < 1f ? 1f - fov_percentage : 0f;
                 if (is_aiming)
                 {

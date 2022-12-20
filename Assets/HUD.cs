@@ -38,4 +38,12 @@ public class HUD : MonoBehaviour
 
         crosshair_interface.sizeDelta = crosshair_size * 2f; // "*2" because the crosshair is anchored at the center of the screen, so it's length is half of the screen size.
     }
+
+    public void display_crosshair_of_equiped_weapon()
+    {
+        bool is_equiped_with_a_gun = GI.player_inventory.is_equiped_with_a_gun();
+
+        gun_reticle.SetActive(!is_equiped_with_a_gun);
+        crosshair_interface.gameObject.SetActive(is_equiped_with_a_gun);
+    }
 }

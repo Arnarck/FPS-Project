@@ -142,7 +142,7 @@ public class Gun : Weapon
 
                     // Generates a random point on screen to "spawn the gun shot".
                     // The random point is generated inside a range in a circular space.
-                    float radius = Screen.width * crosshair_radius;
+                    float radius = Screen.height * crosshair_radius;
                     float random_x = Random.Range(-radius, radius);
                     float max_y = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(random_x, 2)); // x^2 + y^2 = r^2 -> Equation to project a circle on a cartesian plane
                     float random_y = Random.Range(-max_y, max_y);
