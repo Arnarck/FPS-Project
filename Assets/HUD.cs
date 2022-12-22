@@ -4,6 +4,7 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
+    public float min_crosshair_range_to_enable_crosshair_interface = .01f;
     public TextMeshProUGUI ammo_in_clip, ammo_in_holster, pickup_text;
     public Slider health_bar, stamina_bar, terror_bar, overdose_bar;
     public GameObject gun_reticle, ammo_display, inventory_screen, inventory_handler;
@@ -33,17 +34,19 @@ public class HUD : MonoBehaviour
     public void display_gun_crosshair(float crosshair_radius_on_screen)
     {
         Vector2 crosshair_size;
-        crosshair_size.x = canvas_scaler.referenceResolution.x * crosshair_radius_on_screen; // "radius" is in percentage (eg: 5% of the Screen Size)
-        crosshair_size.y = canvas_scaler.referenceResolution.x * crosshair_radius_on_screen; // Using "X" instead of "Y" to keep the crosshair with a circular format. If we use "Y" instead, the crosshair will have a oval format.
+        crosshair_size.x = canvas_scaler.referenceResolution.y * crosshair_radius_on_screen; // "radius" is in percentage (eg: 5% of the Screen Size)
+        crosshair_size.y = canvas_scaler.referenceResolution.y * crosshair_radius_on_screen; // Using "Y" instead of "X" to keep the crosshair with a circular format. If we use "X" instead, the crosshair will have a oval format.
 
         crosshair_interface.sizeDelta = crosshair_size * 2f; // "*2" because the crosshair is anchored at the center of the screen, so it's length is half of the screen size.
+
+        if (crosshair_radius_on_screen <= min_crosshair_range_to_enable_crosshair_interface) crosshair_interface.gameObject.SetActive(false);
+        else crosshair_interface.gameObject.SetActive(true);
     }
 
     public void display_crosshair_of_equiped_weapon()
     {
         bool is_equiped_with_a_gun = GI.player_inventory.is_equiped_with_a_gun();
 
-        gun_reticle.SetActive(!is_equiped_with_a_gun);
         crosshair_interface.gameObject.SetActive(is_equiped_with_a_gun);
     }
 }

@@ -149,7 +149,7 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse1) && GI.player_inventory.is_equiped_with_a_gun())
             {
                 is_aiming = !is_aiming;
-                //GI.hud.gun_reticle.SetActive(!is_aiming);
+                GI.hud.gun_reticle.SetActive(!is_aiming);
                 fov_percentage = fov_percentage < 1f ? 1f - fov_percentage : 0f;
                 if (is_aiming)
                 {
@@ -163,6 +163,8 @@ public class Player : MonoBehaviour
                 }
             }
 
+            // Increases / Decreases FOV over time.
+            // @TODO: Use this logic for crosshair recoil.
             if (fov_percentage < 1f)
             {
                 Gun equiped_gun = GI.player_inventory.get_equiped_weapon().gun;
@@ -172,8 +174,9 @@ public class Player : MonoBehaviour
                 fov_percentage += Time.deltaTime * equiped_gun.fov_speed;
                 fov_percentage = Mathf.Clamp(fov_percentage, 0f, 1f);
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
-                equiped_gun.toggle_aim_position(fov_percentage);
-                equiped_gun.toggle_aim_rotation(fov_percentage);
+                equiped_gun.lerp_aim_position(fov_percentage);
+                equiped_gun.lerp_aim_rotation(fov_percentage);
+                equiped_gun.lerp_crosshair_range(fov_percentage);
             }
         }
 

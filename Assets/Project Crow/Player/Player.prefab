@@ -1064,6 +1064,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: M1911
       objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: crosshair_snappiness
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: crosshair_return_speed
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: base_crosshair_range_in_screen_percentage
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: crosshair_range_increased_per_shot_in_screen_percentage
+      value: 0.01
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26af8f7cd401a404488b9ecfcd8e4c8a, type: 3}
 --- !u!4 &9178001359964727830 stripped

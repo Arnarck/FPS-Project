@@ -5,7 +5,7 @@ public class Gun : Weapon
 {
     public bool can_shoot = true, is_reloading, has_ammo;
     bool has_started;
-    float time_to_shoot, time_to_reload, time_to_decay_sequence_shots;
+    float time_to_shoot, time_to_reload, time_to_decay_sequence_shots, current_crosshair_range, target_crosshair_range;
 
     AudioSource _audioSource;
     Transform m_transform;
@@ -47,7 +47,11 @@ public class Gun : Weapon
     public Vector3 recoil;
 
     [Header("Crosshair")]
-    public float crosshair_radius = .05f; // Percentage of the screen size
+    public float start_crosshair_range = .05f; // Percentage of the screen size
+    public float aiming_crosshair_range = 0f; // Percentage of the screen sizes
+    public float crosshair_range_increased_per_shot_in_screen_percentage;
+    public float crosshair_snappiness;
+    public float crosshair_return_speed;
 
     [Header("Aiming")]
     public float fov_when_aiming = 40f;
@@ -66,11 +70,15 @@ public class Gun : Weapon
 
     void OnEnable()
     {
+        // Resets the crosshair whenever this gun is equiped.
+        current_crosshair_range = start_crosshair_range;
+        target_crosshair_range = current_crosshair_range;
+
         if (has_started)
         {
             GI.hud.ammo_display.SetActive(true);
             GI.hud.display_ammo_in_clip(ammo_amount);
-            GI.hud.display_gun_crosshair(crosshair_radius);
+            GI.hud.display_gun_crosshair(current_crosshair_range);
         }
     }
 
@@ -81,7 +89,7 @@ public class Gun : Weapon
 
         GI.hud.ammo_display.SetActive(true);
         GI.hud.display_ammo_in_clip(ammo_amount);
-        GI.hud.display_gun_crosshair(crosshair_radius);
+        GI.hud.display_gun_crosshair(current_crosshair_range);
 
         start_position = m_transform.localPosition;
         start_rotation = transform.localRotation.eulerAngles;
@@ -140,9 +148,13 @@ public class Gun : Weapon
                     muzzle_smoke_vfx.Play();
                     _audioSource.Play();
 
+                    // Crosshair recoil
+                    if (!GI.player.is_aiming && finished) add_crosshair_recoil();
+
+                    // Spawn Gun Shot
                     // Generates a random point on screen to "spawn the gun shot".
                     // The random point is generated inside a range in a circular space.
-                    float radius = Screen.height * crosshair_radius;
+                    float radius = Screen.height * current_crosshair_range;
                     float random_x = Random.Range(-radius, radius);
                     float max_y = Mathf.Sqrt(Mathf.Pow(radius, 2) - Mathf.Pow(random_x, 2)); // x^2 + y^2 = r^2 -> Equation to project a circle on a cartesian plane
                     float random_y = Random.Range(-max_y, max_y);
@@ -262,6 +274,15 @@ public class Gun : Weapon
                 }
             }
         }
+
+        { // Crosshair recoil
+            if ((target_crosshair_range != start_crosshair_range || current_crosshair_range != start_crosshair_range) && !GI.player.is_aiming)
+            {
+                target_crosshair_range = Mathf.Lerp(target_crosshair_range, start_crosshair_range, Time.deltaTime * crosshair_snappiness);
+                current_crosshair_range = Mathf.Lerp(current_crosshair_range, target_crosshair_range, Time.deltaTime * crosshair_return_speed);
+                GI.hud.display_gun_crosshair(current_crosshair_range);
+            }
+        }
     }
 
     public Vector3 get_recoil()
@@ -270,17 +291,34 @@ public class Gun : Weapon
         else return recoil * GI.player.recoil_multiplier_based_on_terror;
     }
 
-    public void toggle_aim_position(float percentage)
+    // Increases crosshair range
+    public void add_crosshair_recoil()
+    {
+        target_crosshair_range = start_crosshair_range + (crosshair_range_increased_per_shot_in_screen_percentage * current_shots_in_sequence);
+    }
+
+    public void lerp_aim_position(float percentage)
     {
         Vector3 from = GI.player.is_aiming ? start_position : aiming_position;
         Vector3 to = GI.player.is_aiming ? aiming_position : start_position;
         m_transform.localPosition = Vector3.Lerp(from, to, percentage);
     }
 
-    public void toggle_aim_rotation(float percentage)
+    public void lerp_aim_rotation(float percentage)
     {
         Quaternion from = GI.player.is_aiming ? Quaternion.Euler(start_rotation) : Quaternion.Euler(aiming_rotation);
         Quaternion to = GI.player.is_aiming ? Quaternion.Euler(aiming_rotation) : Quaternion.Euler(start_rotation);
         m_transform.localRotation = Quaternion.Lerp(from, to, percentage);
+    }
+
+    public bool finished;
+    public void lerp_crosshair_range(float percentage)
+    {
+        float from = GI.player.is_aiming ? start_crosshair_range : aiming_crosshair_range;
+        float to = GI.player.is_aiming ? aiming_crosshair_range : start_crosshair_range;
+        current_crosshair_range = Mathf.Lerp(from, to, percentage);
+        GI.hud.display_gun_crosshair(current_crosshair_range);
+        if (percentage == 1f) finished = true;
+        else finished = false;
     }
 }
