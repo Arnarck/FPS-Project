@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
                 equiped_gun.lerp_aim_position(fov_percentage);
                 equiped_gun.lerp_aim_rotation(fov_percentage);
-                equiped_gun.lerp_crosshair_range(fov_percentage);
+                //equiped_gun.lerp_crosshair_range(fov_percentage);
             }
         }
 

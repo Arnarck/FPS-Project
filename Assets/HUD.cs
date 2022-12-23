@@ -31,7 +31,7 @@ public class HUD : MonoBehaviour
         ammo_in_holster.text = ammo_amount.ToString();
     }
 
-    public void display_gun_crosshair(float crosshair_radius_on_screen)
+    public void display_crosshair_range(float crosshair_radius_on_screen)
     {
         Vector2 crosshair_size;
         crosshair_size.x = canvas_scaler.referenceResolution.y * crosshair_radius_on_screen; // "radius" is in percentage (eg: 5% of the Screen Size)

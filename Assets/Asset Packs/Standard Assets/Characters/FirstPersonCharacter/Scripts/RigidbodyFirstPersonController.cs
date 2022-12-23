@@ -22,10 +22,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 #if !MOBILE_INPUT
             private bool m_Running;
+            private bool m_Moving;
 #endif
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
+                if (input.x != 0f || input.y != 0f) m_Moving = true;
+                else m_Moving = false;
+
 				if (input.x > 0 || input.x < 0)
 				{
 					//strafe
@@ -57,6 +61,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public bool Running
             {
                 get { return m_Running; }
+            }
+
+            public bool Moving
+            {
+                get { return m_Moving; }
             }
 #endif
         }
@@ -119,6 +128,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #else
 	            return false;
 #endif
+            }
+        }
+
+        public bool Moving
+        {
+            get
+            {
+                return movementSettings.Moving;
             }
         }
 

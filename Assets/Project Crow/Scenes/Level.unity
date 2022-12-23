@@ -46305,6 +46305,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
+      propertyPath: running_crosshair_range
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: walking_crosshair_range
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
       propertyPath: base_crosshair_range_in_screen_percentage
       value: 0.05
       objectReference: {fileID: 0}

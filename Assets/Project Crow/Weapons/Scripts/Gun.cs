@@ -5,7 +5,7 @@ public class Gun : Weapon
 {
     public bool can_shoot = true, is_reloading, has_ammo;
     bool has_started;
-    float time_to_shoot, time_to_reload, time_to_decay_sequence_shots, current_crosshair_range, target_crosshair_range;
+    float time_to_shoot, time_to_reload, time_to_decay_sequence_shots, current_crosshair_range, target_crosshair_range, crosshair_recoil_range;
 
     AudioSource _audioSource;
     Transform m_transform;
@@ -47,8 +47,10 @@ public class Gun : Weapon
     public Vector3 recoil;
 
     [Header("Crosshair")]
-    public float start_crosshair_range = .05f; // Percentage of the screen size
-    public float aiming_crosshair_range = 0f; // Percentage of the screen sizes
+    public float aiming_crosshair_range = 0f;
+    public float idle_crosshair_range = .05f; // Percentage of the screen size
+    public float walking_crosshair_range;
+    public float running_crosshair_range;
     public float crosshair_range_increased_per_shot_in_screen_percentage;
     public float crosshair_snappiness;
     public float crosshair_return_speed;
@@ -71,14 +73,15 @@ public class Gun : Weapon
     void OnEnable()
     {
         // Resets the crosshair whenever this gun is equiped.
-        current_crosshair_range = start_crosshair_range;
+        current_crosshair_range = idle_crosshair_range;
         target_crosshair_range = current_crosshair_range;
+        crosshair_recoil_range = current_crosshair_range;
 
         if (has_started)
         {
             GI.hud.ammo_display.SetActive(true);
             GI.hud.display_ammo_in_clip(ammo_amount);
-            GI.hud.display_gun_crosshair(current_crosshair_range);
+            GI.hud.display_crosshair_range(current_crosshair_range);
         }
     }
 
@@ -89,7 +92,7 @@ public class Gun : Weapon
 
         GI.hud.ammo_display.SetActive(true);
         GI.hud.display_ammo_in_clip(ammo_amount);
-        GI.hud.display_gun_crosshair(current_crosshair_range);
+        GI.hud.display_crosshair_range(current_crosshair_range);
 
         start_position = m_transform.localPosition;
         start_rotation = transform.localRotation.eulerAngles;
@@ -149,7 +152,7 @@ public class Gun : Weapon
                     _audioSource.Play();
 
                     // Crosshair recoil
-                    if (!GI.player.is_aiming && finished) add_crosshair_recoil();
+                    /*if (!GI.player.is_aiming)*/ add_crosshair_recoil();
 
                     // Spawn Gun Shot
                     // Generates a random point on screen to "spawn the gun shot".
@@ -275,13 +278,27 @@ public class Gun : Weapon
             }
         }
 
-        { // Crosshair recoil
-            if ((target_crosshair_range != start_crosshair_range || current_crosshair_range != start_crosshair_range) && !GI.player.is_aiming)
-            {
-                target_crosshair_range = Mathf.Lerp(target_crosshair_range, start_crosshair_range, Time.deltaTime * crosshair_snappiness);
-                current_crosshair_range = Mathf.Lerp(current_crosshair_range, target_crosshair_range, Time.deltaTime * crosshair_return_speed);
-                GI.hud.display_gun_crosshair(current_crosshair_range);
-            }
+        //{ // Crosshair recoil
+        //    if ((target_crosshair_range != start_crosshair_range || current_crosshair_range != start_crosshair_range) && !GI.player.is_aiming)
+        //    {
+        //        target_crosshair_range = Mathf.Lerp(target_crosshair_range, start_crosshair_range, Time.deltaTime * crosshair_snappiness);
+        //        current_crosshair_range = Mathf.Lerp(current_crosshair_range, target_crosshair_range, Time.deltaTime * crosshair_return_speed);
+        //        GI.hud.display_gun_crosshair(current_crosshair_range);
+        //    }
+        //}
+
+        //@TODO: Adapt the crosshair recoil to the "sequence shots"
+        //@TODO: Test if it needs to adjust the animation speed (maybe is too smooth for now).
+        //@TODO: Add a condition here to restrict the UI from updating every frame.
+        { // Crosshair
+            if (GI.player.is_aiming) target_crosshair_range = 0f;
+            else if (GI.fp_controller.Running) target_crosshair_range = running_crosshair_range;
+            else if (GI.fp_controller.Moving) target_crosshair_range = walking_crosshair_range;
+            else target_crosshair_range = idle_crosshair_range;
+
+            crosshair_recoil_range = Mathf.Lerp(crosshair_recoil_range, target_crosshair_range, crosshair_return_speed * Time.deltaTime);
+            current_crosshair_range = Mathf.Lerp(current_crosshair_range, crosshair_recoil_range, Time.deltaTime * crosshair_snappiness);
+            GI.hud.display_crosshair_range(current_crosshair_range);
         }
     }
 
@@ -294,7 +311,8 @@ public class Gun : Weapon
     // Increases crosshair range
     public void add_crosshair_recoil()
     {
-        target_crosshair_range = start_crosshair_range + (crosshair_range_increased_per_shot_in_screen_percentage * current_shots_in_sequence);
+        //target_crosshair_range = idle_crosshair_range + (crosshair_range_increased_per_shot_in_screen_percentage * current_shots_in_sequence);
+        crosshair_recoil_range = current_crosshair_range * 5f;
     }
 
     public void lerp_aim_position(float percentage)
@@ -314,10 +332,10 @@ public class Gun : Weapon
     public bool finished;
     public void lerp_crosshair_range(float percentage)
     {
-        float from = GI.player.is_aiming ? start_crosshair_range : aiming_crosshair_range;
-        float to = GI.player.is_aiming ? aiming_crosshair_range : start_crosshair_range;
+        float from = GI.player.is_aiming ? idle_crosshair_range : aiming_crosshair_range;
+        float to = GI.player.is_aiming ? aiming_crosshair_range : idle_crosshair_range;
         current_crosshair_range = Mathf.Lerp(from, to, percentage);
-        GI.hud.display_gun_crosshair(current_crosshair_range);
+        GI.hud.display_crosshair_range(current_crosshair_range);
         if (percentage == 1f) finished = true;
         else finished = false;
     }
