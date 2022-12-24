@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
-    float time_elapsed_since_last_attack;
+    [HideInInspector] public float time_to_attack = 2f, base_speed;
     public bool is_alive = true, is_provoked, can_attack = true;
 
     [HideInInspector] public Transform target;
@@ -20,11 +20,20 @@ public class EnemyAI : MonoBehaviour
     public float detection_range = 4f;
     public Transform detection_point;
 
-    [Header("Attack Settings")]
+    [Header("Attack")]
     public Transform attack_point;
     public LayerMask player_layer_mask;
     public float attack_range = .5f;
-    public float time_to_attack = 1f;
+    public float base_time_to_attack = 2f;
+    public float time_to_attack_on_terror_level_1 = 1.7f;
+    public float time_to_attack_on_terror_level_2 = 1.4f;
+    public float time_to_attack_on_terror_level_3 = 1.1f;
+
+    [Header("Movement")]
+    public float speed_on_terror_level_1 = 2.95f;
+    public float speed_on_terror_level_2 = 3.05f;
+    public float speed_on_terror_level_3 = 3.15f;
+
 
     void Awake()
     {
@@ -35,6 +44,7 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         target = GI.player.transform;
+        base_speed = nav_mesh_agent.speed;
     }
 
     void Update()
@@ -68,24 +78,41 @@ public class EnemyAI : MonoBehaviour
                 {
                     can_attack = false;
                     animator.SetTrigger("Attack");
-                    time_elapsed_since_last_attack = 0f;
+
+                    switch (GI.player.current_terror_level)
+                    {
+                        case 0: time_to_attack = base_time_to_attack; break;
+                        case 1: time_to_attack = time_to_attack_on_terror_level_1; break;
+                        case 2: time_to_attack = time_to_attack_on_terror_level_2; break;
+                        case 3: time_to_attack = time_to_attack_on_terror_level_3; break;
+                        default: Debug.Assert(false); break;
+                    }
                 }
             }
             else if (is_provoked && !is_attacking) // Makes the enemy chase the player
             {
-                // TODO Only makes the enemy look at the player if the raycast takes the player
+                // @TODO: Only makes the enemy look at the player if the raycast takes the player
                 Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
                 Quaternion look_rotation = Quaternion.LookRotation(look_position);
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, look_rotation, look_speed * Time.deltaTime);
                 nav_mesh_agent.SetDestination(target.position);
 
+                switch (GI.player.current_terror_level)
+                {
+                    case 0: nav_mesh_agent.speed = base_speed; break;
+                    case 1: nav_mesh_agent.speed = speed_on_terror_level_1; break;
+                    case 2: nav_mesh_agent.speed = speed_on_terror_level_2; break;
+                    case 3: nav_mesh_agent.speed = speed_on_terror_level_3; break;
+                    default: Debug.Assert(false); break;
+                }
+
                 animator.SetBool("isWalking", true);
             }
             else if (target_distance_from_detection_point <= detection_range) // Checks if the target is close enough
             {
                 // Checks if there is an wall between player and enemy
-                // TODO Launches the raycast from the enemy's head instead of the middle of he's body, so the raycast don't collides with small props
+                // @TODO: Launches the raycast from the enemy's head instead of the middle of he's body, so the raycast don't collides with small props
                 RaycastHit hit;
                 bool has_hit_colliders = Physics.Raycast(transform.position, relative_position.normalized, out hit, distance_from_target);
                 Debug.DrawRay(transform.position, relative_position, Color.green);
@@ -97,8 +124,8 @@ public class EnemyAI : MonoBehaviour
         { // Attack Cooldown
             if (!can_attack && !is_attacking)
             {
-                time_elapsed_since_last_attack += Time.deltaTime;
-                if (time_elapsed_since_last_attack >= time_to_attack) can_attack = true;
+                time_to_attack -= Time.deltaTime;
+                if (time_to_attack <= 0f) { can_attack = true; }
             }
         }
     }

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    float start_fov, x_mouse_axis, y_mouse_axis;
-    [HideInInspector] public float fov_percentage = 1f;
-    float time_elapsed_from_stamina_restoration, overdose_t/*, terror_t*/;
+    float start_fov;
+    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier;
+    float time_elapsed_from_stamina_restoration;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
     [HideInInspector] Vector2 start_mouse_sensitivity;
 
@@ -24,19 +23,19 @@ public class Player : MonoBehaviour
     [Header("Terror")]
     public float terror;
     public float max_terror;
-    //public float terror_reduced_per_tick;
     public int current_terror_level;
-    //public float time_to_reduce_terror = 3f;
+    public float terror_level_1 = 30;
+    public float terror_level_2 = 55;
+    public float terror_level_3 = 75;
+    public float run_multiplier_on_terror_level_1;
+    public float run_multiplier_on_terror_level_2;
+    public float run_multiplier_on_terror_level_3;
 
     [Header("Overdose")]
     public float overdose;
     public float max_overdose;
-    //public float time_to_apply_overdose_debuff = 2f;
     public float overdose_reduced_per_frame = 15f;
     public float overdose_reduced_per_frame_when_overdosed = 5f;
-    //public float health_damage = -5f;
-    //public float terror_applied = 5f;
-    //public float stamina_restored_when_overdosed = .5f; // Multiplier
 
     [Header("Aim")]
     public bool is_aiming;
@@ -66,6 +65,8 @@ public class Player : MonoBehaviour
         GI.hud.overdose_bar.value = overdose;
 
         start_fov = GI.fp_camera.fieldOfView;
+
+        base_run_multiplier = GI.fp_controller.movementSettings.RunMultiplier;
 
         start_mouse_sensitivity.x = GI.fp_controller.mouseLook.XSensitivity;
         start_mouse_sensitivity.y = GI.fp_controller.mouseLook.YSensitivity;
@@ -99,9 +100,6 @@ public class Player : MonoBehaviour
 
             if (can_restore_stamina) // Restore Stamina
             {
-                // Restore less stamina when overdosed
-                //if (is_overdosed) stamina += stamina_restored_per_frame * stamina_restored_when_overdosed;
-                //else stamina += stamina_restored_per_frame;
                 stamina += stamina_restored_per_frame;
 
                 stamina = Mathf.Clamp(stamina, 0, max_stamina);
@@ -110,7 +108,6 @@ public class Player : MonoBehaviour
                 if (!can_run && stamina >= max_stamina * min_stamina_to_run) can_run = true;
             }
         }
-
     }
 
     void Update()
@@ -199,19 +196,16 @@ public class Player : MonoBehaviour
 
     public void change_terror_amount(float value)
     {
-        //if (terror <= 0f && value > 0f) terror_t = time_to_reduce_terror;
-
         Debug.Log($"Terror modified by {value} points");
         terror += value;
         terror = Mathf.Clamp(terror, 0, max_terror);
         GI.hud.terror_bar.value = terror;
 
         // Change the terror level based on the current terror
-        if (terror >= 85f) current_terror_level = 3;
-        else if (terror >= 60f) current_terror_level = 2;
-        else if (terror >= 30f) current_terror_level = 1;
-        else current_terror_level = 0; // No terror
-        Debug.Log($"Terror Level {current_terror_level}");
+        if (terror >= terror_level_3) { current_terror_level = 3; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_3; }
+        else if (terror >= terror_level_2) { current_terror_level = 2; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_2; }
+        else if (terror >= terror_level_1) { current_terror_level = 1; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_1; }
+        else { current_terror_level = 0; GI.fp_controller.movementSettings.RunMultiplier = base_run_multiplier; } // No terror
     }
 
     public void change_overdose_amount(float value)

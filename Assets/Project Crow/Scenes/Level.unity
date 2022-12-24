@@ -22097,7 +22097,7 @@ MonoBehaviour:
   base_stamina_restored_by_stamina_pill: 100
   base_terror_reduced_by_anti_terror_pill: 100
   base_overdose_reduced_by_anti_overdose_pill: 100
-  pills_efficiency_when_overdosed: 0.5
+  pill_efficiency_when_overdosed: 0.5
   base_overdose_added_when_consuming_a_pill: 30
   overdose_added_when_consuming_a_pill_while_overdosed: 45
   items:
@@ -46227,6 +46227,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1944723584}
     m_Modifications:
+    - target: {fileID: 6091170861872192514, guid: 63bd048f4f83dd5479d3bda02c5d6f4c,
+        type: 3}
+      propertyPath: speed_on_terror_level_1
+      value: 2.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091170861872192514, guid: 63bd048f4f83dd5479d3bda02c5d6f4c,
+        type: 3}
+      propertyPath: speed_on_terror_level_2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091170861872192514, guid: 63bd048f4f83dd5479d3bda02c5d6f4c,
+        type: 3}
+      propertyPath: speed_on_terror_level_3
+      value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6091170861872192514, guid: 63bd048f4f83dd5479d3bda02c5d6f4c,
+        type: 3}
+      propertyPath: time_to_attack_on_terror_level_3
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6091170861872192515, guid: 63bd048f4f83dd5479d3bda02c5d6f4c,
         type: 3}
       propertyPath: m_RootOrder
@@ -46316,6 +46336,21 @@ PrefabInstance:
       propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: run_multiplier_on_terror_level_1
+      value: 2.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: run_multiplier_on_terror_level_2
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: run_multiplier_on_terror_level_3
+      value: 2.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_Name

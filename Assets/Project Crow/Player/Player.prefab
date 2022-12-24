@@ -617,6 +617,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fov_percentage: 1
+  base_run_multiplier: 0
+  current_run_multiplier: 0
   is_alive: 1
   can_run: 1
   can_restore_stamina: 0
@@ -632,6 +634,12 @@ MonoBehaviour:
   terror: 0
   max_terror: 100
   current_terror_level: 0
+  terror_level_1: 30
+  terror_level_2: 55
+  terror_level_3: 75
+  run_multiplier_on_terror_level_1: 2.1
+  run_multiplier_on_terror_level_2: 2.2
+  run_multiplier_on_terror_level_3: 2.3
   overdose: 0
   max_overdose: 100
   overdose_reduced_per_frame: 5
