@@ -2,11 +2,10 @@
 
 public class Player : MonoBehaviour
 {
-    float start_fov;
-    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier;
     float time_elapsed_from_stamina_restoration;
-    public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
+    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov;
     [HideInInspector] Vector2 start_mouse_sensitivity;
+    public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
 
     [Header("Health")]
     public float health = 50;
@@ -15,8 +14,9 @@ public class Player : MonoBehaviour
     [Header("Stamina")]
     public float stamina = 50;
     public float max_stamina = 100f;
-    public float min_stamina_to_run = 10f;
+    public float min_stamina_to_run_when_fatigued = 10f; // "Fatigued" is when the player keeps running until the bar is empty. It's a punishment for not managing the stamina
     public float stamina_restored_per_frame = .5f;
+    public float stamina_restored_per_frame_when_fatigued = 1f;
     public float stamina_consumed_per_frame = .5f;
     public float time_to_start_restoring_stamina = 1f;
 
@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
     [Header("Aim")]
     public bool is_aiming;
     public float fov_speed = 10f;
+    public float aiming_flashlight_range = 30f;
+    public float aiming_flashlight_spot_angle = 40f;
 
     [Header("Flashlight")]
     public Light flashlight;
@@ -73,6 +75,9 @@ public class Player : MonoBehaviour
 
         GI.hud.ammo_display.SetActive(GI.player_inventory.is_equiped_with_a_gun());
         GI.hud.display_crosshair_of_equiped_weapon();
+
+        base_flashlight_range = flashlight.range;
+        base_flashlight_spot_angle = flashlight.spotAngle;
     }
 
     void FixedUpdate()
@@ -100,12 +105,13 @@ public class Player : MonoBehaviour
 
             if (can_restore_stamina) // Restore Stamina
             {
-                stamina += stamina_restored_per_frame;
+                if (!can_run) stamina += stamina_restored_per_frame_when_fatigued;
+                else stamina += stamina_restored_per_frame;
 
                 stamina = Mathf.Clamp(stamina, 0, max_stamina);
                 GI.hud.stamina_bar.value = stamina;
 
-                if (!can_run && stamina >= max_stamina * min_stamina_to_run) can_run = true;
+                if (!can_run && stamina >= min_stamina_to_run_when_fatigued) can_run = true;
             }
         }
     }
@@ -154,6 +160,10 @@ public class Player : MonoBehaviour
                 fov_percentage += Time.deltaTime * equiped_gun.fov_speed;
                 fov_percentage = Mathf.Clamp(fov_percentage, 0f, 1f);
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
+
+                lerp_flashlight_range(fov_percentage);
+                lerp_flashlight_spot_angle(fov_percentage);
+
                 equiped_gun.lerp_aim_position(fov_percentage);
                 equiped_gun.lerp_aim_rotation(fov_percentage);
             }
@@ -165,6 +175,22 @@ public class Player : MonoBehaviour
                 flashlight.gameObject.SetActive(!flashlight.gameObject.activeSelf);
             }
         }
+    }
+
+    public void lerp_flashlight_range(float fov_percentage)
+    {
+        float from = is_aiming ? base_flashlight_range : aiming_flashlight_range;
+        float to = is_aiming ? aiming_flashlight_range : base_flashlight_range;
+
+        flashlight.range = Mathf.Lerp(from, to, fov_percentage);
+    }
+
+    public void lerp_flashlight_spot_angle(float fov_percentage)
+    {
+        float from = is_aiming ? base_flashlight_spot_angle : aiming_flashlight_spot_angle;
+        float to = is_aiming ? aiming_flashlight_spot_angle : base_flashlight_spot_angle;
+
+        flashlight.spotAngle = Mathf.Lerp(from, to, fov_percentage);
     }
 
     public void change_health_amount(float value)
@@ -210,9 +236,6 @@ public class Player : MonoBehaviour
 
     public void change_overdose_amount(float value)
     {
-        // Only set the counter the first time the overdose is increased
-        //if (overdose <= 0f && value > 0f) overdose_t = time_to_apply_overdose_debuff;
-
         Debug.Log($"Overdose changed by {value} amount");
         overdose += value;
 

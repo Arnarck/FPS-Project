@@ -619,6 +619,9 @@ MonoBehaviour:
   fov_percentage: 1
   base_run_multiplier: 0
   current_run_multiplier: 0
+  base_flashlight_range: 0
+  base_flashlight_spot_angle: 0
+  start_fov: 0
   is_alive: 1
   can_run: 1
   can_restore_stamina: 0
@@ -627,8 +630,9 @@ MonoBehaviour:
   max_health: 100
   stamina: 100
   max_stamina: 100
-  min_stamina_to_run: 1
+  min_stamina_to_run_when_fatigued: 100
   stamina_restored_per_frame: 0.1
+  stamina_restored_per_frame_when_fatigued: 0.2
   stamina_consumed_per_frame: 0.4
   time_to_start_restoring_stamina: 1
   terror: 0
@@ -646,6 +650,8 @@ MonoBehaviour:
   overdose_reduced_per_frame_when_overdosed: 0.5
   is_aiming: 0
   fov_speed: 10
+  aiming_flashlight_range: 30
+  aiming_flashlight_spot_angle: 35
   flashlight: {fileID: 1982509990}
 --- !u!114 &736016151
 MonoBehaviour:

@@ -370,6 +370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b064e4fd917feb47981a19af47a36ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time_to_attack: 2
+  base_speed: 0
   is_alive: 1
   is_provoked: 0
   can_attack: 1
@@ -388,7 +390,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attack_range: 1
-  time_to_attack: 2
+  base_time_to_attack: 2
+  time_to_attack_on_terror_level_1: 1.7
+  time_to_attack_on_terror_level_2: 1.4
+  time_to_attack_on_terror_level_3: 0.1
+  speed_on_terror_level_1: 2.95
+  speed_on_terror_level_2: 3.05
+  speed_on_terror_level_3: 3.15
 --- !u!1 &6091170861913396819
 GameObject:
   m_ObjectHideFlags: 0
