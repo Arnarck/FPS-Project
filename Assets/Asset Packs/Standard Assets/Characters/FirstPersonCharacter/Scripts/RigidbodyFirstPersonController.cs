@@ -30,21 +30,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (input.x != 0f || input.y != 0f) m_Moving = true;
                 else m_Moving = false;
 
-				if (input.x > 0 || input.x < 0)
+                float movement_percentage = GI.player.is_aiming ? GI.player_inventory.get_equiped_weapon().gun.movement_percentage_whie_aiming : 1f;
+
+
+                if (input.x > 0 || input.x < 0)
 				{
-					//strafe
-					CurrentTargetSpeed = StrafeSpeed;
-				}
+                    //strafe
+                    CurrentTargetSpeed = StrafeSpeed * movement_percentage;
+                }
 				if (input.y < 0)
 				{
-					//backwards
-					CurrentTargetSpeed = BackwardSpeed;
+                    //backwards
+                    CurrentTargetSpeed = BackwardSpeed * movement_percentage;
 				}
 				if (input.y > 0)
 				{
 					//forwards
 					//handled last as if strafing and moving forward at the same time forwards speed should take precedence
-					CurrentTargetSpeed = ForwardSpeed;
+                    CurrentTargetSpeed = ForwardSpeed * movement_percentage;
 				}
 #if !MOBILE_INPUT
 

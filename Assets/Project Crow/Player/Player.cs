@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [Header("Stamina")]
     public float stamina = 50;
     public float max_stamina = 100f;
-    public float min_stamina_to_run_when_fatigued = 10f; // "Fatigued" is when the player keeps running until the bar is empty. It's a punishment for not managing the stamina
+    public float min_stamina_to_run_when_fatigued = 10f; // "Fatigued" is when the player is unable to run after using the stamina until the bar is empty.
     public float stamina_restored_per_frame = .5f;
     public float stamina_restored_per_frame_when_fatigued = 1f;
     public float stamina_consumed_per_frame = .5f;
@@ -228,10 +228,10 @@ public class Player : MonoBehaviour
         GI.hud.terror_bar.value = terror;
 
         // Change the terror level based on the current terror
-        if (terror >= terror_level_3) { current_terror_level = 3; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_3; }
-        else if (terror >= terror_level_2) { current_terror_level = 2; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_2; }
-        else if (terror >= terror_level_1) { current_terror_level = 1; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_1; }
-        else { current_terror_level = 0; GI.fp_controller.movementSettings.RunMultiplier = base_run_multiplier; } // No terror
+        if (terror >= terror_level_3) { current_terror_level = 3; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_3; } // Terrified
+        else if (terror >= terror_level_2) { current_terror_level = 2; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_2; } // Afraid
+        else if (terror >= terror_level_1) { current_terror_level = 1; GI.fp_controller.movementSettings.RunMultiplier = run_multiplier_on_terror_level_1; } // Scared
+        else { current_terror_level = 0; GI.fp_controller.movementSettings.RunMultiplier = base_run_multiplier; } // No terror - Normal
     }
 
     public void change_overdose_amount(float value)

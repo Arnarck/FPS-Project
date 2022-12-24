@@ -1105,6 +1105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
         type: 3}
+      propertyPath: movement_percentage_whie_aiming
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
       propertyPath: base_crosshair_range_in_screen_percentage
       value: 0.015
       objectReference: {fileID: 0}

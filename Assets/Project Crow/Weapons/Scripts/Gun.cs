@@ -59,6 +59,7 @@ public class Gun : Weapon
     public float fov_when_aiming = 40f;
     public float fov_speed = 10f; // How fast the fov will change when turning on / off the aim.
     public float recoil_percentage_when_aiming = .3f;
+    public float movement_percentage_whie_aiming = .7f;
     public Vector2 aiming_sensitivity;
     public Vector3 aiming_position;
     public Vector3 aiming_rotation;
@@ -294,7 +295,8 @@ public class Gun : Weapon
     public Vector3 get_recoil()
     {
         if (GI.player.is_aiming) return recoil /** GI.player.recoil_multiplier_based_on_terror*/ * recoil_percentage_when_aiming;
-        else return recoil /** GI.player.recoil_multiplier_based_on_terror*/;
+        else return recoil /** GI.player.recoil_multiplier_based_on_terror*/
+                ;
     }
 
     // Increases crosshair range
