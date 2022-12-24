@@ -164,7 +164,6 @@ public class Player : MonoBehaviour
             }
 
             // Increases / Decreases FOV over time.
-            // @TODO: Use this logic for crosshair recoil.
             if (fov_percentage < 1f)
             {
                 Gun equiped_gun = GI.player_inventory.get_equiped_weapon().gun;
@@ -176,7 +175,6 @@ public class Player : MonoBehaviour
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
                 equiped_gun.lerp_aim_position(fov_percentage);
                 equiped_gun.lerp_aim_rotation(fov_percentage);
-                //equiped_gun.lerp_crosshair_range(fov_percentage);
             }
         }
 

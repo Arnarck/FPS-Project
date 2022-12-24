@@ -46301,7 +46301,7 @@ PrefabInstance:
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: crosshair_return_speed
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
@@ -46312,6 +46312,11 @@ PrefabInstance:
         type: 3}
       propertyPath: walking_crosshair_range
       value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: crosshair_recoil_added_per_shot
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 1607719809085085744, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
