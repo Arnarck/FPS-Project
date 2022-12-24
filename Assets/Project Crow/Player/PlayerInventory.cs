@@ -90,7 +90,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (inventory[i].is_avaliable && inventory[i].type.Equals(ItemType.NONE)) // Tries to find an empty and avaliable inventory slot
             {
-                ItemDetails item_details = GI.item_data.get_details_of(item_type);
+                ItemDetails item_details = GI.items_in_game.get_details_of(item_type);
                 set_slot_data(i, item_details.type, 1, item_details.sprite);
                 Debug.Log($"Slot {i} filled with {inventory[i].type}!");
                 //Destroy(item.gameObject);
@@ -126,7 +126,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if (inventory[i].type.Equals(ItemType.NONE)) // Add item to an empty slot
                 {
-                    ItemDetails item_details = GI.item_data.get_details_of(item_type);
+                    ItemDetails item_details = GI.items_in_game.get_details_of(item_type);
                     if (InventoryData.max_capacity[type] >= item_amount) // avaliable space on inventory is greater than item amount
                     {
                         set_slot_data(i, item_details.type, item_amount, item_details.sprite);
@@ -497,7 +497,7 @@ public class PlayerInventory : MonoBehaviour
 
         for (int i = 0; i < weapons.Length; i++)
         {
-            if (weapon_type == weapons[i].type) weapons[i].increase_integrity(GI.Config.gun_integrity_restored_by_repair_kit);
+            if (weapon_type == weapons[i].type) weapons[i].increase_integrity(GI.items_in_game.gun_integrity_restored_by_repair_kit);
         }
     }
 

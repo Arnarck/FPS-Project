@@ -380,7 +380,7 @@ MonoBehaviour:
   health: 150
   damage: 20
   terror_damage: 18
-  terror_reduced_when_killed: -10
+  terror_reduced_when_killed: -18
   detection_range: 4
   detection_point: {fileID: 6091170860354629961}
   attack_point: {fileID: 6091170861913396818}

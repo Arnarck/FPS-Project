@@ -287,14 +287,14 @@ public class Gun : Weapon
 
             crosshair_recoil_range = Mathf.Lerp(crosshair_recoil_range, target_crosshair_range, crosshair_return_speed * Time.deltaTime);
             current_crosshair_range = Mathf.Lerp(current_crosshair_range, crosshair_recoil_range, Time.deltaTime * crosshair_snappiness);
-            /*if (target_crosshair_range - current_crosshair_range > 0.0001f) */GI.hud.display_crosshair_range(current_crosshair_range);
+            /*if (!Mathf.Approximately(target_crosshair_range, current_crosshair_range)) */GI.hud.display_crosshair_range(current_crosshair_range);
         }
     }
 
     public Vector3 get_recoil()
     {
-        if (GI.player.is_aiming) return recoil * GI.player.recoil_multiplier_based_on_terror * recoil_percentage_when_aiming;
-        else return recoil * GI.player.recoil_multiplier_based_on_terror;
+        if (GI.player.is_aiming) return recoil /** GI.player.recoil_multiplier_based_on_terror*/ * recoil_percentage_when_aiming;
+        else return recoil /** GI.player.recoil_multiplier_based_on_terror*/;
     }
 
     // Increases crosshair range

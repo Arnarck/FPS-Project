@@ -13,27 +13,5 @@ public static class GI
     public static GunRecoil gun_recoil;
     public static PauseGame pause_game;
     public static HUD hud;
-    public static ItemData item_data;
-
-    public static class Config
-    {
-        public static float health_restored_by_pill = 50f;
-        public static float overdose_increased_by_health_pill = 60f;
-
-        public static float stamina_restored_by_pill = 50f;
-        public static float overdose_increased_by_stamina_pill = 35f;
-
-        public static float terror_decreased_by_pill = 50f;
-        public static float overdose_increased_by_terror_pill = 70f;
-
-        public static float overdosed_multiplier = 1.5f;
-
-
-        public static float recoil_multiplier_on_terror_level_1 = 1.5f;
-        public static float recoil_multiplier_on_terror_level_2 = 3f;
-        public static float recoil_multiplier_on_terror_level_3 = 6f;
-
-
-        public static float gun_integrity_restored_by_repair_kit = 70f;
-    }
+    public static ItemData items_in_game;
 }

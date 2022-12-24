@@ -631,16 +631,11 @@ MonoBehaviour:
   time_to_start_restoring_stamina: 1
   terror: 0
   max_terror: 100
-  terror_reduced_per_tick: -2
-  recoil_multiplier_based_on_terror: 1
-  time_to_reduce_terror: 3
+  current_terror_level: 0
   overdose: 0
   max_overdose: 100
-  time_to_apply_overdose_debuff: 5
-  overdose_reduced_per_tick: -15
-  health_damage: -5
-  terror_applied: 5
-  stamina_restored_when_overdosed: 0.5
+  overdose_reduced_per_frame: 5
+  overdose_reduced_per_frame_when_overdosed: 0.5
   is_aiming: 0
   fov_speed: 10
   flashlight: {fileID: 1982509990}
@@ -1066,6 +1061,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
         type: 3}
+      propertyPath: time_to_attack
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
       propertyPath: crosshair_snappiness
       value: 20
       objectReference: {fileID: 0}
@@ -1073,6 +1073,21 @@ PrefabInstance:
         type: 3}
       propertyPath: crosshair_return_speed
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: running_crosshair_range
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: walking_crosshair_range
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: crosshair_recoil_added_per_shot
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
         type: 3}

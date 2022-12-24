@@ -49,11 +49,29 @@ public struct ItemDetails
 
 public class ItemData : MonoBehaviour
 {
+    //[Header("Health Pill")]
+    //public float base_overdose_added_by_consuming_health_pill = 30f;
+    //[Header("Stamina Pill")]
+    //public float base_overdose_added_by_consuming_stamina_pill = 30f;
+    //[Header("Anti Terror Pill")]
+    //public float base_overdose_added_by_consuming_anti_terror_pill = 30f;
+   // [Header("Anti Overdose Pill")]
+    public float gun_integrity_restored_by_repair_kit = 100f;
+   [Header("Pill Buffs")]
+    public float base_health_restored_by_health_pill = 50f;
+    public float base_stamina_restored_by_stamina_pill = 100f;
+    public float base_terror_reduced_by_anti_terror_pill = 100f;
+    public float base_overdose_reduced_by_anti_overdose_pill = 100f;
+    [Header("Pill Debuffs")]
+    public float pill_efficiency_when_overdosed = .5f; // Multiplier
+    public float base_overdose_added_when_consuming_a_pill = 30f;
+    public float overdose_added_when_consuming_a_pill_while_overdosed = 45f;
+    [Header("Items in Game")]
     public ItemDetails[] items;
 
     private void Awake()
     {
-        GI.item_data = this;
+        GI.items_in_game = this;
     }
 
     public ItemDetails get_details_of(ItemType type)

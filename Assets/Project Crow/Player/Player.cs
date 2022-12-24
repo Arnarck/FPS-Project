@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
 {
     float start_fov, x_mouse_axis, y_mouse_axis;
     [HideInInspector] public float fov_percentage = 1f;
-    float time_elapsed_from_stamina_restoration, overdose_t, terror_t;
+    float time_elapsed_from_stamina_restoration, overdose_t/*, terror_t*/;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
     [HideInInspector] Vector2 start_mouse_sensitivity;
 
@@ -24,18 +24,19 @@ public class Player : MonoBehaviour
     [Header("Terror")]
     public float terror;
     public float max_terror;
-    public float terror_reduced_per_tick;
-    public float recoil_multiplier_based_on_terror = 1f;
-    public float time_to_reduce_terror = 3f;
+    //public float terror_reduced_per_tick;
+    public int current_terror_level;
+    //public float time_to_reduce_terror = 3f;
 
-    [Header("Medicine Overdose")]
+    [Header("Overdose")]
     public float overdose;
     public float max_overdose;
-    public float time_to_apply_overdose_debuff = 2f;
-    public float overdose_reduced_per_tick = -15f;
-    public float health_damage = -5f;
-    public float terror_applied = 5f;
-    public float stamina_restored_when_overdosed = .5f; // Multiplier
+    //public float time_to_apply_overdose_debuff = 2f;
+    public float overdose_reduced_per_frame = 15f;
+    public float overdose_reduced_per_frame_when_overdosed = 5f;
+    //public float health_damage = -5f;
+    //public float terror_applied = 5f;
+    //public float stamina_restored_when_overdosed = .5f; // Multiplier
 
     [Header("Aim")]
     public bool is_aiming;
@@ -99,8 +100,9 @@ public class Player : MonoBehaviour
             if (can_restore_stamina) // Restore Stamina
             {
                 // Restore less stamina when overdosed
-                if (is_overdosed) stamina += stamina_restored_per_frame * stamina_restored_when_overdosed;
-                else stamina += stamina_restored_per_frame;
+                //if (is_overdosed) stamina += stamina_restored_per_frame * stamina_restored_when_overdosed;
+                //else stamina += stamina_restored_per_frame;
+                stamina += stamina_restored_per_frame;
 
                 stamina = Mathf.Clamp(stamina, 0, max_stamina);
                 GI.hud.stamina_bar.value = stamina;
@@ -115,32 +117,14 @@ public class Player : MonoBehaviour
     {
         if (GI.pause_game.game_paused) return;
 
-        { // Terror
-            if (terror > 0f)
-            {
-                terror_t -= Time.deltaTime;
-                if (terror_t <= 0f)
-                {
-                    terror_t += time_to_reduce_terror;
-                    change_terror_amount(terror_reduced_per_tick);
-                }
-            }
-        }
-
         { // Overdose
             if (overdose > 0f)
             {
-                overdose_t -= Time.deltaTime;
-                if (overdose_t <= 0f) // Apply overdose debuff and restarts the cronometer
-                {
-                    overdose_t += time_to_apply_overdose_debuff;
-                    change_overdose_amount(overdose_reduced_per_tick);
-                    if (is_overdosed)
-                    {
-                        change_health_amount(health_damage);
-                        change_terror_amount(terror_applied);
-                    }
-                }
+                if (is_overdosed) { overdose -= Time.deltaTime * overdose_reduced_per_frame_when_overdosed; if (overdose <= 0f) is_overdosed = false; }
+                else overdose -= Time.deltaTime * overdose_reduced_per_frame;
+
+                overdose = Mathf.Clamp(overdose, 0f, max_overdose);
+                GI.hud.overdose_bar.value = overdose;
             }
         }
 
@@ -215,24 +199,25 @@ public class Player : MonoBehaviour
 
     public void change_terror_amount(float value)
     {
-        if (terror <= 0f && value > 0f) terror_t = time_to_reduce_terror;
+        //if (terror <= 0f && value > 0f) terror_t = time_to_reduce_terror;
 
         Debug.Log($"Terror modified by {value} points");
         terror += value;
         terror = Mathf.Clamp(terror, 0, max_terror);
         GI.hud.terror_bar.value = terror;
 
-        // Change gun recoil based on terror amount
-        if (terror >= 85f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_3;
-        else if (terror >= 60f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_2;
-        else if (terror >= 30f) recoil_multiplier_based_on_terror = GI.Config.recoil_multiplier_on_terror_level_1;
-        else recoil_multiplier_based_on_terror = 1f; // No terror
+        // Change the terror level based on the current terror
+        if (terror >= 85f) current_terror_level = 3;
+        else if (terror >= 60f) current_terror_level = 2;
+        else if (terror >= 30f) current_terror_level = 1;
+        else current_terror_level = 0; // No terror
+        Debug.Log($"Terror Level {current_terror_level}");
     }
 
     public void change_overdose_amount(float value)
     {
         // Only set the counter the first time the overdose is increased
-        if (overdose <= 0f && value > 0f) overdose_t = time_to_apply_overdose_debuff;
+        //if (overdose <= 0f && value > 0f) overdose_t = time_to_apply_overdose_debuff;
 
         Debug.Log($"Overdose changed by {value} amount");
         overdose += value;
@@ -241,7 +226,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Overdose enabled");
             is_overdosed = true;
-            overdose_t = time_to_apply_overdose_debuff;
+            //overdose_t = time_to_apply_overdose_debuff;
         }
         else if (is_overdosed && overdose <= 0) // Stops overdose
         {
@@ -253,12 +238,12 @@ public class Player : MonoBehaviour
         GI.hud.overdose_bar.value = overdose;
     }
 
-    // @Arnarck change this name to "use_consumable", "use_pills" or something like that
+    // @TODO: change this name to "use_consumable", "use_pills" or something like that
     public void use_item(ItemType item)
     {
         switch (item)
         {
-            // @Arnarck add a message to player saying that his status are already full... Or just disable "use button"
+            // @TODO: add a message to player saying that his status are already full... Or just disable "use button"
             case ItemType.HEALTH_PILL:
                 {
                     if (health >= max_health)
@@ -266,12 +251,12 @@ public class Player : MonoBehaviour
                         Debug.Log("Health already full");
                         return;
                     }
-                    change_health_amount(GI.Config.health_restored_by_pill);
 
-                    // Increases overdose amount after consuming a pill.
-                    // Increases overdose EVEN MORE if player is overdosed
-                    if (is_overdosed) change_overdose_amount(GI.Config.overdose_increased_by_health_pill * GI.Config.overdosed_multiplier);
-                    else change_overdose_amount(GI.Config.overdose_increased_by_health_pill);
+                    if (is_overdosed) change_overdose_amount(GI.items_in_game.overdose_added_when_consuming_a_pill_while_overdosed);
+                    else change_overdose_amount(GI.items_in_game.base_overdose_added_when_consuming_a_pill);
+
+                    if (is_overdosed) change_health_amount(GI.items_in_game.base_health_restored_by_health_pill * GI.items_in_game.pill_efficiency_when_overdosed);
+                    else change_health_amount(GI.items_in_game.base_health_restored_by_health_pill);
                 }
                 break;
 
@@ -282,10 +267,13 @@ public class Player : MonoBehaviour
                         Debug.Log("Stamina already full");
                         return;
                     }
-                    increase_stamina(GI.Config.stamina_restored_by_pill);
 
-                    if (is_overdosed) change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill * GI.Config.overdosed_multiplier);
-                    else change_overdose_amount(GI.Config.overdose_increased_by_stamina_pill);
+                    if (is_overdosed) change_overdose_amount(GI.items_in_game.overdose_added_when_consuming_a_pill_while_overdosed);
+                    else change_overdose_amount(GI.items_in_game.base_overdose_added_when_consuming_a_pill);
+
+                    if (is_overdosed) increase_stamina(GI.items_in_game.base_stamina_restored_by_stamina_pill * GI.items_in_game.pill_efficiency_when_overdosed);
+                    else increase_stamina(GI.items_in_game.base_stamina_restored_by_stamina_pill);
+
                 }
                 break;
 
@@ -296,10 +284,12 @@ public class Player : MonoBehaviour
                         Debug.Log("Terror already empty");
                         return;
                     }
-                    change_terror_amount(-GI.Config.terror_decreased_by_pill);
 
-                    if (is_overdosed) change_overdose_amount(GI.Config.overdose_increased_by_terror_pill * GI.Config.overdosed_multiplier);
-                    else change_overdose_amount(GI.Config.overdose_increased_by_terror_pill);
+                    if (is_overdosed) change_overdose_amount(GI.items_in_game.overdose_added_when_consuming_a_pill_while_overdosed);
+                    else change_overdose_amount(GI.items_in_game.base_overdose_added_when_consuming_a_pill);
+
+                    if (is_overdosed) change_terror_amount(-(GI.items_in_game.base_terror_reduced_by_anti_terror_pill * GI.items_in_game.pill_efficiency_when_overdosed));
+                    else change_terror_amount(-GI.items_in_game.base_terror_reduced_by_anti_terror_pill);
                 }
                 break;
 
@@ -309,7 +299,7 @@ public class Player : MonoBehaviour
                     {
                         Debug.Log("Overdose already empty");
                     }
-                    change_overdose_amount(-max_overdose);
+                    change_overdose_amount(-GI.items_in_game.base_overdose_reduced_by_anti_overdose_pill);
                 }
                 break;
 
