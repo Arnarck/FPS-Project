@@ -45,11 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bdde86ff7458de49b6b1b8b404fce97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attack_t: 0
   gun: {fileID: 0}
   knife: {fileID: 0}
+  can_attack: 1
   type: 1
   damage: 20
-  time_to_attack: 0.15
+  time_to_attack: 1.2
   integrity: 0
   max_integrity: 100
   integrity_reduced_per_attack: 30
@@ -58,8 +60,9 @@ MonoBehaviour:
   evade_direction: {x: 0, y: 0}
   time_to_evade: 0.5
   attack_radius: 0.3
-  evade_time: 0.1
+  evading_time: 0.1
   evade_force: 50
+  stagging_time: 1
   is_evading: 0
   can_evade: 0
 --- !u!1 &614428871
@@ -1107,6 +1110,16 @@ PrefabInstance:
         type: 3}
       propertyPath: movement_percentage_whie_aiming
       value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: time_to_shoot_with_no_integrity
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
+        type: 3}
+      propertyPath: time_to_shoot_with_low_integrity
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8560809461046519961, guid: 26af8f7cd401a404488b9ecfcd8e4c8a,
         type: 3}

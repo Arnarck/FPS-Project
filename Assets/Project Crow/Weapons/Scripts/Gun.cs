@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Gun : Weapon
 {
-    public bool can_shoot = true, is_reloading, has_ammo;
+    public bool is_reloading, has_ammo;
     bool has_started;
-    float time_to_shoot, time_to_reload, time_to_decay_sequence_shots, current_crosshair_range, target_crosshair_range, crosshair_recoil_range;
+    float time_to_reload, time_to_decay_sequence_shots, current_crosshair_range, target_crosshair_range, crosshair_recoil_range;
 
     AudioSource _audioSource;
     Transform m_transform;
@@ -119,7 +119,7 @@ public class Gun : Weapon
         { // Shoot
             if ((Input.GetKey(KeyCode.Mouse0) && is_automatic) || (Input.GetKeyDown(KeyCode.Mouse0) && !is_automatic)) // Checks if is able to shoot
             {
-                if (can_shoot && !is_reloading && has_ammo)
+                if (can_attack && !is_reloading && has_ammo)
                 {
                     // Sequence Shots
                     if (current_shots_in_sequence < max_shots_in_sequence) current_shots_in_sequence += 1;
@@ -133,10 +133,10 @@ public class Gun : Weapon
                     integrity = Mathf.Clamp(integrity, 0, max_integrity);
 
                     // Time to shoot
-                    if (integrity <= 0f) time_to_shoot = time_to_shoot_with_no_integrity;
-                    else if (integrity < low_integrity) time_to_shoot = time_to_shoot_with_low_integrity;
-                    else time_to_shoot = time_to_attack;
-                    can_shoot = false;
+                    if (integrity <= 0f) attack_t = time_to_shoot_with_no_integrity;
+                    else if (integrity < low_integrity) attack_t = time_to_shoot_with_low_integrity;
+                    else attack_t = time_to_attack;
+                    can_attack = false;
 
                     // Reduce ammo
                     ammo_amount--;
@@ -219,10 +219,10 @@ public class Gun : Weapon
         }
 
         { // Fire rate
-            if (!can_shoot)
+            if (!can_attack)
             {
-                time_to_shoot -= Time.deltaTime;
-                if (time_to_shoot <= 0f) can_shoot = true;
+                attack_t -= Time.deltaTime;
+                if (attack_t <= 0f) can_attack = true;
             }
         }
 

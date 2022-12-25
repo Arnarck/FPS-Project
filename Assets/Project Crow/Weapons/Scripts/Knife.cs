@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Knife : Weapon
 {
-    float evading_t;
-    float last_evade_t;
+    float evade_cooldown_t, evading_t;
 
     public Transform attack_area;
     public Vector2 evade_direction;
     public float time_to_evade = .5f;
     public float attack_radius = .5f;
-    public float evade_time = 1f;
+    public float evading_time = .1f;
     public float evade_force = 50f;
+    public float stagging_time = 1f;
     public bool is_evading, can_evade;
 
     void Awake()
@@ -26,8 +26,11 @@ public class Knife : Weapon
         if (GI.pause_game.game_paused) return;
 
         { // Process attack input
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0) && can_attack)
             {
+                can_attack = false;
+                attack_t = time_to_attack;
+
                 Collider[] hits = new Collider[3];
                 int colliders_found = Physics.OverlapSphereNonAlloc(attack_area.position, attack_radius, hits);
 
@@ -35,7 +38,7 @@ public class Knife : Weapon
                 {
                     for (int i = 0; i < hits.Length; i++)
                     {
-                        if (hits[i] != null && hits[i].gameObject.CompareTag("Enemy")) hits[i].GetComponent<EnemyAI>().take_damage(damage);
+                        if (hits[i] != null && hits[i].gameObject.CompareTag("Enemy")) hits[i].GetComponent<EnemyAI>().take_damage(damage, stagging_time);
 
                     }
                 }
@@ -49,24 +52,32 @@ public class Knife : Weapon
                 evade_direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
                 is_evading = true;
                 can_evade = false;
-                evading_t = 0f;
-                last_evade_t = 0f;
+                evading_t = evading_time;
+                evade_cooldown_t = time_to_evade;
             }
         }
 
-        { // Evading time countdown
+        { // Updates evading time
             if (is_evading)
             {
-                if (evading_t >= evade_time) is_evading = false;
-                else evading_t += Time.deltaTime;
+                evading_t -= Time.deltaTime;
+                if (evading_t <= 0f) is_evading = false;
             }
         }
 
-        { // Evade cooldown countdown
+        { // Evade cooldown
             if (!is_evading && !can_evade)
             {
-                if (last_evade_t >= time_to_evade) can_evade = true;
-                else last_evade_t += Time.deltaTime;
+                evade_cooldown_t -= Time.deltaTime;
+                if (evade_cooldown_t <= 0f) can_evade = true;
+            }
+        }
+
+        { // Attack Cooldown
+            if (attack_t > 0f)
+            {
+                attack_t -= Time.deltaTime;
+                if (attack_t <= 0f) can_attack = true;
             }
         }
     }

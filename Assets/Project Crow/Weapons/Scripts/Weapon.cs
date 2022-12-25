@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum WeaponType
 {
@@ -18,9 +16,11 @@ public enum WeaponType
 // Base class for Guns, Knives, etc
 public class Weapon : MonoBehaviour
 {
+    [HideInInspector] public float attack_t;
     [HideInInspector] public Gun gun;
     [HideInInspector] public Knife knife;
 
+    public bool can_attack;
     public WeaponType type;
 
     [Header("Attack")]

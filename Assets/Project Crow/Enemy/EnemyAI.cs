@@ -3,8 +3,9 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    float stagger_t;
+    public bool is_alive = true, is_provoked, can_attack = true, is_stagged;
     [HideInInspector] public float time_to_attack = 2f, base_speed;
-    public bool is_alive = true, is_provoked, can_attack = true;
 
     [HideInInspector] public Transform target;
     [HideInInspector] public NavMeshAgent nav_mesh_agent;
@@ -74,7 +75,7 @@ public class EnemyAI : MonoBehaviour
                 }
 
                 // Attack
-                if (can_attack && GI.enemy_manager.can_attack())
+                if (can_attack && !is_stagged && GI.enemy_manager.can_attack())
                 {
                     can_attack = false;
                     animator.SetTrigger("Attack");
@@ -128,6 +129,11 @@ public class EnemyAI : MonoBehaviour
                 if (time_to_attack <= 0f) { can_attack = true; }
             }
         }
+
+        { // Udpates stagger time
+            stagger_t -= Time.deltaTime;
+            if (stagger_t <= 0f) is_stagged = false;
+        }
     }
 
     public void attack_player()
@@ -146,12 +152,13 @@ public class EnemyAI : MonoBehaviour
         else Debug.Log("Player not found");
     }
 
-    public void take_damage(float value)
+    public void take_damage(float value, float stagging_time = 0f)
     {
         if (!is_alive) return;
 
         Debug.Log("Damage received: " + value);
 
+        if (stagging_time > 0f) { stagger_t = stagging_time; is_stagged = true; }
         health -= value;
         if (health < Mathf.Epsilon)
         {
