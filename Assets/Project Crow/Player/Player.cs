@@ -211,13 +211,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void increase_stamina(float value)
+    public void change_stamina_amount(float value)
     {
         Debug.Log($"Stamina restored by {value} points!");
         stamina += value;
         stamina = Mathf.Clamp(stamina, 0, max_stamina);
         GI.hud.stamina_bar.value = stamina;
-        can_run = true;
+
+        if (value < 0f && stamina <= 0f) can_run = false;
+        else if (value > 0f) can_run = true; // Player will be able to run again if he gains stamina through this method.
     }
 
     public void change_terror_amount(float value)
@@ -288,8 +290,8 @@ public class Player : MonoBehaviour
                     if (is_overdosed) change_overdose_amount(GI.items_in_game.overdose_added_when_consuming_a_pill_while_overdosed);
                     else change_overdose_amount(GI.items_in_game.base_overdose_added_when_consuming_a_pill);
 
-                    if (is_overdosed) increase_stamina(GI.items_in_game.base_stamina_restored_by_stamina_pill * GI.items_in_game.pill_efficiency_when_overdosed);
-                    else increase_stamina(GI.items_in_game.base_stamina_restored_by_stamina_pill);
+                    if (is_overdosed) change_stamina_amount(GI.items_in_game.base_stamina_restored_by_stamina_pill * GI.items_in_game.pill_efficiency_when_overdosed);
+                    else change_stamina_amount(GI.items_in_game.base_stamina_restored_by_stamina_pill);
 
                 }
                 break;

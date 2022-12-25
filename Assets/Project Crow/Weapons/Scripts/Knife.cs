@@ -13,6 +13,7 @@ public class Knife : Weapon
     public float evading_time = .1f;
     public float evade_force = 50f;
     public float stagging_time = 1f;
+    public float stamina_cost_to_evade = 26f;
     public bool is_evading, can_evade;
 
     void Awake()
@@ -47,8 +48,9 @@ public class Knife : Weapon
 
         if (Input.GetAxisRaw("Vertical") < 0f || Input.GetAxisRaw("Horizontal") != 0f)
         {
-            if (Input.GetAxisRaw("Vertical") <= 0 && Input.GetKeyDown(KeyCode.LeftShift) && !is_evading && can_evade)
+            if (Input.GetAxisRaw("Vertical") <= 0 && Input.GetKeyDown(KeyCode.LeftShift) && !is_evading && can_evade && GI.player.stamina >= stamina_cost_to_evade && GI.player.can_run)
             {
+                GI.player.change_stamina_amount(-stamina_cost_to_evade);
                 evade_direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
                 is_evading = true;
                 can_evade = false;
