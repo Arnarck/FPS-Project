@@ -139,6 +139,7 @@ public class EnemyAI : MonoBehaviour
     public void attack_player()
     {
         if (!is_alive) return;
+        if (GI.player_inventory.equiped_weapon == WeaponType.KNIFE && GI.player_inventory.get_equiped_weapon().knife.is_evading) return; // Unable to damage player while evading
 
         // Creates an overlap sphere to be the attack hit area
         Collider[] hit_colliders = new Collider[1];
