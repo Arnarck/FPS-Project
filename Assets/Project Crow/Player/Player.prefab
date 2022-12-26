@@ -51,7 +51,7 @@ MonoBehaviour:
   can_attack: 1
   type: 1
   damage: 20
-  time_to_attack: 1.2
+  time_to_attack: 2.1
   integrity: 0
   max_integrity: 100
   integrity_reduced_per_attack: 30
@@ -62,7 +62,8 @@ MonoBehaviour:
   attack_radius: 0.3
   evading_time: 0.1
   evade_force: 50
-  stagging_time: 1
+  stagging_time: 2
+  stamina_cost_to_evade: 26
   is_evading: 0
   can_evade: 0
 --- !u!1 &614428871

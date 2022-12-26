@@ -6,15 +6,18 @@ public class Knife : Weapon
 {
     float evade_cooldown_t, evading_t;
 
-    public Transform attack_area;
-    public Vector2 evade_direction;
-    public float time_to_evade = .5f;
+    [Header("Knife Attack")]
     public float attack_radius = .5f;
+    public float stagging_time = 1f;
+    public Transform attack_area;
+
+    [Header("Dash")]
+    public float stamina_cost_to_evade = 26f;
+    public float time_to_evade = .5f;
     public float evading_time = .1f;
     public float evade_force = 50f;
-    public float stagging_time = 1f;
-    public float stamina_cost_to_evade = 26f;
     public bool is_evading, can_evade;
+    public Vector2 evade_direction;
 
     void Awake()
     {

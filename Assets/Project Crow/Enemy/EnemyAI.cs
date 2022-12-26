@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    // @TODO: Tidy up this script. Is confused by now.
     float stagger_t;
     public bool is_alive = true, is_provoked, can_attack = true, is_stagged;
     [HideInInspector] public float time_to_attack = 2f, base_speed;
@@ -90,7 +91,7 @@ public class EnemyAI : MonoBehaviour
                     }
                 }
             }
-            else if (is_provoked && !is_attacking) // Makes the enemy chase the player
+            else if (is_provoked && !is_attacking && !is_stagged) // Makes the enemy chase the player
             {
                 // @TODO: Only makes the enemy look at the player if the raycast takes the player
                 Vector3 look_position = new Vector3(relative_position.x, 0f, relative_position.z); // Allows the enemy to look only on X and Z axis.
