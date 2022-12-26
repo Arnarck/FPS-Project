@@ -56,16 +56,16 @@ MonoBehaviour:
   max_integrity: 100
   integrity_reduced_per_attack: 30
   low_integrity: 30
-  attack_area: {fileID: 631242650}
-  evade_direction: {x: 0, y: 0}
-  time_to_evade: 0.5
   attack_radius: 0.3
+  stagging_time: 2
+  attack_area: {fileID: 631242650}
+  stamina_cost_to_evade: 26
+  time_to_evade: 0.5
   evading_time: 0.1
   evade_force: 50
-  stagging_time: 2
-  stamina_cost_to_evade: 26
   is_evading: 0
   can_evade: 0
+  evade_direction: {x: 0, y: 0}
 --- !u!1 &614428871
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,6 +996,66 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: attack_t
+      value: -0.010519502
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: recoil.x
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: recoil.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: ammo_amount
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: crosshair_snappiness
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: idle_crosshair_range
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: crosshair_return_speed
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: running_crosshair_range
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: walking_crosshair_range
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: sequence_shots_decay_time
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: crosshair_recoil_added_per_shot
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5567340584218377816, guid: 5c9844bbcab47644f945e0465c030ee1,
+        type: 3}
+      propertyPath: movement_percentage_whie_aiming
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 5975479645288810254, guid: 5c9844bbcab47644f945e0465c030ee1,
         type: 3}
