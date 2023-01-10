@@ -2,7 +2,7 @@
 
 public class Player : MonoBehaviour
 {
-    float time_elapsed_from_stamina_restoration;
+    float time_elapsed_from_stamina_restoration, time_in_angles;
     [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov;
     [HideInInspector] Vector2 start_mouse_sensitivity;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
@@ -45,6 +45,11 @@ public class Player : MonoBehaviour
 
     [Header("Flashlight")]
     public Light flashlight;
+
+    [Header("Head Bob")]
+    public float amplitude = 1; // The "height" of the wave.
+    public float frequency = 1; // The "speed" of the wave.
+    public float stabilization_speed = 20f;
 
     void Awake()
     {
@@ -120,6 +125,8 @@ public class Player : MonoBehaviour
     {
         if (GI.pause_game.game_paused) return;
 
+        float dt = Time.deltaTime;
+
         { // Overdose
             if (overdose > 0f)
             {
@@ -157,7 +164,7 @@ public class Player : MonoBehaviour
                 float from = is_aiming ? start_fov : equiped_gun.fov_when_aiming;
                 float to = is_aiming ? equiped_gun.fov_when_aiming : start_fov;
                 
-                fov_percentage += Time.deltaTime * equiped_gun.fov_speed;
+                fov_percentage += dt * equiped_gun.fov_speed;
                 fov_percentage = Mathf.Clamp(fov_percentage, 0f, 1f);
                 GI.fp_camera.fieldOfView = Mathf.Lerp(from, to, fov_percentage);
 
@@ -173,6 +180,41 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L))
             {
                 flashlight.gameObject.SetActive(!flashlight.gameObject.activeSelf);
+            }
+        }
+
+        //Camera.main.transform.rotation = Quaternion.Euler(Input.GetAxis("Vertical") * 5f, 0f, -Input.GetAxis("Horizontal") * 5f);
+
+        { // Head Bob
+            if (GI.fp_controller.Moving || time_in_angles > 0f)
+            {
+                float tau = 2 * Mathf.PI;
+                float x = tau * frequency * time_in_angles + 0f;
+                float y = amplitude * Mathf.Sin(x); // Mathf.Sin() receives the angle as radians.
+                Camera.main.transform.localPosition = Vector3.up * y;
+                Debug.Log($"{x} | {time_in_angles}");
+
+                if (GI.fp_controller.Moving) 
+                { 
+                    time_in_angles += dt;
+                
+                    // The "x" variable resets after "time_in_angles = 1"; That's because when "time == 1", "x == 6,28"
+                    // Resets the time so it not trepass the float limit.
+                    if (time_in_angles >= 1) time_in_angles -= 1;
+                }
+                else // Stabilization. Makes the camera return to its start position
+                {
+                    if (time_in_angles < .5f)
+                    {
+                        time_in_angles += Time.deltaTime;
+                        if (time_in_angles >= .5f) time_in_angles = 0f;
+                    }
+                    else if (time_in_angles < 1f)
+                    {
+                        time_in_angles += Time.deltaTime;
+                        if (time_in_angles >= 1f) time_in_angles = 0f;
+                    }
+                }
             }
         }
     }
