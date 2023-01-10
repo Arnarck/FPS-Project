@@ -2,6 +2,7 @@
 
 public class Player : MonoBehaviour
 {
+    Vector3 camera_start_position;
     float time_elapsed_from_stamina_restoration, time_in_angles;
     [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov;
     [HideInInspector] Vector2 start_mouse_sensitivity;
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
     [Header("Head Bob")]
     public float amplitude = 1; // The "height" of the wave.
     public float frequency = 1; // The "speed" of the wave.
-    public float stabilization_speed = 20f;
+    public float head_bob_speed;
 
     void Awake()
     {
@@ -83,6 +84,8 @@ public class Player : MonoBehaviour
 
         base_flashlight_range = flashlight.range;
         base_flashlight_spot_angle = flashlight.spotAngle;
+
+        camera_start_position = Camera.main.transform.localPosition;
     }
 
     void FixedUpdate()
@@ -186,35 +189,22 @@ public class Player : MonoBehaviour
         //Camera.main.transform.rotation = Quaternion.Euler(Input.GetAxis("Vertical") * 5f, 0f, -Input.GetAxis("Horizontal") * 5f);
 
         { // Head Bob
-            if (GI.fp_controller.Moving || time_in_angles > 0f)
+            if (GI.fp_controller.Moving || head_bob_speed > 0f)
             {
                 float tau = 2 * Mathf.PI;
-                float x = tau * frequency * time_in_angles + 0f;
-                float y = amplitude * Mathf.Sin(x); // Mathf.Sin() receives the angle as radians.
-                Camera.main.transform.localPosition = Vector3.up * y;
-                Debug.Log($"{x} | {time_in_angles}");
+                float x = tau * head_bob_speed + 0f;
+                float y = amplitude * Mathf.Sin(x); // Mathf.Sin() receives the angle in radians.
+                Camera.main.transform.localPosition = camera_start_position + Vector3.up * y;
 
-                if (GI.fp_controller.Moving) 
-                { 
-                    time_in_angles += dt;
-                
-                    // The "x" variable resets after "time_in_angles = 1"; That's because when "time == 1", "x == 6,28"
-                    // Resets the time so it not trepass the float limit.
-                    if (time_in_angles >= 1) time_in_angles -= 1;
-                }
-                else // Stabilization. Makes the camera return to its start position
-                {
-                    if (time_in_angles < .5f)
-                    {
-                        time_in_angles += Time.deltaTime;
-                        if (time_in_angles >= .5f) time_in_angles = 0f;
-                    }
-                    else if (time_in_angles < 1f)
-                    {
-                        time_in_angles += Time.deltaTime;
-                        if (time_in_angles >= 1f) time_in_angles = 0f;
-                    }
-                }
+                head_bob_speed += dt * frequency;
+                if (GI.fp_controller.Moving && head_bob_speed >= .5f) head_bob_speed -= .5f; // Resets the time so it not trepass the float limit.
+                else if (head_bob_speed > .5f) head_bob_speed = 0f; // Stabilization. Makes the camera return to its start position
+
+                // asin(2*PI * t * f + 0)
+                // y = a * sin(2*PI * t * f + 0)
+                // y = amplitude * Mathf.Sin(2*Mathf.PI * Time.time * frequency + 0);
+                // "Time.time * frequency" == "head_bob_speed += dt * frequency" every frame.
+                // On Time == 1, the wave completes a cicle; So 0.5f is half a cicle.
             }
         }
     }
