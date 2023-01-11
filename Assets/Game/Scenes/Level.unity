@@ -24891,7 +24891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 126
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1004943016
 Transform:
   m_ObjectHideFlags: 0
@@ -36801,6 +36801,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1504305877}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1505709982 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7291415108757390170, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6954083926403634706}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1507816020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42864,7 +42870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1756625962
 Transform:
   m_ObjectHideFlags: 0
@@ -44868,7 +44874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 126
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1842832025
 Transform:
   m_ObjectHideFlags: 0
@@ -44998,7 +45004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 126
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1847822823
 Transform:
   m_ObjectHideFlags: 0
@@ -47918,7 +47924,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1944723583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52570,6 +52576,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
+      propertyPath: weapon_holster
+      value: 
+      objectReference: {fileID: 1505709982}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: weapon_bob_radius
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
       propertyPath: stabilization_speed
       value: 5
       objectReference: {fileID: 0}
@@ -52586,7 +52602,7 @@ PrefabInstance:
     - target: {fileID: 6954083926971556981, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.17
+      value: 11.3
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926971556981, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
@@ -52596,7 +52612,7 @@ PrefabInstance:
     - target: {fileID: 6954083926971556981, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.14
+      value: -3.86
       objectReference: {fileID: 0}
     - target: {fileID: 6954083926971556981, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}

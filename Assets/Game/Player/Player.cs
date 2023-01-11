@@ -3,8 +3,8 @@
 public class Player : MonoBehaviour
 {
     Vector3 camera_start_position;
-    float time_elapsed_from_stamina_restoration, time_in_angles;
-    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov;
+    float time_elapsed_from_stamina_restoration, current_weapon_bob_location, weapon_bob_direction;
+    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov, head_bob_speed;
     [HideInInspector] Vector2 start_mouse_sensitivity;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
 
@@ -50,7 +50,11 @@ public class Player : MonoBehaviour
     [Header("Head Bob")]
     public float amplitude = 1; // The "height" of the wave.
     public float frequency = 1; // The "speed" of the wave.
-    public float head_bob_speed;
+
+    [Header("Weapon Bob")]
+    public float weapon_bob_radius = .1f;
+    public Transform weapon_holster;
+    
 
     void Awake()
     {
@@ -86,6 +90,8 @@ public class Player : MonoBehaviour
         base_flashlight_spot_angle = flashlight.spotAngle;
 
         camera_start_position = Camera.main.transform.localPosition;
+
+        weapon_bob_direction = weapon_bob_radius < 0f ? -1f : 1f;
     }
 
     void FixedUpdate()
@@ -206,6 +212,16 @@ public class Player : MonoBehaviour
                 // "Time.time * frequency" == "head_bob_speed += dt * frequency" every frame.
                 // On Time == 1, the wave completes a cicle; So 0.5f is half a cicle.
             }
+        }
+
+        { // Weapon Bob
+            if (current_weapon_bob_location >= weapon_bob_radius || current_weapon_bob_location <= 0f) weapon_bob_direction *= -weapon_bob_direction; // change the direction when get on the limits
+
+            current_weapon_bob_location += weapon_bob_direction;
+            current_weapon_bob_location = Mathf.Clamp(current_weapon_bob_location, 0f, weapon_bob_radius);
+
+            float y = Mathf.Sqrt(Mathf.Pow(weapon_bob_radius, 2) - Mathf.Pow(current_weapon_bob_location, 2));
+            weapon_holster.transform.localPosition = new Vector2(current_weapon_bob_location, y);
         }
     }
 
