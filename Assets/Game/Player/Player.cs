@@ -192,27 +192,44 @@ public class Player : MonoBehaviour
             }
         }
 
+        { // New head Bob
+            Vector3 position = Vector3.zero;
+            float tau = Mathf.PI * 2f;
+
+            if (GI.fp_controller.Moving) head_bob_speed += Time.deltaTime * frequency;
+            else head_bob_speed -= Time.deltaTime * frequency;
+
+            if (head_bob_speed >= tau || head_bob_speed <= 0f) head_bob_speed = 0f;
+
+
+            position.x = amplitude * Mathf.Sin(tau * head_bob_speed + 0f);
+            position.y = amplitude * Mathf.Cos(tau * head_bob_speed * 2f + 0f);
+
+            Camera.main.transform.localPosition = camera_start_position + position;
+        }
+
         //Camera.main.transform.rotation = Quaternion.Euler(Input.GetAxis("Vertical") * 5f, 0f, -Input.GetAxis("Horizontal") * 5f);
 
-        { // Head Bob
-            if (GI.fp_controller.Moving || head_bob_speed > 0f)
-            {
-                float tau = 2 * Mathf.PI;
-                float x = tau * head_bob_speed + 0f;
-                float y = amplitude * Mathf.Sin(x); // Mathf.Sin() receives the angle in radians.
-                Camera.main.transform.localPosition = camera_start_position + Vector3.up * y;
+        // THIS GUY IS A GOD: https://www.youtube.com/@ETeeskiTutorials/videos
+        //{ // Head Bob
+        //    if (GI.fp_controller.Moving || head_bob_speed > 0f)
+        //    {
+        //        float tau = 2 * Mathf.PI;
+        //        float x = tau * head_bob_speed + 0f;
+        //        float y = amplitude * Mathf.Sin(x); // Mathf.Sin() receives the angle in radians.
+        //        Camera.main.transform.localPosition = camera_start_position + Vector3.up * y;
 
-                head_bob_speed += dt * frequency;
-                if (GI.fp_controller.Moving && head_bob_speed >= .5f) head_bob_speed -= .5f; // Resets the time so it not trepass the float limit.
-                else if (head_bob_speed > .5f) head_bob_speed = 0f; // Stabilization. Makes the camera return to its start position
+        //        head_bob_speed += dt * frequency;
+        //        if (GI.fp_controller.Moving && head_bob_speed >= .5f) head_bob_speed -= .5f; // Resets the time so it not trepass the float limit.
+        //        else if (head_bob_speed > .5f) head_bob_speed = 0f; // Stabilization. Makes the camera return to its start position
 
-                // asin(2*PI * t * f + 0)
-                // y = a * sin(2*PI * t * f + 0)
-                // y = amplitude * Mathf.Sin(2*Mathf.PI * Time.time * frequency + 0);
-                // "Time.time * frequency" == "head_bob_speed += dt * frequency" every frame.
-                // On Time == 1, the wave completes a cicle; So 0.5f is half a cicle.
-            }
-        }
+        //        // asin(2*PI * t * f + 0)
+        //        // y = a * sin(2*PI * t * f + 0)
+        //        // y = amplitude * Mathf.Sin(2*Mathf.PI * Time.time * frequency + 0);
+        //        // "Time.time * frequency" == "head_bob_speed += dt * frequency" every frame.
+        //        // On Time == 1, the wave completes a cicle; So 0.5f is half a cicle.
+        //    }
+        //}
 
         { // Weapon Bob
             if (current_weapon_bob_location >= weapon_bob_radius || current_weapon_bob_location <= 0f) weapon_bob_direction *= -weapon_bob_direction; // change the direction when get on the limits
