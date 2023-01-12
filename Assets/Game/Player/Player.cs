@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
 
 
             position.x = amplitude * Mathf.Sin(tau * head_bob_speed + 0f);
-            position.y = amplitude * Mathf.Cos(tau * head_bob_speed * 2f + 0f);
+            position.y = amplitude * Mathf.Cos(tau * head_bob_speed * 2f + 0f); // A "Cos * 2" circle has half size of a "cos" circle. Because of that, the sum of "cos + sin" provides a half circle
 
             Camera.main.transform.localPosition = camera_start_position + position;
         }
