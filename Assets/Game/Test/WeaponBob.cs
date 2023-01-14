@@ -51,6 +51,7 @@ public class WeaponBob : MonoBehaviour
         displacement.y = cos_amplitude * Mathf.Cos(cos_multiplier * y);
 
         transform.localPosition = displacement - Vector3.up;
+        transform.localRotation = Quaternion.Euler(-(Vector3.up * transform.localPosition.x) * 3f);
 
 
 
