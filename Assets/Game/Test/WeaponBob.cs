@@ -4,37 +4,56 @@ using UnityEngine;
 
 public class WeaponBob : MonoBehaviour
 {
-    public Vector3 start_position;
-    public float direction = 1;
-    public float x;
-    [Header("Weapon Bob")]
-    public float wave_crest = 1f;
-    public float radius = 5f;
-    public float speed = 5f;
+    public float sin_time, cos_time;
+    float tau;
+    Vector3 displacement;
+    Vector3 start_position;
 
-    [Header("Sin / Cos")]
-    public float amplitude;
-    public float frequency;
+    [Header("Sin(x)")]
+    public float sin_multiplier = 1f;
+    public float sin_amplitude = 1f;
+    public float sin_frequency = 1f;
 
-    // Start is called before the first frame update
-    void Start()
+    [Header("Cos(x)")]
+    public float cos_multiplier = 2f;
+    public float cos_amplitude = 1f;
+    public float cos_frequency = 1f;
+
+    private void Start()
     {
-        Debug.Log(Mathf.Cos(0f));
-        Debug.Log(Mathf.Cos(Mathf.PI / 2f));
-        Debug.Log(Mathf.Cos(Mathf.PI));
-        Debug.Log(Mathf.Cos( (3 * Mathf.PI) / 2f));
-        Debug.Log(Mathf.Cos(2 * Mathf.PI));
+        tau = 2 * Mathf.PI;
     }
-
-    float x_time;
-    float y_time = 1f;
 
     // Update is called once per frame
     void Update()
     {
-        x_time += Time.deltaTime;
-        if (x_time >= 2 * Mathf.PI) x_time -= 2 * Mathf.PI;
-        Debug.Log($"Sin: {Mathf.Sin(x_time)} | Cos: {Mathf.Cos(x_time * 2f)} | Time: {x_time}");
+        if (Input.GetKey(KeyCode.W))
+        {
+            // a sin(tau * t * f + 0)
+            sin_time += Time.deltaTime * sin_frequency;
+            cos_time += Time.deltaTime * cos_frequency;
+            if (sin_time >= 1f) sin_time -= 1f;
+            if (cos_time >= 1f) cos_time -= 1f;
+        }
+        else 
+        { 
+            sin_time -= Time.deltaTime * sin_frequency;
+            cos_time -= Time.deltaTime * cos_frequency;
+            if (sin_time < 0f) sin_time = 0f;
+            if (cos_time < 0f) cos_time = 0f;
+        }
+
+
+        float x = tau * sin_time + 0;
+        float y = tau * cos_time + 0;
+
+        displacement.x = sin_amplitude * Mathf.Sin(sin_multiplier * x);
+        displacement.y = cos_amplitude * Mathf.Cos(cos_multiplier * y);
+
+        transform.localPosition = displacement - Vector3.up;
+
+
+
         //if (Input.GetKey(KeyCode.W))
         //{
         //    x_time += Time.deltaTime;
