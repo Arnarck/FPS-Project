@@ -47,13 +47,17 @@ public class Player : MonoBehaviour
     [Header("Flashlight")]
     public Light flashlight;
 
-    [Header("Head Bob")]
-    public float amplitude = 1; // The "height" of the wave.
-    public float frequency = 1; // The "speed" of the wave.
+    //[Header("Head Bob")]
+    //public float amplitude = 1; // The "height" of the wave.
+    //public float frequency = 1; // The "speed" of the wave.
 
-    [Header("Weapon Bob")]
-    public float weapon_bob_radius = .1f;
-    public Transform weapon_holster;
+    //[Header("Weapon Bob")]
+    //public float weapon_bob_radius = .1f;
+    //public Transform weapon_holster;
+
+    [Header("Bob Animation")]
+    public Custom_BobAnimation head_bob;
+    public Custom_BobAnimation weapon_bob;
     
 
     void Awake()
@@ -91,7 +95,10 @@ public class Player : MonoBehaviour
 
         camera_start_position = Camera.main.transform.localPosition;
 
-        weapon_bob_direction = weapon_bob_radius < 0f ? -1f : 1f;
+        head_bob.init();
+        weapon_bob.init();
+
+        //weapon_bob_direction = weapon_bob_radius < 0f ? -1f : 1f;
     }
 
     void FixedUpdate()
@@ -192,21 +199,26 @@ public class Player : MonoBehaviour
             }
         }
 
-        { // New head Bob
-            Vector3 position = Vector3.zero;
-            float tau = Mathf.PI * 2f;
-
-            if (GI.fp_controller.Moving) head_bob_speed += Time.deltaTime * frequency;
-            else head_bob_speed -= Time.deltaTime * frequency;
-
-            if (head_bob_speed >= tau || head_bob_speed <= 0f) head_bob_speed = 0f;
-
-
-            position.x = amplitude * Mathf.Sin(tau * head_bob_speed + 0f);
-            position.y = amplitude * Mathf.Cos(tau * head_bob_speed * 2f + 0f); // A "Cos * 2" circle has half size of a "cos" circle. Because of that, the sum of "cos + sin" provides a half circle
-
-            Camera.main.transform.localPosition = camera_start_position + position;
+        { // Bob Animation
+            head_bob.update(dt, GI.fp_controller.Moving);
+            weapon_bob.update(dt, GI.fp_controller.Moving);
         }
+
+        //{ // New head Bob
+        //    Vector3 position = Vector3.zero;
+        //    float tau = Mathf.PI * 2f;
+
+        //    if (GI.fp_controller.Moving) head_bob_speed += Time.deltaTime * frequency;
+        //    else head_bob_speed -= Time.deltaTime * frequency;
+
+        //    if (head_bob_speed >= tau || head_bob_speed <= 0f) head_bob_speed = 0f;
+
+
+        //    position.x = amplitude * Mathf.Sin(tau * head_bob_speed + 0f);
+        //    position.y = amplitude * Mathf.Cos(tau * head_bob_speed * 2f + 0f); // A "Cos * 2" circle has half size of a "cos" circle. Because of that, the sum of "cos + sin" provides a half circle
+
+        //    Camera.main.transform.localPosition = camera_start_position + position;
+        //}
 
         //Camera.main.transform.rotation = Quaternion.Euler(Input.GetAxis("Vertical") * 5f, 0f, -Input.GetAxis("Horizontal") * 5f);
 
@@ -231,15 +243,15 @@ public class Player : MonoBehaviour
         //    }
         //}
 
-        { // Weapon Bob
-            if (current_weapon_bob_location >= weapon_bob_radius || current_weapon_bob_location <= 0f) weapon_bob_direction *= -weapon_bob_direction; // change the direction when get on the limits
+        //{ // Weapon Bob
+        //    if (current_weapon_bob_location >= weapon_bob_radius || current_weapon_bob_location <= 0f) weapon_bob_direction *= -weapon_bob_direction; // change the direction when get on the limits
 
-            current_weapon_bob_location += weapon_bob_direction;
-            current_weapon_bob_location = Mathf.Clamp(current_weapon_bob_location, 0f, weapon_bob_radius);
+        //    current_weapon_bob_location += weapon_bob_direction;
+        //    current_weapon_bob_location = Mathf.Clamp(current_weapon_bob_location, 0f, weapon_bob_radius);
 
-            float y = Mathf.Sqrt(Mathf.Pow(weapon_bob_radius, 2) - Mathf.Pow(current_weapon_bob_location, 2));
-            weapon_holster.transform.localPosition = new Vector2(current_weapon_bob_location, y);
-        }
+        //    float y = Mathf.Sqrt(Mathf.Pow(weapon_bob_radius, 2) - Mathf.Pow(current_weapon_bob_location, 2));
+        //    weapon_holster.transform.localPosition = new Vector2(current_weapon_bob_location, y);
+        //}
     }
 
     public void lerp_flashlight_range(float fov_percentage)

@@ -291,6 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7237593479052121798}
   - component: {fileID: 1197536261}
+  - component: {fileID: 6954083926403634710}
   m_Layer: 0
   m_Name: Camera Rotation
   m_TagString: Untagged
@@ -326,6 +327,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon_holster: {fileID: 7291415108757390170}
+--- !u!114 &6954083926403634710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337482538525622124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939b6df89e6d884429163ffff4a641ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sin_multiplier: 1
+  sin_amplitude: 0.05
+  sin_frequency: 1
+  cos_multiplier: 2
+  cos_amplitude: 0.025
+  cos_frequency: 1
+  angular_sin_multiplier: 1
+  angular_sin_frequency: 1
+  angular_sin_amplitude: {x: 0, y: -0.2, z: 0}
 --- !u!1 &3908673365447188924
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7291415108757390170}
   - component: {fileID: 93211382}
+  - component: {fileID: 6954083926403634711}
   m_Layer: 0
   m_Name: Weapon Holster
   m_TagString: Untagged
@@ -458,6 +481,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6954083926403634711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908673365447188924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939b6df89e6d884429163ffff4a641ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sin_multiplier: 1
+  sin_amplitude: 0.01
+  sin_frequency: 1
+  cos_multiplier: 2
+  cos_amplitude: 0.002
+  cos_frequency: 1
+  angular_sin_multiplier: 1
+  angular_sin_frequency: 1
+  angular_sin_amplitude: {x: -0.5, y: -1, z: 0}
 --- !u!1 &6954083926971463761
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,6 +670,7 @@ MonoBehaviour:
   base_flashlight_range: 0
   base_flashlight_spot_angle: 0
   start_fov: 0
+  head_bob_speed: 0
   is_alive: 1
   can_run: 1
   can_restore_stamina: 0
@@ -657,6 +702,8 @@ MonoBehaviour:
   aiming_flashlight_range: 30
   aiming_flashlight_spot_angle: 35
   flashlight: {fileID: 1982509990}
+  head_bob: {fileID: 6954083926403634710}
+  weapon_bob: {fileID: 6954083926403634711}
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0

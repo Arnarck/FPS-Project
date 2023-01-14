@@ -16,7 +16,7 @@ public class SinWave : MonoBehaviour
     public float frequency = 1;
     public SinWavePhase sin_wave_phase;
 
-    float angle;
+    float time;
 
     // Update is called once per frame
     void Update()
@@ -24,12 +24,13 @@ public class SinWave : MonoBehaviour
         // asin(2PIft+0)
         // a * sin(2PI * f * t + 0)
         // y = amplitude * sin(2PI * frequency * time + phase)
-        float x = 2 * Mathf.PI * frequency * angle + get_sin_wave_phase_value();
-        float y = amplitude * Mathf.Sin(x);
+        time += Time.deltaTime * frequency;
+        float x = 2 * Mathf.PI * time + get_sin_wave_phase_value();
+        float y = amplitude * Mathf.Cos(x);
         transform.position = Vector3.up * y;
 
-        angle += Time.deltaTime;
-        if (angle >= 360f) angle -= 360f;
+        if (time >= 1f) time -= 1f;
+        Debug.Log($"Time: {time} | Cos: {y}");
     }
 
     public float get_sin_wave_phase_value()

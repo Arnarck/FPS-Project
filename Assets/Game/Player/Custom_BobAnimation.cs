@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 
-public enum Quadrant
-{
-    NONE,
-    FIRST,
-    SECOND,
-    THIRD,
-    FOURTH,
-}
+//public enum Quadrant
+//{
+//    NONE,
+//    FIRST,
+//    SECOND,
+//    THIRD,
+//    FOURTH,
+//}
 
-public class BobAnimation : MonoBehaviour
+public class Custom_BobAnimation : MonoBehaviour
 {
     // "a" means "angular". Ex: "a_sin_time" means "angular_sin_time"
     float tau;
     float sin_time, cos_time, a_sin_time;
     float x_this_frame, y_this_frame, a_this_frame;
     float sin_this_frame, cos_this_frame, a_sin_this_frame;
+    bool has_moved_last_frame;
     Quadrant sin_quadrant_on_key_up, cos_quadrant_on_key_up, a_sin_quadrant_on_key_up;
     Vector3 displacement, angular_displacement, start_position, start_rotation;
 
@@ -31,7 +32,7 @@ public class BobAnimation : MonoBehaviour
     public float angular_sin_frequency = 1f;
     public Vector3 angular_sin_amplitude;
 
-    private void Start()
+    public void init()
     {
         tau = 2 * Mathf.PI;
         start_position = transform.localPosition;
@@ -40,18 +41,16 @@ public class BobAnimation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void update(float dt, bool is_moving)
     {
-        float dt = Time.deltaTime;
-
         { // Handle the animation based on the player's input
-            if (Input.GetKey(KeyCode.W)) // Updates the animation over time
+            if (is_moving) // Updates the animation over time
             {
                 sin_time = increase_wave_time(sin_time, sin_frequency, dt);
-                cos_time = increase_wave_time(cos_time, cos_frequency, dt);
+                cos_time = increase_wave_time(sin_time, sin_frequency, dt);
                 a_sin_time = increase_wave_time(a_sin_time, angular_sin_frequency, dt);
             }
-            else if (Input.GetKeyUp(KeyCode.W)) // Check where the animation is, on the wave cicle, and set the "return path" based on the cicle.
+            else if (has_moved_last_frame && !is_moving) // Check where the animation is, on the wave cicle, and set the "return path" based on the cicle.
             {
                 sin_quadrant_on_key_up = get_quadrant_of_current_wave(sin_time);
                 cos_quadrant_on_key_up = get_quadrant_of_current_wave(cos_time);
@@ -105,6 +104,8 @@ public class BobAnimation : MonoBehaviour
 
             transform.localRotation = Quaternion.Euler(start_rotation + angular_displacement);
         }
+
+        has_moved_last_frame = is_moving;
     }
 
     public float increase_wave_time(float wave_time, float wave_frequency, float dt)
@@ -126,7 +127,7 @@ public class BobAnimation : MonoBehaviour
         if (wave_quadrant == Quadrant.THIRD || wave_quadrant == Quadrant.FOURTH)
         {
             wave_time += dt * wave_frequency;
-            if (wave_time > 1f) wave_time = 1f;
+            if (wave_time > 1f) wave_time = 0f;
         }
         //else if (wave_quadrant == Quadrant.FIRST || wave_quadrant == Quadrant.SECOND)
         else
@@ -162,7 +163,7 @@ public class BobAnimation : MonoBehaviour
     public float update_second_quadrant_to_first(float wave_time)
     {
         if (wave_time < .25f || wave_time >= .5f) return wave_time;
-        
+
         return 0.5f - wave_time;
     }
 }
