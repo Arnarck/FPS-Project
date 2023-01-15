@@ -26,11 +26,10 @@ public class SinWave : MonoBehaviour
         // y = amplitude * sin(2PI * frequency * time + phase)
         time += Time.deltaTime * frequency;
         float x = 2 * Mathf.PI * time + get_sin_wave_phase_value();
-        float y = amplitude * Mathf.Cos(x);
+        float y = amplitude * Mathf.Sin(x);
         transform.position = Vector3.up * y;
 
         if (time >= 1f) time -= 1f;
-        Debug.Log($"Time: {time} | Cos: {y}");
     }
 
     public float get_sin_wave_phase_value()
