@@ -52715,6 +52715,31 @@ PrefabInstance:
       propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
+    - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: running_cos_amplitude
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: running_cos_frequency
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: running_sin_frequency
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: walking_cos_amplitude
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954083926403634710, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: walking_angular_sin_amplitude.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_Name

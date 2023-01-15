@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
 
+public enum MovementState
+{
+    IDLE,
+    WALKING,
+    RUNNING,
+    //JUMPING,
+}
+
 public class Player : MonoBehaviour
 {
-    Vector3 camera_start_position;
-    float time_elapsed_from_stamina_restoration, current_weapon_bob_location, weapon_bob_direction;
+    float time_elapsed_from_stamina_restoration;
     [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov, head_bob_speed;
     [HideInInspector] Vector2 start_mouse_sensitivity;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
+    public MovementState current_movement_state;
 
     [Header("Health")]
     public float health = 50;
@@ -56,8 +64,8 @@ public class Player : MonoBehaviour
     //public Transform weapon_holster;
 
     [Header("Bob Animation")]
-    public Custom_BobAnimation head_bob;
-    public Custom_BobAnimation weapon_bob;
+    public HeadBob_WeaponBob head_bob;
+    public HeadBob_WeaponBob weapon_bob;
     
 
     void Awake()
@@ -93,8 +101,6 @@ public class Player : MonoBehaviour
         base_flashlight_range = flashlight.range;
         base_flashlight_spot_angle = flashlight.spotAngle;
 
-        camera_start_position = Camera.main.transform.localPosition;
-
         head_bob.init();
         weapon_bob.init();
 
@@ -106,7 +112,7 @@ public class Player : MonoBehaviour
         if (GI.pause_game.game_paused) return;
 
         { // Stamina
-            if (GI.fp_controller.Running) // Consume stamina
+            if (current_movement_state == MovementState.RUNNING) // Consume stamina
             {
                 time_elapsed_from_stamina_restoration = 0f; // Resets the counter
                 can_restore_stamina = false;
@@ -200,10 +206,11 @@ public class Player : MonoBehaviour
         }
 
         { // Bob Animation
-            head_bob.update(dt, GI.fp_controller.Moving);
-            weapon_bob.update(dt, GI.fp_controller.Moving);
+            head_bob.update(dt, current_movement_state);
+            //weapon_bob.update(dt, current_movement_state);
         }
 
+        // CEMETERY
         //{ // New head Bob
         //    Vector3 position = Vector3.zero;
         //    float tau = Mathf.PI * 2f;

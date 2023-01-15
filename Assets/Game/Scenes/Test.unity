@@ -664,12 +664,12 @@ GameObject:
   - component: {fileID: 847629355}
   - component: {fileID: 847629354}
   m_Layer: 0
-  m_Name: Sphere (10)
+  m_Name: Camera Shake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &847629354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1341,7 +1341,7 @@ GameObject:
   - component: {fileID: 1873301453}
   - component: {fileID: 1873301452}
   m_Layer: 0
-  m_Name: Sphere (9)
+  m_Name: Sin Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1455,7 +1455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1912256460
 MonoBehaviour:
   m_ObjectHideFlags: 0

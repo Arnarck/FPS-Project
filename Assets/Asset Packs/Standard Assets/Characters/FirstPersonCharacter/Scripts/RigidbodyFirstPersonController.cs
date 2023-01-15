@@ -22,13 +22,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 #if !MOBILE_INPUT
             private bool m_Running;
-            private bool m_Moving;
+            //private bool m_Moving;
 #endif
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
-                if (input.x != 0f || input.y != 0f) m_Moving = true;
-                else m_Moving = false;
+                if (input.x != 0f || input.y != 0f) GI.player.current_movement_state = MovementState.WALKING; /*m_Moving = true; */
+                else GI.player.current_movement_state = MovementState.IDLE; /*m_Moving = false;*/
 
                 float movement_percentage = GI.player.is_aiming ? GI.player_inventory.get_equiped_weapon().gun.movement_percentage_whie_aiming : 1f;
 
@@ -55,6 +55,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 {
                     CurrentTargetSpeed *= RunMultiplier;
                     m_Running = true;
+                    GI.player.current_movement_state = MovementState.RUNNING;
                 }
                 else m_Running = false;
 #endif
@@ -66,10 +67,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 get { return m_Running; }
             }
 
-            public bool Moving
-            {
-                get { return m_Moving; }
-            }
+            //public bool Moving
+            //{
+            //    get { return m_Moving; }
+            //}
 #endif
         }
 
@@ -134,13 +135,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
-        public bool Moving
-        {
-            get
-            {
-                return movementSettings.Moving;
-            }
-        }
+        //public bool Moving
+        //{
+        //    get
+        //    {
+        //        return movementSettings.Moving;
+        //    }
+        //}
 
         private void Awake()
         {

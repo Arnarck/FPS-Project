@@ -339,15 +339,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939b6df89e6d884429163ffff4a641ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sin_multiplier: 1
   sin_amplitude: 0.05
   sin_frequency: 1
-  cos_multiplier: 2
   cos_amplitude: 0.025
   cos_frequency: 1
-  angular_sin_multiplier: 1
-  angular_sin_frequency: 1
-  angular_sin_amplitude: {x: 0, y: -0.2, z: 0}
+  angular_sin_frequency: 0.25
+  angular_sin_amplitude: {x: 0.5, y: 0, z: 0}
+  running_sin_amplitude: 0.05
+  running_sin_frequency: 1.4
+  running_cos_amplitude: 0.03
+  running_cos_frequency: 1.4
+  running_angular_sin_frequency: 1
+  running_angular_sin_amplitude: {x: 0, y: 0, z: 0}
+  amplitude_lerp_factor: 3
 --- !u!1 &3908673365447188924
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,15 +497,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939b6df89e6d884429163ffff4a641ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sin_multiplier: 1
-  sin_amplitude: 0.01
-  sin_frequency: 1
-  cos_multiplier: 2
+  sin_amplitude: 0
+  sin_frequency: 0
   cos_amplitude: 0.002
   cos_frequency: 1
-  angular_sin_multiplier: 1
   angular_sin_frequency: 1
   angular_sin_amplitude: {x: -0.5, y: -1, z: 0}
+  running_sin_amplitude: 0.03
+  running_sin_frequency: 2
+  running_cos_amplitude: 2
+  running_cos_frequency: 2
+  running_angular_sin_frequency: 1
+  running_angular_sin_amplitude: {x: 0, y: 0, z: 0}
+  amplitude_lerp_factor: 3
 --- !u!1 &6954083926971463761
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +683,7 @@ MonoBehaviour:
   can_run: 1
   can_restore_stamina: 0
   is_overdosed: 0
+  current_movement_state: 0
   health: 100
   max_health: 100
   stamina: 100

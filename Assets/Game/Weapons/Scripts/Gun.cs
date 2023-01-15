@@ -282,8 +282,8 @@ public class Gun : Weapon
         //@TODO: Add a condition here to restrict the UI from updating every frame.
         { // Crosshair
             if (GI.player.is_aiming) target_crosshair_range = 0f;
-            else if (GI.fp_controller.Running) target_crosshair_range = running_crosshair_range;
-            else if (GI.fp_controller.Moving) target_crosshair_range = walking_crosshair_range;
+            else if (GI.player.current_movement_state == MovementState.RUNNING) target_crosshair_range = running_crosshair_range;
+            else if (GI.player.current_movement_state == MovementState.WALKING) target_crosshair_range = walking_crosshair_range;
             else target_crosshair_range = idle_crosshair_range;
 
             crosshair_recoil_range = Mathf.Lerp(crosshair_recoil_range, target_crosshair_range, crosshair_return_speed * Time.deltaTime);
