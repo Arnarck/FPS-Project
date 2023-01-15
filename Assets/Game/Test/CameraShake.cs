@@ -9,9 +9,16 @@
 //    FOURTH,
 //}
 
+public enum WaveType
+{
+    SIN,
+    COS,
+    ANGULAR_SIN,
+}
+
 public class CameraShake : MonoBehaviour
 {
-    float shaking_t, direction = 1f;
+    float shaking_t;
     bool shaking, has_shaked_last_frame;
 
     // "a" means "angular". Ex: "a_sin_time" means "angular_sin_time"
@@ -19,8 +26,9 @@ public class CameraShake : MonoBehaviour
     float sin_time, cos_time, a_sin_time;
     float x_this_frame, y_this_frame, a_this_frame;
     float sin_this_frame, cos_this_frame, a_sin_this_frame;
+    float current_sin_amplitude, current_cos_amplitude;
     Quadrant sin_quadrant_on_key_up, cos_quadrant_on_key_up, a_sin_quadrant_on_key_up;
-    Vector3 displacement, angular_displacement, start_position, start_rotation;
+    Vector3 displacement, angular_displacement, start_position, start_rotation, current_a_sin_amplitude;
 
     [Header("Shake")]
     public float shake_time;
@@ -29,7 +37,7 @@ public class CameraShake : MonoBehaviour
     public float sin_amplitude = 1f;
     public float sin_frequency = 1f;
 
-    [Header("Cos(y)")]
+    [Header("Cos(2y)")]
     public float cos_amplitude = 1f;
     public float cos_frequency = 1f;
 
@@ -49,26 +57,28 @@ public class CameraShake : MonoBehaviour
     void Update()
     {
         float dt = Time.deltaTime;
-
-        if (shaking)
-        {
-            shaking_t -= dt;
-            if (shaking_t <= 0f) shaking = false;
-        }
-
         if (Input.GetKeyDown(KeyCode.W))
         {
             shaking_t = shake_time;
             shaking = true;
-        }
 
+            current_sin_amplitude = Random.Range(-sin_amplitude, sin_amplitude);
+            current_cos_amplitude = Random.Range(-cos_amplitude, cos_amplitude);
+
+            current_a_sin_amplitude.x = Random.Range(-angular_sin_amplitude.x, angular_sin_amplitude.x);
+            current_a_sin_amplitude.y = Random.Range(-angular_sin_amplitude.y, angular_sin_amplitude.y);
+            current_a_sin_amplitude.z = Random.Range(-angular_sin_amplitude.z, angular_sin_amplitude.z);
+        }
 
         { // Handle the animation based on the player's input
             if (shaking) // Updates the animation over time
             {
-                sin_time = increase_wave_time(sin_time, sin_frequency, dt);
-                cos_time = increase_wave_time(cos_time, cos_frequency, dt, true);
-                a_sin_time = increase_wave_time(a_sin_time, angular_sin_frequency, dt);
+                sin_time = increase_wave_time(sin_time, sin_frequency, dt, WaveType.SIN);
+                cos_time = increase_wave_time(cos_time, cos_frequency, dt, WaveType.COS);
+                a_sin_time = increase_wave_time(a_sin_time, angular_sin_frequency, dt, WaveType.ANGULAR_SIN);
+
+                shaking_t -= dt;
+                if (shaking_t <= 0f) shaking = false;
             }
             else if (!shaking && has_shaked_last_frame) // Check where the animation is, on the wave cicle, and set the "return path" based on the cicle.
             {
@@ -110,17 +120,17 @@ public class CameraShake : MonoBehaviour
         }
 
         { // Sets the displacement of the position and rotation base on the sin / cos.
-            displacement.x = sin_amplitude * sin_this_frame;
-            displacement.y = cos_amplitude * cos_this_frame * direction;
+            displacement.x = current_sin_amplitude * sin_this_frame;
+            displacement.y = current_cos_amplitude * cos_this_frame;
 
-            angular_displacement.x = angular_sin_amplitude.x * a_sin_this_frame;
-            angular_displacement.y = angular_sin_amplitude.y * a_sin_this_frame;
-            angular_displacement.z = angular_sin_amplitude.z * a_sin_this_frame;
+            angular_displacement.x = current_a_sin_amplitude.x * a_sin_this_frame;
+            angular_displacement.y = current_a_sin_amplitude.y * a_sin_this_frame;
+            angular_displacement.z = current_a_sin_amplitude.z * a_sin_this_frame;
         }
 
         { // Updates the gameObject position and rotation.
             transform.localPosition = start_position + displacement;
-            transform.localPosition -= Vector3.up * cos_amplitude * direction; // Corrects the Y position to be the start position on "cos(0)".
+            transform.localPosition -= Vector3.up * current_cos_amplitude; // Corrects the Y position to be the start position on "cos(0)".
 
             transform.localRotation = Quaternion.Euler(start_rotation + angular_displacement);
         }
@@ -128,10 +138,25 @@ public class CameraShake : MonoBehaviour
         has_shaked_last_frame = shaking;
     }
 
-    public float increase_wave_time(float wave_time, float wave_frequency, float dt, bool is_cos = false)
+    public float increase_wave_time(float wave_time, float wave_frequency, float dt, WaveType wave_type)
     {
         wave_time += dt * wave_frequency;
-        if (wave_time >= 1f) { wave_time -= 1f; if (is_cos) direction *= -1f; }; // On "time == 1f", the wave completes the 360° cicle. The value is being reseted to don't trepass the float number limit.
+        if (wave_time >= 1f)  // Resets the cicle
+        { 
+            wave_time -= 1f; // On "time == 1f", the wave completes the 360° cicle. The value is being reseted to don't trepass the float number limit.
+            switch (wave_type)
+            {
+                case WaveType.SIN: current_sin_amplitude = Random.Range(-sin_amplitude, sin_amplitude); break;
+                case WaveType.COS: current_cos_amplitude = Random.Range(-cos_amplitude, cos_amplitude); break;
+                case WaveType.ANGULAR_SIN:
+                    {
+                        current_a_sin_amplitude.x = Random.Range(-angular_sin_amplitude.x, angular_sin_amplitude.x);
+                        current_a_sin_amplitude.y = Random.Range(-angular_sin_amplitude.y, angular_sin_amplitude.y);
+                        current_a_sin_amplitude.z = Random.Range(-angular_sin_amplitude.z, angular_sin_amplitude.z);
+                    }
+                    break;
+            }
+        }
 
         return wave_time;
 
