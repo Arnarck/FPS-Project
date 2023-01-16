@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 1028061478}
   - component: {fileID: 1028061481}
   - component: {fileID: 1028061482}
+  - component: {fileID: 557502416}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -661,6 +662,7 @@ MonoBehaviour:
   weapon_bob_walking: {fileID: 1028061478}
   weapon_bob_running: {fileID: 1028061481}
   weapon_parent: {fileID: 7291415108757390170}
+  camera_shake: {fileID: 557502416}
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,6 +823,31 @@ MonoBehaviour:
   angular_sin_frequency: 0
   angular_sin_amplitude: {x: 0, y: 0, z: 0}
   bob_type: 2
+--- !u!114 &557502416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb8c32c50d13d4418fbe2e7ac254369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: -0, y: 0, z: 0}
+  angular_displacement: {x: 0, y: 0, z: 0}
+  current_a_sin_amplitude: {x: 0, y: 0, z: 0}
+  shake_time: 0.05
+  randomize_start_sin_amplitude: 1
+  sin_amplitude: 0.05
+  sin_frequency: 5
+  randomize_start_cos_amplitude: 1
+  cos_amplitude: 0.06
+  cos_frequency: 10
+  randomize_start_a_sin_amplitude: 0
+  angular_sin_frequency: 1
+  angular_sin_amplitude: {x: 0, y: 0, z: 0}
 --- !u!1 &6954083926971463763
 GameObject:
   m_ObjectHideFlags: 0

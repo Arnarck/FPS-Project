@@ -68,6 +68,9 @@ public class Player : MonoBehaviour
     public Bob weapon_bob_running;
     public Transform weapon_parent;
 
+    [Header("Camera Shake")]
+    public CameraShake camera_shake;
+
 
     void Awake()
     {
@@ -225,6 +228,13 @@ public class Player : MonoBehaviour
 
             weapon_parent.localPosition = weapon_start_position + weapon_bob_idle.displacement + weapon_bob_walking.displacement + weapon_bob_running.displacement;
             weapon_parent.localRotation = Quaternion.Euler(weapon_start_rotation + weapon_bob_idle.angular_displacement + weapon_bob_walking.angular_displacement + weapon_bob_running.angular_displacement);
+        }
+
+        { // Camera Shake
+            camera_shake.update(dt);
+
+            camera_parent.transform.localPosition += camera_shake.displacement;
+            camera_parent.transform.localRotation *= Quaternion.Euler(camera_shake.angular_displacement);
         }
 
         // CEMETERY

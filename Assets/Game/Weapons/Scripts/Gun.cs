@@ -128,6 +128,9 @@ public class Gun : Weapon
                     // Recoil
                     GI.gun_recoil.add_recoil(get_recoil(), snappiness, return_speed, current_shots_in_sequence);
 
+                    // Camera Shake
+                    GI.player.camera_shake.add_shake();
+
                     // Integrity
                     integrity -= integrity_reduced_per_attack;
                     integrity = Mathf.Clamp(integrity, 0, max_integrity);
