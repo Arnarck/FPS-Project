@@ -57,15 +57,16 @@ public class Player : MonoBehaviour
     public Light flashlight;
 
     [Header("Head Bob")]
-    public Bob head_bob_idle;
-    public Bob head_bob_walking;
-    public Bob head_bob_running;
+    //public BobAnimation head_bob_idle;
+    //public BobAnimation head_bob_walking;
+    //public BobAnimation head_bob_running;
+    public BobAnimation bob_animation;
     public Transform camera_parent;
 
     [Header("Weapon Bob")]
-    public Bob weapon_bob_idle;
-    public Bob weapon_bob_walking;
-    public Bob weapon_bob_running;
+    //public BobAnimation weapon_bob_idle;
+    //public BobAnimation weapon_bob_walking;
+    //public BobAnimation weapon_bob_running;
     public Transform weapon_parent;
 
     [Header("Camera Shake")]
@@ -212,22 +213,27 @@ public class Player : MonoBehaviour
             }
         }
 
-        { // Head Bob
-            head_bob_idle.update(dt, current_movement_state);
-            head_bob_walking.update(dt, current_movement_state);
-            head_bob_running.update(dt, current_movement_state);
+        //{ // Head Bob
+        //    head_bob_idle.update(dt, current_movement_state);
+        //    head_bob_walking.update(dt, current_movement_state);
+        //    head_bob_running.update(dt, current_movement_state);
 
-            camera_parent.localPosition = camera_start_position + head_bob_idle.displacement + head_bob_walking.displacement + head_bob_running.displacement;
-            camera_parent.localRotation = Quaternion.Euler(camera_start_rotation + head_bob_idle.angular_displacement + head_bob_walking.angular_displacement + head_bob_running.angular_displacement);
-        }
+        //    camera_parent.localPosition = camera_start_position + head_bob_idle.displacement + head_bob_walking.displacement + head_bob_running.displacement;
+        //    camera_parent.localRotation = Quaternion.Euler(camera_start_rotation + head_bob_idle.angular_displacement + head_bob_walking.angular_displacement + head_bob_running.angular_displacement);
+        //}
 
-        { // Weapon Bob
-            weapon_bob_idle.update(dt, current_movement_state);
-            weapon_bob_walking.update(dt, current_movement_state);
-            weapon_bob_running.update(dt, current_movement_state);
+        //{ // Weapon Bob
+        //    weapon_bob_idle.update(dt, current_movement_state);
+        //    weapon_bob_walking.update(dt, current_movement_state);
+        //    weapon_bob_running.update(dt, current_movement_state);
 
-            weapon_parent.localPosition = weapon_start_position + weapon_bob_idle.displacement + weapon_bob_walking.displacement + weapon_bob_running.displacement;
-            weapon_parent.localRotation = Quaternion.Euler(weapon_start_rotation + weapon_bob_idle.angular_displacement + weapon_bob_walking.angular_displacement + weapon_bob_running.angular_displacement);
+        //    weapon_parent.localPosition = weapon_start_position + weapon_bob_idle.displacement + weapon_bob_walking.displacement + weapon_bob_running.displacement;
+        //    weapon_parent.localRotation = Quaternion.Euler(weapon_start_rotation + weapon_bob_idle.angular_displacement + weapon_bob_walking.angular_displacement + weapon_bob_running.angular_displacement);
+        //}
+
+        { // Bob Animation
+            bob_animation.update(dt, current_movement_state);
+            camera_parent.localPosition = camera_start_position + bob_animation.displacement;
         }
 
         { // Camera Shake

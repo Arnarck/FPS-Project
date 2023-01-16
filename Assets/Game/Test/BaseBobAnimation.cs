@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 
-public enum Quadrant
-{
-    NONE,
-    FIRST,
-    SECOND,
-    THIRD,
-    FOURTH,
-}
+//public enum Quadrant
+//{
+//    NONE,
+//    FIRST,
+//    SECOND,
+//    THIRD,
+//    FOURTH,
+//}
 
-public class BobBaseAnimation : MonoBehaviour
+public class BaseBobAnimation : MonoBehaviour
 {
     // "a" means "angular". Ex: "a_sin_time" means "angular_sin_time"
-    //protected float tau; // 2PI
+    protected float tau; // 2PI
     protected float sin_time, cos_time, a_sin_time; // Stores the normalized angle of the wave (0 -> 0; 0.25f -> PI/2; 0.5f -> PI; 0.75f -> 3PI/2; 1f -> 2PI)
     protected float x_this_frame, y_this_frame, a_this_frame; // Stores the parameters to pass to Sin(x) and Cos(y) functions every frame
     protected float sin_this_frame, cos_this_frame, a_sin_this_frame; // Stores the result of Sin(x) and Cos(y) operations every frame.
     protected Quadrant sin_quadrant_on_key_up = Quadrant.FIRST, cos_quadrant_on_key_up = Quadrant.FIRST, a_sin_quadrant_on_key_up = Quadrant.FIRST; // Stores the quadrant of the waves on key released
     [HideInInspector] public Vector3 displacement, angular_displacement; // The total displacement at a given angle of the cicle.
+    [HideInInspector] public Vector3 start_position, start_rotation;
 
     [Header("Sin(x)")]
     public float sin_amplitude = 1f; // The "size" of the wave.
@@ -32,49 +33,45 @@ public class BobBaseAnimation : MonoBehaviour
     public Vector3 angular_sin_amplitude;
 
     // Demonstration of how to use the functionality on Start()
-    //private void Start()
-    //{
-    //    tau = 2 * Mathf.PI;
-    //    start_position = transform.localPosition;
-    //    start_rotation = transform.localEulerAngles;
-    //    sin_quadrant_on_key_up = cos_quadrant_on_key_up = a_sin_quadrant_on_key_up = Quadrant.FIRST;
-
-    //    current_sin_amplitude = sin_amplitude;
-    //    current_cos_amplitude = cos_amplitude;
-    //    current_a_sin_amplitude = angular_sin_amplitude;
-    //}
+    private void Start()
+    {
+        tau = 2 * Mathf.PI;
+        start_position = transform.localPosition;
+        start_rotation = transform.localEulerAngles;
+        sin_quadrant_on_key_up = cos_quadrant_on_key_up = a_sin_quadrant_on_key_up = Quadrant.FIRST;
+    }
 
     // Demonstration of how to use the functionality on Update()
-    //void Update()
-    //{
-    //    float dt = Time.deltaTime;
-    //    { // Handle the animation based on the player's input
-    //        if (Input.GetKey(KeyCode.W)) // Updates the animation over time
-    //        {
-    //            update_animation(dt);
-    //        }
-    //        else if (Input.GetKeyUp(KeyCode.W)) // Check where the animation is, on the wave cicle, and set the "return path" based on the cicle.
-    //        {
-    //            set_return_path_based_on_current_quadrant();
-    //        }
-    //        else // resets the wave cicle
-    //        {
-    //            reset_wave_cicle(dt);
-    //        }
-    //    }
+    void Update()
+    {
+        float dt = Time.deltaTime;
+        { // Handle the animation based on the player's input
+            if (Input.GetKey(KeyCode.W)) // Updates the animation over time
+            {
+                update_animation(dt);
+            }
+            else if (Input.GetKeyUp(KeyCode.W)) // Check where the animation is, on the wave cicle, and set the "return path" based on the cicle.
+            {
+                set_return_path_based_on_current_quadrant();
+            }
+            else // resets the wave cicle
+            {
+                reset_wave_cicle(dt);
+            }
+        }
 
-    //    { // Calculates the sin / cos
-    //        calculate_sine_and_cosine();
-    //    }
+        { // Calculates the sin / cos
+            calculate_sine_and_cosine();
+        }
 
-    //    {// Sets the displacement of the position and rotation base on the sin / cos.
-    //        set_displacement_based_on_sine_and_cosine();
-    //    }
+        {// Sets the displacement of the position and rotation base on the sin / cos.
+            set_displacement_based_on_sine_and_cosine();
+        }
 
-    //    { // Updates the gameObject position and rotation.
-    //        update_gameobject_coordinates();
-    //    }
-    //}
+        { // Updates the gameObject position and rotation.
+            update_gameobject_coordinates();
+        }
+    }
 
 
     // ================ Update() functions ==================

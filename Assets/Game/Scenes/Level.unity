@@ -19025,6 +19025,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 972342447}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &827679926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9194413156888574168, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6954083926403634706}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9e10e259fc3c948b80ad57feded115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &827936165
 GameObject:
   m_ObjectHideFlags: 0
@@ -52715,6 +52727,11 @@ PrefabInstance:
       propertyPath: blood_splash_vfx
       value: 
       objectReference: {fileID: 364544295}
+    - target: {fileID: 6954083926403634708, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
+        type: 3}
+      propertyPath: bob_animation
+      value: 
+      objectReference: {fileID: 827679926}
     - target: {fileID: 6954083926971463761, guid: 6564b44ac1ffbb54fa15b0af51cb438c,
         type: 3}
       propertyPath: m_Name

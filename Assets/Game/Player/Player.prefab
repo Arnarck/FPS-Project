@@ -473,12 +473,7 @@ GameObject:
   - component: {fileID: 6954083926403634708}
   - component: {fileID: 736016151}
   - component: {fileID: 736016152}
-  - component: {fileID: 2011743356}
-  - component: {fileID: 2011743354}
-  - component: {fileID: 2011743355}
-  - component: {fileID: 1028061478}
-  - component: {fileID: 1028061481}
-  - component: {fileID: 1028061482}
+  - component: {fileID: 9194413156888574168}
   - component: {fileID: 557502416}
   m_Layer: 8
   m_Name: Player
@@ -654,13 +649,7 @@ MonoBehaviour:
   aiming_flashlight_range: 30
   aiming_flashlight_spot_angle: 35
   flashlight: {fileID: 1982509990}
-  head_bob_idle: {fileID: 2011743356}
-  head_bob_walking: {fileID: 2011743354}
-  head_bob_running: {fileID: 2011743355}
   camera_parent: {fileID: 7237593479052121798}
-  weapon_bob_idle: {fileID: 1028061482}
-  weapon_bob_walking: {fileID: 1028061478}
-  weapon_bob_running: {fileID: 1028061481}
   weapon_parent: {fileID: 7291415108757390170}
   camera_shake: {fileID: 557502416}
 --- !u!114 &736016151
@@ -697,7 +686,7 @@ MonoBehaviour:
   slot_prefab: {fileID: 584307593358724918, guid: 1045e505b11d9a44b978288c2d056ea6,
     type: 3}
   weapon_holster: {fileID: 7291415108757390170}
---- !u!114 &2011743356
+--- !u!114 &9194413156888574168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -706,123 +695,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6954083926971463761}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d9e10e259fc3c948b80ad57feded115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  current_sin_amplitude: 0
+  current_cos_amplitude: 0
+  current_a_sin_amplitude: 0
   displacement: {x: 0, y: 0, z: 0}
   angular_displacement: {x: 0, y: 0, z: 0}
-  sin_amplitude: 0
-  sin_frequency: 0
-  cos_amplitude: 0
-  cos_frequency: 0
-  angular_sin_frequency: 0.35
-  angular_sin_amplitude: {x: 0.5, y: 0, z: 0}
   bob_type: 0
---- !u!114 &2011743354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displacement: {x: 0, y: 0, z: 0}
-  angular_displacement: {x: 0, y: 0, z: 0}
-  sin_amplitude: 0.05
-  sin_frequency: 0
-  cos_amplitude: 0.025
-  cos_frequency: 1
-  angular_sin_frequency: 0
-  angular_sin_amplitude: {x: 0, y: 0, z: 0}
-  bob_type: 1
---- !u!114 &2011743355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displacement: {x: 0, y: 0, z: 0}
-  angular_displacement: {x: 0, y: 0, z: 0}
-  sin_amplitude: 0.02
-  sin_frequency: 1.5
-  cos_amplitude: 0.035
-  cos_frequency: 1.5
-  angular_sin_frequency: 0
-  angular_sin_amplitude: {x: 0, y: 0, z: 0}
-  bob_type: 2
---- !u!114 &1028061478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displacement: {x: -0, y: -0.003912375, z: 0}
-  angular_displacement: {x: 0.8395641, y: -0, z: -0}
-  sin_amplitude: 0
-  sin_frequency: 0
-  cos_amplitude: 0.005
-  cos_frequency: 0.1
-  angular_sin_frequency: 0.3
-  angular_sin_amplitude: {x: -1, y: 0, z: 0}
-  bob_type: 0
---- !u!114 &1028061481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displacement: {x: 0.0000000017484555, y: 0, z: 0}
-  angular_displacement: {x: -0.0000006993822, y: 0, z: 0}
-  sin_amplitude: 0.01
+  sin_amplitude: 1
   sin_frequency: 1
-  cos_amplitude: 0.005
+  walking_cos_amplitude: 1
+  cos_amplitude: 1
   cos_frequency: 1
-  angular_sin_frequency: 0
+  angular_sin_frequency: 1
   angular_sin_amplitude: {x: 0, y: 0, z: 0}
-  bob_type: 1
---- !u!114 &1028061482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displacement: {x: 0, y: 0, z: 0}
-  angular_displacement: {x: 0, y: 0, z: 0}
-  sin_amplitude: 0.015
-  sin_frequency: 1.5
-  cos_amplitude: 0.006
-  cos_frequency: 1.5
-  angular_sin_frequency: 0
-  angular_sin_amplitude: {x: 0, y: 0, z: 0}
-  bob_type: 2
 --- !u!114 &557502416
 MonoBehaviour:
   m_ObjectHideFlags: 0
