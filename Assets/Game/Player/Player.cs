@@ -11,8 +11,9 @@ public enum MovementState
 public class Player : MonoBehaviour
 {
     float time_elapsed_from_stamina_restoration;
+    Vector3 camera_start_position, camera_start_rotation;
     [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov, head_bob_speed;
-    [HideInInspector] Vector2 start_mouse_sensitivity;
+    [HideInInspector] public Vector2 start_mouse_sensitivity;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
     public MovementState current_movement_state;
 
@@ -55,17 +56,13 @@ public class Player : MonoBehaviour
     [Header("Flashlight")]
     public Light flashlight;
 
-    //[Header("Head Bob")]
-    //public float amplitude = 1; // The "height" of the wave.
-    //public float frequency = 1; // The "speed" of the wave.
-
-    //[Header("Weapon Bob")]
-    //public float weapon_bob_radius = .1f;
-    //public Transform weapon_holster;
-
     [Header("Bob Animation")]
-    public HeadBob_WeaponBob head_bob;
-    public HeadBob_WeaponBob weapon_bob;
+    public HeadBob head_bob_idle;
+    public HeadBob head_bob_walking;
+    public HeadBob head_bob_running;
+    public Transform camera_parent;
+    //public HeadBob_WeaponBob head_bob;
+    //public HeadBob_WeaponBob weapon_bob;
     
 
     void Awake()
@@ -101,9 +98,14 @@ public class Player : MonoBehaviour
         base_flashlight_range = flashlight.range;
         base_flashlight_spot_angle = flashlight.spotAngle;
 
-        head_bob.init();
-        weapon_bob.init();
+        //head_bob.init();
+        //weapon_bob.init();
+        head_bob_idle.init();
+        head_bob_walking.init();
+        head_bob_running.init();
 
+        camera_start_position = camera_parent.transform.localPosition;
+        camera_start_rotation = camera_parent.transform.localEulerAngles;
         //weapon_bob_direction = weapon_bob_radius < 0f ? -1f : 1f;
     }
 
@@ -206,8 +208,12 @@ public class Player : MonoBehaviour
         }
 
         { // Bob Animation
-            head_bob.update(dt, current_movement_state);
-            //weapon_bob.update(dt, current_movement_state);
+            head_bob_idle.update(dt, current_movement_state);
+            head_bob_walking.update(dt, current_movement_state);
+            head_bob_running.update(dt, current_movement_state);
+
+            camera_parent.localPosition = camera_start_position + head_bob_idle.displacement + head_bob_walking.displacement + head_bob_running.displacement;
+            camera_parent.localRotation = Quaternion.Euler(camera_start_rotation + head_bob_idle.angular_displacement + head_bob_walking.angular_displacement + head_bob_running.angular_displacement);
         }
 
         // CEMETERY

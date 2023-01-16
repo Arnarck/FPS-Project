@@ -291,7 +291,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7237593479052121798}
   - component: {fileID: 1197536261}
-  - component: {fileID: 6954083926403634710}
   m_Layer: 0
   m_Name: Camera Rotation
   m_TagString: Untagged
@@ -327,31 +326,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon_holster: {fileID: 7291415108757390170}
---- !u!114 &6954083926403634710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 337482538525622124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939b6df89e6d884429163ffff4a641ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sin_amplitude: 0.05
-  sin_frequency: 1
-  cos_amplitude: 0.025
-  cos_frequency: 1
-  angular_sin_frequency: 0.25
-  angular_sin_amplitude: {x: 0.5, y: 0, z: 0}
-  running_sin_amplitude: 0.05
-  running_sin_frequency: 1.4
-  running_cos_amplitude: 0.03
-  running_cos_frequency: 1.4
-  running_angular_sin_frequency: 1
-  running_angular_sin_amplitude: {x: 0, y: 0, z: 0}
-  amplitude_lerp_factor: 3
 --- !u!1 &3908673365447188924
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +336,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7291415108757390170}
   - component: {fileID: 93211382}
-  - component: {fileID: 6954083926403634711}
   m_Layer: 0
   m_Name: Weapon Holster
   m_TagString: Untagged
@@ -485,31 +458,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6954083926403634711
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3908673365447188924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939b6df89e6d884429163ffff4a641ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sin_amplitude: 0
-  sin_frequency: 0
-  cos_amplitude: 0.002
-  cos_frequency: 1
-  angular_sin_frequency: 1
-  angular_sin_amplitude: {x: -0.5, y: -1, z: 0}
-  running_sin_amplitude: 0.03
-  running_sin_frequency: 2
-  running_cos_amplitude: 2
-  running_cos_frequency: 2
-  running_angular_sin_frequency: 1
-  running_angular_sin_amplitude: {x: 0, y: 0, z: 0}
-  amplitude_lerp_factor: 3
 --- !u!1 &6954083926971463761
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +474,9 @@ GameObject:
   - component: {fileID: 6954083926403634708}
   - component: {fileID: 736016151}
   - component: {fileID: 736016152}
+  - component: {fileID: 2011743356}
+  - component: {fileID: 2011743354}
+  - component: {fileID: 2011743355}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -679,6 +630,7 @@ MonoBehaviour:
   base_flashlight_spot_angle: 0
   start_fov: 0
   head_bob_speed: 0
+  start_mouse_sensitivity: {x: 0, y: 0}
   is_alive: 1
   can_run: 1
   can_restore_stamina: 0
@@ -711,8 +663,10 @@ MonoBehaviour:
   aiming_flashlight_range: 30
   aiming_flashlight_spot_angle: 35
   flashlight: {fileID: 1982509990}
-  head_bob: {fileID: 6954083926403634710}
-  weapon_bob: {fileID: 6954083926403634711}
+  head_bob_idle: {fileID: 2011743356}
+  head_bob_walking: {fileID: 2011743354}
+  head_bob_running: {fileID: 2011743355}
+  camera_parent: {fileID: 7237593479052121798}
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -747,6 +701,69 @@ MonoBehaviour:
   slot_prefab: {fileID: 584307593358724918, guid: 1045e505b11d9a44b978288c2d056ea6,
     type: 3}
   weapon_holster: {fileID: 7291415108757390170}
+--- !u!114 &2011743356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: 0, y: 0, z: 0}
+  angular_displacement: {x: 0, y: 0, z: 0}
+  sin_amplitude: 0
+  sin_frequency: 0
+  cos_amplitude: 0
+  cos_frequency: 0
+  angular_sin_frequency: 0.35
+  angular_sin_amplitude: {x: 0.5, y: 0, z: 0}
+  bob_type: 0
+--- !u!114 &2011743354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: 0, y: 0, z: 0}
+  angular_displacement: {x: 0, y: 0, z: 0}
+  sin_amplitude: 0.05
+  sin_frequency: 0
+  cos_amplitude: 0.025
+  cos_frequency: 1
+  angular_sin_frequency: 0
+  angular_sin_amplitude: {x: 0, y: 0, z: 0}
+  bob_type: 1
+--- !u!114 &2011743355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: 0, y: 0, z: 0}
+  angular_displacement: {x: 0, y: 0, z: 0}
+  sin_amplitude: 0.02
+  sin_frequency: 1.5
+  cos_amplitude: 0.035
+  cos_frequency: 1.5
+  angular_sin_frequency: 0
+  angular_sin_amplitude: {x: 0, y: 0, z: 0}
+  bob_type: 2
 --- !u!1 &6954083926971463763
 GameObject:
   m_ObjectHideFlags: 0

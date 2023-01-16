@@ -16,12 +16,8 @@ public class BobAnimation : MonoBehaviour
     protected float sin_time, cos_time, a_sin_time; // Stores the normalized angle of the wave (0 -> 0; 0.25f -> PI/2; 0.5f -> PI; 0.75f -> 3PI/2; 1f -> 2PI)
     protected float x_this_frame, y_this_frame, a_this_frame; // Stores the parameters to pass to Sin(x) and Cos(y) functions every frame
     protected float sin_this_frame, cos_this_frame, a_sin_this_frame; // Stores the result of Sin(x) and Cos(y) operations every frame.
-    protected float current_sin_amplitude, current_cos_amplitude; // Stores the current amplitude
-    protected float current_sin_frequency, current_cos_frequency, current_a_sin_frequency; // Stores the current frequency
-    protected Vector3 current_a_sin_amplitude; // Stores the current angular amplitude of each axis. Only affects rotation
     protected Quadrant sin_quadrant_on_key_up, cos_quadrant_on_key_up, a_sin_quadrant_on_key_up; // Stores the quadrant of the waves on key released
-    protected Vector3 start_position, start_rotation;
-    protected Vector3 displacement, angular_displacement; // The total displacement at a given angle of the cicle.
+    [HideInInspector] public Vector3 displacement, angular_displacement; // The total displacement at a given angle of the cicle.
 
     [Header("Sin(x)")]
     public float sin_amplitude = 1f; // The "size" of the wave.
@@ -38,17 +34,9 @@ public class BobAnimation : MonoBehaviour
     public void init()
     {
         tau = 2 * Mathf.PI;
-        start_position = transform.localPosition;
-        start_rotation = transform.localEulerAngles;
+        //start_position = transform.localPosition;
+        //start_rotation = transform.localEulerAngles;
         sin_quadrant_on_key_up = cos_quadrant_on_key_up = a_sin_quadrant_on_key_up = Quadrant.FIRST;
-
-        current_sin_amplitude = sin_amplitude;
-        current_cos_amplitude = cos_amplitude;
-        current_a_sin_amplitude = angular_sin_amplitude;
-
-        current_sin_frequency= sin_frequency;
-        current_cos_frequency = cos_frequency;
-        current_a_sin_frequency = angular_sin_frequency;
     }
 
     // Demonstration of how to use the functionality on Start()
@@ -101,9 +89,13 @@ public class BobAnimation : MonoBehaviour
 
     protected void update_animation(float dt)
     {
-        sin_time = increase_wave_time(sin_time, current_sin_frequency, dt);
-        cos_time = increase_wave_time(cos_time, current_cos_frequency, dt);
-        a_sin_time = increase_wave_time(a_sin_time, current_a_sin_frequency, dt);
+        //sin_time = increase_wave_time(sin_time, current_sin_frequency, dt);
+        //cos_time = increase_wave_time(cos_time, current_cos_frequency, dt);
+        //a_sin_time = increase_wave_time(a_sin_time, current_a_sin_frequency, dt);
+
+        sin_time = increase_wave_time(sin_time, sin_frequency, dt);
+        cos_time = increase_wave_time(cos_time, cos_frequency, dt);
+        a_sin_time = increase_wave_time(a_sin_time, angular_sin_frequency, dt);
     }
 
     protected void set_return_path_based_on_current_quadrant()
@@ -124,9 +116,9 @@ public class BobAnimation : MonoBehaviour
 
     protected void reset_wave_cicle(float dt)
     {
-        if (sin_time > 0f) sin_time = reset_wave_time(sin_time, current_sin_frequency, dt, sin_quadrant_on_key_up);
-        if (cos_time > 0f) cos_time = reset_wave_time(cos_time, current_cos_frequency, dt, cos_quadrant_on_key_up);
-        if (a_sin_time > 0f) a_sin_time = reset_wave_time(a_sin_time, current_a_sin_frequency, dt, a_sin_quadrant_on_key_up);
+        if (sin_time > 0f) sin_time = reset_wave_time(sin_time, sin_frequency, dt, sin_quadrant_on_key_up);
+        if (cos_time > 0f) cos_time = reset_wave_time(cos_time, cos_frequency, dt, cos_quadrant_on_key_up);
+        if (a_sin_time > 0f) a_sin_time = reset_wave_time(a_sin_time, angular_sin_frequency, dt, a_sin_quadrant_on_key_up);
     }
 
     protected void calculate_sine_and_cosine()
@@ -148,21 +140,21 @@ public class BobAnimation : MonoBehaviour
 
     protected void set_displacement_based_on_sine_and_cosine()
     {
-        displacement.x = current_sin_amplitude * sin_this_frame;
-        displacement.y = current_cos_amplitude * cos_this_frame;
+        displacement.x = sin_amplitude * sin_this_frame;
+        displacement.y = cos_amplitude * cos_this_frame - cos_amplitude; // amplitude is subtracting the Y to make cos(0) == 0 instead of cos(0) == 1
 
-        angular_displacement.x = current_a_sin_amplitude.x * a_sin_this_frame;
-        angular_displacement.y = current_a_sin_amplitude.y * a_sin_this_frame;
-        angular_displacement.z = current_a_sin_amplitude.z * a_sin_this_frame;
+        angular_displacement.x = angular_sin_amplitude.x * a_sin_this_frame;
+        angular_displacement.y = angular_sin_amplitude.y * a_sin_this_frame;
+        angular_displacement.z = angular_sin_amplitude.z * a_sin_this_frame;
     }
 
 
     protected void update_gameobject_coordinates()
     {
-        transform.localPosition = start_position + displacement;
-        transform.localPosition -= Vector3.up * current_cos_amplitude; // Corrects the Y position to be the start position on "cos(0)".
+        transform.localPosition = displacement;
+        transform.localPosition -= Vector3.up * cos_amplitude; // Corrects the Y position to be the start position on "cos(0)".
 
-        transform.localRotation = Quaternion.Euler(start_rotation + angular_displacement);
+        transform.localRotation = Quaternion.Euler(angular_displacement);
     }
 
 
