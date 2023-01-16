@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class HeadBob : BobAnimation
+public class Bob : BobBaseAnimation
 {
     bool has_moved_last_frame;
-    [Header("Head Bob Settings")]
+    [Header("Bob Settings")]
     public MovementState bob_type = MovementState.IDLE;
 
     // Update is called once per frame

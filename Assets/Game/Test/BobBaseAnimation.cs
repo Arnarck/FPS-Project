@@ -9,14 +9,14 @@ public enum Quadrant
     FOURTH,
 }
 
-public class BobAnimation : MonoBehaviour
+public class BobBaseAnimation : MonoBehaviour
 {
     // "a" means "angular". Ex: "a_sin_time" means "angular_sin_time"
-    protected float tau; // 2PI
+    //protected float tau; // 2PI
     protected float sin_time, cos_time, a_sin_time; // Stores the normalized angle of the wave (0 -> 0; 0.25f -> PI/2; 0.5f -> PI; 0.75f -> 3PI/2; 1f -> 2PI)
     protected float x_this_frame, y_this_frame, a_this_frame; // Stores the parameters to pass to Sin(x) and Cos(y) functions every frame
     protected float sin_this_frame, cos_this_frame, a_sin_this_frame; // Stores the result of Sin(x) and Cos(y) operations every frame.
-    protected Quadrant sin_quadrant_on_key_up, cos_quadrant_on_key_up, a_sin_quadrant_on_key_up; // Stores the quadrant of the waves on key released
+    protected Quadrant sin_quadrant_on_key_up = Quadrant.FIRST, cos_quadrant_on_key_up = Quadrant.FIRST, a_sin_quadrant_on_key_up = Quadrant.FIRST; // Stores the quadrant of the waves on key released
     [HideInInspector] public Vector3 displacement, angular_displacement; // The total displacement at a given angle of the cicle.
 
     [Header("Sin(x)")]
@@ -30,14 +30,6 @@ public class BobAnimation : MonoBehaviour
     [Header("Sin(angular)")]
     public float angular_sin_frequency = 1f; // Sugestion: Different frequences for each axis.
     public Vector3 angular_sin_amplitude;
-
-    public void init()
-    {
-        tau = 2 * Mathf.PI;
-        //start_position = transform.localPosition;
-        //start_rotation = transform.localEulerAngles;
-        sin_quadrant_on_key_up = cos_quadrant_on_key_up = a_sin_quadrant_on_key_up = Quadrant.FIRST;
-    }
 
     // Demonstration of how to use the functionality on Start()
     //private void Start()
@@ -123,9 +115,9 @@ public class BobAnimation : MonoBehaviour
 
     protected void calculate_sine_and_cosine()
     {
-        x_this_frame = tau * sin_time + 0f;
-        y_this_frame = tau * cos_time + 0f;
-        a_this_frame = tau * a_sin_time + 0f;
+        x_this_frame = GI.player.tau * sin_time + 0f;
+        y_this_frame = GI.player.tau * cos_time + 0f;
+        a_this_frame = GI.player.tau * a_sin_time + 0f;
 
         // asin(x)
         // asin(2PI*t*f + 0)

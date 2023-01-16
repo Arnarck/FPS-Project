@@ -470,13 +470,15 @@ GameObject:
   - component: {fileID: 6954083926968163127}
   - component: {fileID: 6954083926976314359}
   - component: {fileID: 6954083926978547123}
-  - component: {fileID: 6954083926403634709}
   - component: {fileID: 6954083926403634708}
   - component: {fileID: 736016151}
   - component: {fileID: 736016152}
   - component: {fileID: 2011743356}
   - component: {fileID: 2011743354}
   - component: {fileID: 2011743355}
+  - component: {fileID: 1028061478}
+  - component: {fileID: 1028061481}
+  - component: {fileID: 1028061482}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -598,19 +600,6 @@ MonoBehaviour:
     slowDownRate: 20
     airControl: 0
     shellOffset: 0
---- !u!114 &6954083926403634709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6954083926971463761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a93766cc7bbeb64a8de4985bcf1e72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  current_ammo: 00000000000000000000000000000000
 --- !u!114 &6954083926403634708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +619,7 @@ MonoBehaviour:
   base_flashlight_spot_angle: 0
   start_fov: 0
   head_bob_speed: 0
+  tau: 0
   start_mouse_sensitivity: {x: 0, y: 0}
   is_alive: 1
   can_run: 1
@@ -667,6 +657,10 @@ MonoBehaviour:
   head_bob_walking: {fileID: 2011743354}
   head_bob_running: {fileID: 2011743355}
   camera_parent: {fileID: 7237593479052121798}
+  weapon_bob_idle: {fileID: 1028061482}
+  weapon_bob_walking: {fileID: 1028061478}
+  weapon_bob_running: {fileID: 1028061481}
+  weapon_parent: {fileID: 7291415108757390170}
 --- !u!114 &736016151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,6 +754,69 @@ MonoBehaviour:
   sin_amplitude: 0.02
   sin_frequency: 1.5
   cos_amplitude: 0.035
+  cos_frequency: 1.5
+  angular_sin_frequency: 0
+  angular_sin_amplitude: {x: 0, y: 0, z: 0}
+  bob_type: 2
+--- !u!114 &1028061478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: -0, y: -0.003912375, z: 0}
+  angular_displacement: {x: 0.8395641, y: -0, z: -0}
+  sin_amplitude: 0
+  sin_frequency: 0
+  cos_amplitude: 0.005
+  cos_frequency: 0.1
+  angular_sin_frequency: 0.3
+  angular_sin_amplitude: {x: -1, y: 0, z: 0}
+  bob_type: 0
+--- !u!114 &1028061481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: 0.0000000017484555, y: 0, z: 0}
+  angular_displacement: {x: -0.0000006993822, y: 0, z: 0}
+  sin_amplitude: 0.01
+  sin_frequency: 1
+  cos_amplitude: 0.005
+  cos_frequency: 1
+  angular_sin_frequency: 0
+  angular_sin_amplitude: {x: 0, y: 0, z: 0}
+  bob_type: 1
+--- !u!114 &1028061482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6954083926971463761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2cbf7551dbb5948945955e4aadc9ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: 0, y: 0, z: 0}
+  angular_displacement: {x: 0, y: 0, z: 0}
+  sin_amplitude: 0.015
+  sin_frequency: 1.5
+  cos_amplitude: 0.006
   cos_frequency: 1.5
   angular_sin_frequency: 0
   angular_sin_amplitude: {x: 0, y: 0, z: 0}

@@ -11,8 +11,8 @@ public enum MovementState
 public class Player : MonoBehaviour
 {
     float time_elapsed_from_stamina_restoration;
-    Vector3 camera_start_position, camera_start_rotation;
-    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov, head_bob_speed;
+    Vector3 camera_start_position, camera_start_rotation, weapon_start_position, weapon_start_rotation;
+    [HideInInspector] public float fov_percentage = 1f, base_run_multiplier, current_run_multiplier, base_flashlight_range, base_flashlight_spot_angle, start_fov, head_bob_speed, tau;
     [HideInInspector] public Vector2 start_mouse_sensitivity;
     public bool is_alive = true, can_run = true, can_restore_stamina, is_overdosed;
     public MovementState current_movement_state;
@@ -56,14 +56,18 @@ public class Player : MonoBehaviour
     [Header("Flashlight")]
     public Light flashlight;
 
-    [Header("Bob Animation")]
-    public HeadBob head_bob_idle;
-    public HeadBob head_bob_walking;
-    public HeadBob head_bob_running;
+    [Header("Head Bob")]
+    public Bob head_bob_idle;
+    public Bob head_bob_walking;
+    public Bob head_bob_running;
     public Transform camera_parent;
-    //public HeadBob_WeaponBob head_bob;
-    //public HeadBob_WeaponBob weapon_bob;
-    
+
+    [Header("Weapon Bob")]
+    public Bob weapon_bob_idle;
+    public Bob weapon_bob_walking;
+    public Bob weapon_bob_running;
+    public Transform weapon_parent;
+
 
     void Awake()
     {
@@ -98,15 +102,13 @@ public class Player : MonoBehaviour
         base_flashlight_range = flashlight.range;
         base_flashlight_spot_angle = flashlight.spotAngle;
 
-        //head_bob.init();
-        //weapon_bob.init();
-        head_bob_idle.init();
-        head_bob_walking.init();
-        head_bob_running.init();
+        camera_start_position = camera_parent.localPosition;
+        camera_start_rotation = camera_parent.localEulerAngles;
 
-        camera_start_position = camera_parent.transform.localPosition;
-        camera_start_rotation = camera_parent.transform.localEulerAngles;
-        //weapon_bob_direction = weapon_bob_radius < 0f ? -1f : 1f;
+        weapon_start_position = weapon_parent.localPosition;
+        weapon_start_rotation = weapon_parent.localEulerAngles;
+
+        tau = 2 * Mathf.PI;
     }
 
     void FixedUpdate()
@@ -207,13 +209,22 @@ public class Player : MonoBehaviour
             }
         }
 
-        { // Bob Animation
+        { // Head Bob
             head_bob_idle.update(dt, current_movement_state);
             head_bob_walking.update(dt, current_movement_state);
             head_bob_running.update(dt, current_movement_state);
 
             camera_parent.localPosition = camera_start_position + head_bob_idle.displacement + head_bob_walking.displacement + head_bob_running.displacement;
             camera_parent.localRotation = Quaternion.Euler(camera_start_rotation + head_bob_idle.angular_displacement + head_bob_walking.angular_displacement + head_bob_running.angular_displacement);
+        }
+
+        { // Weapon Bob
+            weapon_bob_idle.update(dt, current_movement_state);
+            weapon_bob_walking.update(dt, current_movement_state);
+            weapon_bob_running.update(dt, current_movement_state);
+
+            weapon_parent.localPosition = weapon_start_position + weapon_bob_idle.displacement + weapon_bob_walking.displacement + weapon_bob_running.displacement;
+            weapon_parent.localRotation = Quaternion.Euler(weapon_start_rotation + weapon_bob_idle.angular_displacement + weapon_bob_walking.angular_displacement + weapon_bob_running.angular_displacement);
         }
 
         // CEMETERY
