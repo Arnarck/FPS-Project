@@ -25,6 +25,9 @@ public class Test_CharacterController : MonoBehaviour
     void Start()
     {
         fp_camera_start_rotation = fp_camera.localEulerAngles;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -34,7 +37,11 @@ public class Test_CharacterController : MonoBehaviour
         float fdt = Time.fixedDeltaTime;
 
         { // Character Movement
-            ddp += input.movement_direction();
+            Vector2 input = this.input.movement_direction();
+            Vector3 desired_direction = fp_camera.transform.forward * input.y + fp_camera.transform.right * input.x;
+
+            ddp += desired_direction;
+            //ddp += input.movement_direction();
         }
 
         { // Gravity
@@ -64,22 +71,22 @@ public class Test_CharacterController : MonoBehaviour
             // s = ut + 1/2at^2
             // s = (u * t) + (1/2 * a * t^2)
             // transform.position = transform.position + s ("s" is the result of the formula above. The displacement)
-            transform.position += (dp * fdt) + (ddp * fdt * fdt * 0.5f);
+            transform.localPosition += (dp * fdt) + (ddp * fdt * fdt * 0.5f);
         }
     }
 
     private void Update()
     {
         { // Camera Movement
-            camera_rotation += input.camera_look_direction() * mouse_sensitivity;
-            Debug.Log(input.camera_look_direction());
+            camera_rotation += input.mouse_direction() * mouse_sensitivity;
 
             // Clamp rotation
             camera_rotation.x = Mathf.Clamp(camera_rotation.x, camera_min_yall, camera_max_yall);
             if (camera_rotation.y < 0f) camera_rotation.y += 360f;
             else if (camera_rotation.y >= 360f) camera_rotation.y -= 360f;
 
-            fp_camera.localRotation = Quaternion.Euler(fp_camera_start_rotation + camera_rotation);
+            fp_camera.localRotation = Quaternion.Euler(fp_camera_start_rotation + Vector3.right * camera_rotation.x);
+            transform.localRotation = Quaternion.Euler(Vector3.up * camera_rotation.y);
         }
     }
 }
