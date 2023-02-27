@@ -43,9 +43,9 @@ struct FCamera_Settings
 
 public class Base_FPCharacterController : MonoBehaviour
 {
-    Vector3 dp, camera_dp;
+    Vector3 dp, camera_dp, camera_start_rotation;
 
-    [HideInInspector] public Vector3 camera_rotation;
+    [HideInInspector] public Vector3 camera_look;
     [HideInInspector] public Transform m_transform;
 
     public Transform fp_camera;
@@ -66,15 +66,16 @@ public class Base_FPCharacterController : MonoBehaviour
 
     void Start()
     {
-        camera_rotation = fp_camera.localEulerAngles;
+        camera_look = fp_camera.localEulerAngles;
+        camera_start_rotation = camera_look;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-    Vector3 ps;
-    void FixedUpdate()
+
+    private void Update()
     {
-        float fdt = Time.fixedDeltaTime;
+        float dt = Time.deltaTime;
 
         { // Character Movement
             Vector3 ddp;
@@ -86,10 +87,9 @@ public class Base_FPCharacterController : MonoBehaviour
             if (input.get_key(EInput_State.HOLDING, EInput_Action.RUN) && movement_input.z > 0f && movement_input.x == 0f) ddp *= movement_settings.run_multiplier; // Pressing "Run" key and moving forward
             ddp -= dp * movement_settings.friction;
 
-            dp += ddp * fdt;
-           
-            ps += (dp * fdt) + (ddp * fdt * fdt * 0.5f);
-            m_transform.position = ps;
+            dp += ddp * dt;
+
+            m_transform.localPosition += (dp * dt) + (ddp * dt * dt * 0.5f);
         }
 
         { // Camera movement
@@ -104,19 +104,19 @@ public class Base_FPCharacterController : MonoBehaviour
             ddp *= camera_settings.acceleration;
             ddp -= camera_dp * camera_settings.friction;
 
-            camera_dp += ddp * fdt;
-            displacement = (camera_dp * fdt) + (ddp * fdt * fdt * 0.5f);
+            camera_dp += ddp * dt;
+            displacement = (camera_dp * dt) + (ddp * dt * dt * 0.5f);
 
-            camera_rotation += displacement;
+            camera_look += displacement;
 
             // Clamp rotation betweeen 0 to 360
-            camera_rotation.y = Mathf.Clamp(camera_rotation.y, camera_settings.min_yall, camera_settings.max_yall);
-            if (camera_rotation.x < 0f) camera_rotation.x += 360f;
-            else if (camera_rotation.x >= 360f) camera_rotation.x -= 360f;
+            camera_look.y = Mathf.Clamp(camera_look.y, camera_settings.min_yall, camera_settings.max_yall);
+            if (camera_look.x < 0f) camera_look.x += 360f;
+            else if (camera_look.x >= 360f) camera_look.x -= 360f;
 
             // Apply rotation;
-            fp_camera.localRotation = Quaternion.Euler(Vector3.right * -camera_rotation.y); // Rotates the camera vertically
-            m_transform.localRotation = Quaternion.Euler(Vector3.up * camera_rotation.x); // Rotates the player itself horizontally
+            fp_camera.localRotation = Quaternion.Euler(Vector3.right * -camera_look.y); // Rotates the camera vertically
+            m_transform.localRotation = Quaternion.Euler(Vector3.up * camera_look.x); // Rotates the player itself horizontally
         }
     }
 
