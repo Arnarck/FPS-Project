@@ -92210,6 +92210,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2330466846720257138, guid: d2618620393c0ae489dfbbcea533973a,
+        type: 3}
+      propertyPath: camera_settings.max_yall
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330466846720257138, guid: d2618620393c0ae489dfbbcea533973a,
+        type: 3}
+      propertyPath: camera_settings.min_yall
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330466846720257138, guid: d2618620393c0ae489dfbbcea533973a,
+        type: 3}
+      propertyPath: movement_settings.acceleration
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330466846720257138, guid: d2618620393c0ae489dfbbcea533973a,
+        type: 3}
+      propertyPath: camera_settings.vertical_sensitivity
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2330466846720257138, guid: d2618620393c0ae489dfbbcea533973a,
+        type: 3}
+      propertyPath: camera_settings.horizontal_sensitivity
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2330466846720257140, guid: d2618620393c0ae489dfbbcea533973a,
         type: 3}
       propertyPath: m_RootOrder
