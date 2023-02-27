@@ -23,15 +23,17 @@ struct FCamera_Settings
 {
     public float friction;
     public float acceleration;
-    public float sensitivity;
+    public float vertical_sensitivity;
+    public float horizontal_sensitivity;
     public float min_yall;
     public float max_yall;
 
-    public FCamera_Settings(float friction = 15f, float acceleration = 100f, float sensitivity = 2f, float min_yall = -60f, float max_yall = 60f)
+    public FCamera_Settings(float friction = 15f, float acceleration = 100f, float vertical_sensitivity = 3f, float horizontal_sensitivity = 2f, float min_yall = -60f, float max_yall = 60f)
     {
         this.friction = friction;
         this.acceleration = acceleration;
-        this.sensitivity = sensitivity;
+        this.horizontal_sensitivity = horizontal_sensitivity;
+        this.vertical_sensitivity = vertical_sensitivity;
         this.min_yall = min_yall;
         this.max_yall = max_yall;
     }
@@ -53,7 +55,7 @@ public class Base_FPCharacterController : MonoBehaviour
     [SerializeField] FMovement_Settings movement_settings = new FMovement_Settings(15f, 100f);
 
     [Space]
-    [SerializeField] FCamera_Settings camera_settings = new FCamera_Settings(15f, 100f, 2f, -60f, 60f);
+    [SerializeField] FCamera_Settings camera_settings = new FCamera_Settings(15f, 100f, 3f, 2f, -60f, 60f);
     
 
 
@@ -69,7 +71,7 @@ public class Base_FPCharacterController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
+    Vector3 ps;
     void FixedUpdate()
     {
         float fdt = Time.fixedDeltaTime;
@@ -86,13 +88,17 @@ public class Base_FPCharacterController : MonoBehaviour
 
             dp += ddp * fdt;
            
-            m_transform.localPosition += (dp * fdt) + (ddp * fdt * fdt * 0.5f);
+            ps += (dp * fdt) + (ddp * fdt * fdt * 0.5f);
+            m_transform.position = ps;
         }
 
         { // Camera movement
             Vector3 ddp;
             Vector3 displacement;
-            Vector3 camera_direction = input.camera_look_direction() * camera_settings.sensitivity;
+            Vector3 camera_direction = input.camera_look_direction();
+
+            camera_direction.x *= camera_settings.horizontal_sensitivity;
+            camera_direction.y *= camera_settings.vertical_sensitivity;
 
             ddp = camera_direction;
             ddp *= camera_settings.acceleration;
@@ -108,7 +114,7 @@ public class Base_FPCharacterController : MonoBehaviour
             if (camera_rotation.x < 0f) camera_rotation.x += 360f;
             else if (camera_rotation.x >= 360f) camera_rotation.x -= 360f;
 
-            // Apply rotation
+            // Apply rotation;
             fp_camera.localRotation = Quaternion.Euler(Vector3.right * -camera_rotation.y); // Rotates the camera vertically
             m_transform.localRotation = Quaternion.Euler(Vector3.up * camera_rotation.x); // Rotates the player itself horizontally
         }

@@ -9,9 +9,28 @@ public enum Quadrant
     FOURTH,
 }
 
+
+
+public struct FBob_Animation_Parameters
+{
+    public float x_amplitude;
+    public float x_frequency;
+
+    public float y_amplitude;
+    public float y_frequency;
+
+    public float z_amplitude;
+    public float z_frequency;
+
+    public float angular_frequency;
+    public Vector3 angular_amplitude;
+}
+
+
+
 public class BobAnimation : MonoBehaviour
 {
-    protected float sin_time, cos_time, a_sin_time; // Stores the normalized angle of the wave (0 -> 0; 0.25f -> PI/2; 0.5f -> PI; 0.75f -> 3PI/2; 1f -> 2PI)
+    protected float x_time, y_time, angular_time; // Stores the normalized angle of the wave (0 -> 0; 0.25f -> PI/2; 0.5f -> PI; 0.75f -> 3PI/2; 1f -> 2PI)
     protected float x_this_frame, y_this_frame, a_this_frame; // Stores the parameters to pass to Sin(x) and Cos(y) functions every frame
     protected float sin_this_frame, cos_this_frame, a_sin_this_frame; // Stores the result of Sin(x) and Cos(y) operations every frame.
     protected float current_sin_amplitude, current_cos_amplitude, current_a_sin_amplitude;
@@ -23,23 +42,31 @@ public class BobAnimation : MonoBehaviour
 
     [Header("Sin(x)")]
     public float sin_amplitude = 1f; // The "size" of the wave.
-    public float sin_frequency = 1f; // The "speed" of the wave.
+    public float x_frequency = 1f; // The "speed" of the wave.
 
     [Header("Cos(y)")]
     public float walking_cos_amplitude = 1;
     public float cos_amplitude = 1f;
-    public float cos_frequency = 1f;
+    public float y_frequency = 1f;
 
     [Header("Sin(angular)")]
-    public float angular_sin_frequency = 1f; // Sugestion: Different frequences for each axis.
+    public float angular_frequency = 1f; // Sugestion: Different frequences for each axis.
     public Vector3 angular_sin_amplitude;
+
+    float target_x_amplitude, target_y_amplitude, target_angular_amplitude;
+    float target_x_frequency, target_y_frequency, target_angular_frequency;
+    public void set_animation_parameters()
+    {
+        // Create a struct that will hold all these parameters
+        // Fill "target_amplitude" and "target_frequency" parameters
+    }
 
     // Update is called once per frame
     public void update(float dt, MovementState movement_state)
     {
         {
-            if (movement_state == MovementState.IDLE) current_cos_amplitude = Mathf.Lerp(current_cos_amplitude, cos_amplitude, Time.deltaTime * cos_frequency);
-            else if (movement_state == MovementState.WALKING) current_cos_amplitude = Mathf.Lerp(current_cos_amplitude, walking_cos_amplitude, Time.deltaTime * cos_frequency);
+            if (movement_state == MovementState.IDLE) current_cos_amplitude = Mathf.Lerp(current_cos_amplitude, cos_amplitude, Time.deltaTime * y_frequency);
+            else if (movement_state == MovementState.WALKING) current_cos_amplitude = Mathf.Lerp(current_cos_amplitude, walking_cos_amplitude, Time.deltaTime * y_frequency);
         }
 
         { // Updates the animation
@@ -47,19 +74,15 @@ public class BobAnimation : MonoBehaviour
             //cos_time = increase_wave_time(cos_time, current_cos_frequency, dt);
             //a_sin_time = increase_wave_time(a_sin_time, current_a_sin_frequency, dt);
 
-            sin_time = increase_wave_time(sin_time, sin_frequency, dt);
-            cos_time = increase_wave_time(cos_time, cos_frequency, dt);
-            a_sin_time = increase_wave_time(a_sin_time, angular_sin_frequency, dt);
+            x_time = increase_wave_time(x_time, x_frequency, dt);
+            y_time = increase_wave_time(y_time, y_frequency, dt);
+            angular_time = increase_wave_time(angular_time, angular_frequency, dt);
         }
 
         { // Calculates the sin / cos
-            x_this_frame = GI.player.tau * sin_time + 0f;
-            y_this_frame = GI.player.tau * cos_time + 0f;
-            a_this_frame = GI.player.tau * a_sin_time + 0f;
-
-            sin_this_frame = Mathf.Sin(x_this_frame);
-            cos_this_frame = Mathf.Cos(2f * y_this_frame);
-            a_sin_this_frame = Mathf.Sin(a_this_frame);
+            sin_this_frame = Mathf.Sin(GI.player.tau * x_time + 0f);
+            cos_this_frame = Mathf.Cos(2f * GI.player.tau * y_time + 0f);
+            a_sin_this_frame = Mathf.Sin(GI.player.tau * angular_time + 0f);
         }
 
         { // Sets the displacement of the position and rotation base on the sin / cos.
