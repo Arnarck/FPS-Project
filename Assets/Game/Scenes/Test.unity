@@ -49357,6 +49357,7 @@ MonoBehaviour:
   angular_displacement: {x: 0, y: 0, z: 0}
   shake_settings:
     duration: 0
+    multiplier: 0
     amplitude: {x: 0, y: 0, z: 0}
     frequency: {x: 0, y: 0, z: 0}
     randomize: 
@@ -69987,11 +69988,12 @@ MonoBehaviour:
   angular_displacement: {x: 0, y: 0, z: 0}
   shake_settings:
     duration: 1
-    amplitude: {x: 0, y: 0, z: 0}
-    frequency: {x: 0, y: 0, z: 0}
-    randomize: 
-    angular_frequency: {x: 1, y: 0, z: 3}
-    angular_amplitude: {x: 50, y: 0, z: 30}
+    multiplier: 1
+    amplitude: {x: 0.05, y: 0, z: 0}
+    frequency: {x: 0.5, y: 0, z: 0}
+    randomize: 01
+    angular_frequency: {x: 0.5, y: 0, z: 3}
+    angular_amplitude: {x: -5, y: 0, z: 30}
     randomize_rotation: 
 --- !u!4 &1607097216 stripped
 Transform:

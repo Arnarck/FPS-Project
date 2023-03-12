@@ -22,6 +22,7 @@ public enum EWaveType
 public struct FShakeAnimationSettings
 {
     public float duration;
+    public float multiplier;
 
     [Header("Directional Shake")]
     public Vector3 amplitude;
@@ -80,6 +81,8 @@ public class Test_ShakeAnimation : MonoBehaviour
     public void update(float dt)
     {
         if (!shaking) return;
+
+        dt *= shake.multiplier;
 
         { // Animation
             if (duration_t > 0f) // Updates the animation over time
