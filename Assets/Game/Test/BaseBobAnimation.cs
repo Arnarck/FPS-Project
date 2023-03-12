@@ -112,9 +112,9 @@ public class BaseBobAnimation : MonoBehaviour
 
     protected void calculate_sine_and_cosine()
     {
-        x_this_frame = GI.player.tau * sin_time + 0f;
-        y_this_frame = GI.player.tau * cos_time + 0f;
-        a_this_frame = GI.player.tau * a_sin_time + 0f;
+        x_this_frame = 2f * Mathf.PI * sin_time + 0f;
+        y_this_frame = 2f * Mathf.PI * cos_time + 0f;
+        a_this_frame = 2f * Mathf.PI * a_sin_time + 0f;
 
         // asin(x)
         // asin(2PI*t*f + 0)

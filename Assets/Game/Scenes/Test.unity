@@ -69885,6 +69885,7 @@ GameObject:
   - component: {fileID: 1606857030}
   - component: {fileID: 1606857033}
   - component: {fileID: 1606857034}
+  - component: {fileID: 1606857035}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -69979,7 +69980,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606857029}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba4f944b1c51b044aee0fa94e3784fb, type: 3}
   m_Name: 
@@ -69995,6 +69996,47 @@ MonoBehaviour:
     angular_frequency: {x: 0.5, y: 0, z: 3}
     angular_amplitude: {x: -5, y: 0, z: 30}
     randomize_rotation: 
+--- !u!114 &1606857035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606857029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b754db437f229e49b7ef5045ff0f5d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacement: {x: -2.1350487e-23, y: -3.498374e-23, z: 0}
+  angular_displacement: {x: 0, y: 0, z: 0}
+  animation_settings:
+    blend_amplitude: 1
+    blend_frequency: 1
+    blend_angular_amplitude: 0
+    blend_angular_frequency: 0
+    amplitude: {x: 0.5, y: 0.5, z: 0}
+    frequency: {x: 1, y: 1, z: 0}
+    angular_amplitude: {x: 0, y: 0, z: 0}
+    angular_frequency: {x: 0, y: 0, z: 0}
+  i_settings:
+    blend_amplitude: 1
+    blend_frequency: 1
+    blend_angular_amplitude: 0
+    blend_angular_frequency: 0
+    amplitude: {x: 0, y: 0, z: 0}
+    frequency: {x: 0, y: 0, z: 0}
+    angular_amplitude: {x: 0, y: 0, z: 0}
+    angular_frequency: {x: 0, y: 0, z: 0}
+  r_settings:
+    blend_amplitude: 8
+    blend_frequency: 8
+    blend_angular_amplitude: 0
+    blend_angular_frequency: 0
+    amplitude: {x: 1, y: 1, z: 0}
+    frequency: {x: 1.5, y: 1.5, z: 0}
+    angular_amplitude: {x: 0, y: 0, z: 0}
+    angular_frequency: {x: 0, y: 0, z: 0}
 --- !u!4 &1607097216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7206643247048941637, guid: 4b6f6fa747c11e94eae5f455d6b45324,
